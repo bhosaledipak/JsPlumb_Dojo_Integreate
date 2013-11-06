@@ -1,0 +1,9 @@
+/* === Silver Circle Orange Button ==*/
+.mblDomButtonSilverCircleOrangeButton {
+	background-image: url(compat/mblDomButtonSilverCircleOrangeButton.png);
+	background-repeat: no-repeat;
+}
+
+.mblDomButtonSilverCircleOrangeButton>div {
+	display: none;
+}
