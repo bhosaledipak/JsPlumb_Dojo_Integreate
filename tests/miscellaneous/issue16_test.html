@@ -1,81 +1,99 @@
-<html> 
-  <head> 
-    <title></title> 
-    <script type="text/javascript" src="http://explorercanvas.googlecode.com/svn/trunk/excanvas.js"></script> 
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script> 
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script> 
-    <script type="text/javascript" src="../js/1.2.2/jsPlumb-1.2.2-RC1.js"></script>
-	<script type="text/javascript" src="../js/1.2.2/jsPlumb-defaults-1.2.2-RC1.js"></script>
-	<script type="text/javascript" src="../js/1.2.2/jquery.jsPlumb-1.2.2-RC1.js"></script> 
-    <style> 
-      li {
-        margin-bottom: 20px;
-      }
-      #option1 {
-        float: left;
-      }
-      #option2 {
-        border-color: blue;
-        float: left;
-      }
-      #option3 {
-        border-color: green;
-        float: left;
-      }
-      #option4 {
-        border-color: purple;
-        float: left;
-      }
-      #option5 {
-        border-color: black;
-        float: left;
-      }
-      #propositions {
-        float: left;
-        width: 80px;
-      }
-      #choices {
-        margin-left: 500px;
-        width: 80px;
-      }
-      ._jsPlumb_endpoint {
-      z-index:50;
-      }
-      ._jsPlumb_connector {
-      z-index:1;
-      }
-      .dropHover {
-      border:1px dotted red;
-      }
-      .dragActive {
-      border:2px dotted orange;
-      }
-      .cmdLink {
-      font-size:0.8em;
-      }
-      #clear {
-      padding:0.3em;
-      }
-      #clear:hover {
-      background-color:yellow;
-      }
-      
-    </style> 
-  </head> 
-  <body> 
-    <ul id="propositions"> 
-      <li id="option1" class="prop">Option 1</li> 
-      <li id="option2" class="prop">Option 2</li> 
-      <li id="option3" class="prop">Option 3</li> 
-      <li id="option4" class="prop">Option 4</li> 
-    </ul> 
-    <ul id="choices"> 
-      <li id="choice1">Choice 1</li> 
-      <li id="choice2">Choice 2</li> 
-      <li id="choice3">Choice 3</li> 
-      <li id="choice4">Choice 4</li> 
-    </ul> 
-    <script type="text/javascript"> 
+<html>
+<head>
+<title></title>
+<script type="text/javascript"
+	src="http://explorercanvas.googlecode.com/svn/trunk/excanvas.js"></script>
+<script type="text/javascript"
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript"
+	src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../js/1.2.2/jsPlumb-1.2.2-RC1.js"></script>
+<script type="text/javascript"
+	src="../js/1.2.2/jsPlumb-defaults-1.2.2-RC1.js"></script>
+<script type="text/javascript"
+	src="../js/1.2.2/jquery.jsPlumb-1.2.2-RC1.js"></script>
+<style>
+li {
+	margin-bottom: 20px;
+}
+
+#option1 {
+	float: left;
+}
+
+#option2 {
+	border-color: blue;
+	float: left;
+}
+
+#option3 {
+	border-color: green;
+	float: left;
+}
+
+#option4 {
+	border-color: purple;
+	float: left;
+}
+
+#option5 {
+	border-color: black;
+	float: left;
+}
+
+#propositions {
+	float: left;
+	width: 80px;
+}
+
+#choices {
+	margin-left: 500px;
+	width: 80px;
+}
+
+._jsPlumb_endpoint {
+	z-index: 50;
+}
+
+._jsPlumb_connector {
+	z-index: 1;
+}
+
+.dropHover {
+	border: 1px dotted red;
+}
+
+.dragActive {
+	border: 2px dotted orange;
+}
+
+.cmdLink {
+	font-size: 0.8em;
+}
+
+#clear {
+	padding: 0.3em;
+}
+
+#clear:hover {
+	background-color: yellow;
+}
+</style>
+</head>
+<body>
+	<ul id="propositions">
+		<li id="option1" class="prop">Option 1</li>
+		<li id="option2" class="prop">Option 2</li>
+		<li id="option3" class="prop">Option 3</li>
+		<li id="option4" class="prop">Option 4</li>
+	</ul>
+	<ul id="choices">
+		<li id="choice1">Choice 1</li>
+		<li id="choice2">Choice 2</li>
+		<li id="choice3">Choice 3</li>
+		<li id="choice4">Choice 4</li>
+	</ul>
+	<script type="text/javascript"> 
       $(document).ready(function() {
         
         jsPlumb.Defaults.DragOptions = { cursor: 'pointer', zIndex:2000 };
@@ -233,6 +251,6 @@
         
          $("#clear").click(function() { jsPlumb.detachEverything(); });
       });
-    </script> 
-  </body> 
-</html> 
+    </script>
+</body>
+</html>

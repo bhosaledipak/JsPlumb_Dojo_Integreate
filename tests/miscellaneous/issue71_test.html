@@ -1,40 +1,46 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	 <style type="text/css">
-			   .dd {
-			   	width:100px;
-			   	height:100px;
-			   	background-color:red;
-			   		z-index:-10;
-			   }
-			     .test {
-			   	width:50px;
-			   	height:100px;
-			   	background-color:yellow;
-					top:200px; 
-				  left:200px; 
-							   		 
-			   }
-			   ._jsPlumb_connector{
-			   	z-index:-9999999;
-			   }
-			   ._jsPlumb_endpoint{
-			   	z-index:0;
-			   }
-	   </style>
-	<!--[if IE]>
+<style type="text/css">
+.dd {
+	width: 100px;
+	height: 100px;
+	background-color: red;
+	z-index: -10;
+}
+
+.test {
+	width: 50px;
+	height: 100px;
+	background-color: yellow;
+	top: 200px;
+	left: 200px;
+}
+
+._jsPlumb_connector {
+	z-index: -9999999;
+}
+
+._jsPlumb_endpoint {
+	z-index: 0;
+}
+</style>
+<!--[if IE]>
 		<script type="text/javascript" src="../js/excanvas.js"></script>
 	<![endif]-->
-	
-    <script type="text/javascript" src="http://explorercanvas.googlecode.com/svn/trunk/excanvas.js"></script>
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/mootools/1.2.4/mootools-yui-compressed.js"></script>
-		<script type="text/javascript" src="../js/lib/mootools-1.2.4.4-more.js"></script>
-		<script type="text/javascript" src="../js/lib/jsBezier-0.2-min.js"></script>
-		<script type="text/javascript" src="../js/1.2.6/jsPlumb-1.2.6-RC1.js"></script>
-		<script type="text/javascript" src="../js/1.2.6/jsPlumb-defaults-1.2.6-RC1.js"></script>
-		<script type="text/javascript" src="../js/1.2.6/mootools.jsPlumb-1.2.6-RC1.js"></script>	
-		 <script>  
+
+<script type="text/javascript"
+	src="http://explorercanvas.googlecode.com/svn/trunk/excanvas.js"></script>
+<script type="text/javascript"
+	src="http://ajax.googleapis.com/ajax/libs/mootools/1.2.4/mootools-yui-compressed.js"></script>
+<script type="text/javascript" src="../js/lib/mootools-1.2.4.4-more.js"></script>
+<script type="text/javascript" src="../js/lib/jsBezier-0.2-min.js"></script>
+<script type="text/javascript" src="../js/1.2.6/jsPlumb-1.2.6-RC1.js"></script>
+<script type="text/javascript"
+	src="../js/1.2.6/jsPlumb-defaults-1.2.6-RC1.js"></script>
+<script type="text/javascript"
+	src="../js/1.2.6/mootools.jsPlumb-1.2.6-RC1.js"></script>
+<script>  
 									 
 window.addEvent('domready', function() {	
 						  
@@ -96,10 +102,10 @@ jsPlumb.draggable($('element3'));
 
 </head>
 <body>
- 
 
-<div id="element1" style="float:right;" class="dd">1</div>
-<div id="element2"   class="dd">2</div>
-<div id="element3"    class="test">3</div>
+
+	<div id="element1" style="float: right;" class="dd">1</div>
+	<div id="element2" class="dd">2</div>
+	<div id="element3" class="test">3</div>
 </body>
 </html>

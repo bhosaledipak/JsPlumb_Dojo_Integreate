@@ -1,52 +1,136 @@
 <!doctype html>
 <html>
-	<head>
-		<title>animated draggable connectors demonstration</title>
-		<meta http-equiv="X-UA-Compatible" content="IE=7">
-		<link rel="stylesheet" href="/mp.css"></link>
-		<link rel="stylesheet" href="../css/jsPlumbDemo.css"></link>
-		<style type="text/css">
-._jsPlumb_endpoint { z-index:50; cursor:move; }
-._jsPlumb_connector { z-index:1; }
-.bigdot { cursor:pointer;width:162px; height:162px; background-image:url(../img/bigdot.png); z-index:5; position:absolute; }
-.bigdot-hover { border:1px dotted orange; }
-.cmd { padding:0.3em; }
-.cmd:hover { background-color:yellow; }
-.dropHover { border:1px dotted orange; }
-#bd1 { top:10em;left:26em;}
-#bd2 { top:3em;left:3em;}
-#bd3 { top:19em;left:4.5em;}
-#bd4 { top:17em;left:46em;}
-#explanation { width:50%; background-color:transparent;z-index:2;color:gray;border:none;position:relative;left:45%;right:auto;text-align:center;}
+<head>
+<title>animated draggable connectors demonstration</title>
+<meta http-equiv="X-UA-Compatible" content="IE=7">
+<link rel="stylesheet" href="/mp.css"></link>
+<link rel="stylesheet" href="../css/jsPlumbDemo.css"></link>
+<style type="text/css">
+._jsPlumb_endpoint {
+	z-index: 50;
+	cursor: move;
+}
 
-.bigdot { text-align:center;  }
-.bigdot a { color:red; font-size:0.9em; }
+._jsPlumb_connector {
+	z-index: 1;
+}
 
-		</style>
-	</head>
-	<body onunload="jsPlumb.unload();">
-		<div class="menu"><a href="demo.html" class="mplink">jsPlumb home</a>&nbsp;|&nbsp;<a href="../doc/usage.html" class="mplink">view documentation</a>&nbsp;|&nbsp;<a href="mailto:simon.porritt@gmail.com" class="mplink">contact me</a>&nbsp;|&nbsp;<a href="http://code.google.com/p/jsplumb/" class="mplink">jsPlumb on Google code</a></div>
+.bigdot {
+	cursor: pointer;
+	width: 162px;
+	height: 162px;
+	background-image: url(../img/bigdot.png);
+	z-index: 5;
+	position: absolute;
+}
 
-		<div class="bigdot" id="bd1"><a class="remove-endpoints" rel="bd1" href="javascript://nop();">remove endpoints</a></div>
-		<div class="bigdot" id="bd2"><a class="remove-endpoints" rel="bd2" href="javascript://nop();">remove endpoints</a></div>
-		<div class="bigdot" id="bd3"><a class="remove-endpoints" rel="bd3" href="javascript://nop();">remove endpoints</a></div>
-		<div class="bigdot" id="bd4"><a class="remove-endpoints" rel="bd4" href="javascript://nop();">remove endpoints</a></div>
+.bigdot-hover {
+	border: 1px dotted orange;
+}
 
-		<div id="explanation">
-	    	<p>this demo uses jsPlumb 1.1.0.</p>
-	    	<p>drag orange dots to create connections.</p>
-	    	<p>click on or near blue dots to make them move in that direction.</p>
-	    	<p><a id="add" href="#" class="cmd">add a disc</a></p>
-	    	<p><a id="clear" href="#" class="cmd">remove all connections</a><br/>
-	    </div>
+.cmd {
+	padding: 0.3em;
+}
 
-	    <script type="text/javascript" src="http://explorercanvas.googlecode.com/svn/trunk/excanvas.js"></script>
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
-		<script type="text/javascript" src="http://jsplumb.googlecode.com/svn/trunk/js/jquery.jsPlumb-1.1.1-RC1.js"></script>
-		<script type="text/javascript" src="http://jsplumb.googlecode.com/svn/trunk/js/jquery.jsPlumb-defaults-1.1.0.js"></script>
+.cmd:hover {
+	background-color: yellow;
+}
 
-	    <script type="text/javascript">
+.dropHover {
+	border: 1px dotted orange;
+}
+
+#bd1 {
+	top: 10em;
+	left: 26em;
+}
+
+#bd2 {
+	top: 3em;
+	left: 3em;
+}
+
+#bd3 {
+	top: 19em;
+	left: 4.5em;
+}
+
+#bd4 {
+	top: 17em;
+	left: 46em;
+}
+
+#explanation {
+	width: 50%;
+	background-color: transparent;
+	z-index: 2;
+	color: gray;
+	border: none;
+	position: relative;
+	left: 45%;
+	right: auto;
+	text-align: center;
+}
+
+.bigdot {
+	text-align: center;
+}
+
+.bigdot a {
+	color: red;
+	font-size: 0.9em;
+}
+</style>
+</head>
+<body onunload="jsPlumb.unload();">
+	<div class="menu">
+		<a href="demo.html" class="mplink">jsPlumb home</a>&nbsp;|&nbsp;<a
+			href="../doc/usage.html" class="mplink">view documentation</a>&nbsp;|&nbsp;<a
+			href="mailto:simon.porritt@gmail.com" class="mplink">contact me</a>&nbsp;|&nbsp;<a
+			href="http://code.google.com/p/jsplumb/" class="mplink">jsPlumb
+			on Google code</a>
+	</div>
+
+	<div class="bigdot" id="bd1">
+		<a class="remove-endpoints" rel="bd1" href="javascript://nop();">remove
+			endpoints</a>
+	</div>
+	<div class="bigdot" id="bd2">
+		<a class="remove-endpoints" rel="bd2" href="javascript://nop();">remove
+			endpoints</a>
+	</div>
+	<div class="bigdot" id="bd3">
+		<a class="remove-endpoints" rel="bd3" href="javascript://nop();">remove
+			endpoints</a>
+	</div>
+	<div class="bigdot" id="bd4">
+		<a class="remove-endpoints" rel="bd4" href="javascript://nop();">remove
+			endpoints</a>
+	</div>
+
+	<div id="explanation">
+		<p>this demo uses jsPlumb 1.1.0.</p>
+		<p>drag orange dots to create connections.</p>
+		<p>click on or near blue dots to make them move in that direction.</p>
+		<p>
+			<a id="add" href="#" class="cmd">add a disc</a>
+		</p>
+		<p>
+			<a id="clear" href="#" class="cmd">remove all connections</a><br />
+	</div>
+
+	<script type="text/javascript"
+		src="http://explorercanvas.googlecode.com/svn/trunk/excanvas.js"></script>
+	<script type="text/javascript"
+		src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+	<script type="text/javascript"
+		src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+	<script type="text/javascript"
+		src="http://jsplumb.googlecode.com/svn/trunk/js/jquery.jsPlumb-1.1.1-RC1.js"></script>
+	<script type="text/javascript"
+		src="http://jsplumb.googlecode.com/svn/trunk/js/jquery.jsPlumb-defaults-1.1.0.js"></script>
+
+	<script type="text/javascript">
 			$(document).ready(function() {
 				jsPlumb.Defaults.DragOptions = { cursor: 'pointer', zIndex:6 };
 
@@ -128,8 +212,8 @@
 			});
 	</script>
 
-<!-- Start of StatCounter Code -->
-<script type="text/javascript">
+	<!-- Start of StatCounter Code -->
+	<script type="text/javascript">
 var sc_project=5700644;
 var sc_invisible=1;
 var sc_partition=71;
@@ -137,13 +221,17 @@ var sc_click_stat=1;
 var sc_security="1cb90164";
 </script>
 
-<script type="text/javascript"
-src="http://www.statcounter.com/counter/counter.js"></script><noscript><div
-class="statcounter"><a title="counter for wordpress"
-href="http://www.statcounter.com/wordpress.org/"
-target="_blank"><img class="statcounter"
-src="http://c.statcounter.com/5700644/0/1cb90164/1/"
-alt="counter for wordpress" ></a></div></noscript>
-<!-- End of StatCounter Code -->
-	</body>
+	<script type="text/javascript"
+		src="http://www.statcounter.com/counter/counter.js"></script>
+	<noscript>
+		<div class="statcounter">
+			<a title="counter for wordpress"
+				href="http://www.statcounter.com/wordpress.org/" target="_blank"><img
+				class="statcounter"
+				src="http://c.statcounter.com/5700644/0/1cb90164/1/"
+				alt="counter for wordpress"></a>
+		</div>
+	</noscript>
+	<!-- End of StatCounter Code -->
+</body>
 </html>

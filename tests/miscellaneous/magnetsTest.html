@@ -1,84 +1,88 @@
 
 <!doctype html>
 <html>
-	<head>
-		<title>test page template</title>
-		<style>
-			#demo {
-				overflow:scroll;
-				margin-top:5em;
-			}
-		
-			.w { 
-				width:5em;
-				padding:1em;
-				position:absolute;
-				border: 1px solid black;
-				z-index:5;				
-			}
-			._jsPlumb_connector {
-				z-index:4;
-			}
-			
-			._jsPlumb_endpoint {
-				z-index:6;
-			}
+<head>
+<title>test page template</title>
+<style>
+#demo {
+	overflow: scroll;
+	margin-top: 5em;
+}
 
-			.dragHover { border:1px dotted red; }
+.w {
+	width: 5em;
+	padding: 1em;
+	position: absolute;
+	border: 1px solid black;
+	z-index: 5;
+}
 
-			#w1 {
-				width:10em;
-				height:10em;
-				top:13em;
-				left:13em;
-			}
+._jsPlumb_connector {
+	z-index: 4;
+}
 
-			#w2 {
-				top:17em;
-				left:12em;
-				height:5em;
-				width:5em;
-			}
+._jsPlumb_endpoint {
+	z-index: 6;
+}
 
-			#w3 {
-				top:21em;
-				left:21em;
-				width:7em;
-				height:5em;
-			}
+.dragHover {
+	border: 1px dotted red;
+}
 
-			#w4 {
-				top:6em;
-				left:18em;
-				height:7em;
-				width:12em;
-			}
+#w1 {
+	width: 10em;
+	height: 10em;
+	top: 13em;
+	left: 13em;
+}
 
-			#w5 {
-				top:10em;
-				left:10em;
-				width:5em;
-				height:5em;
-			}
-			
-		</style>
-	</head>
-	<body>
-		<div id="demo">
-			<button id="go" style="display:none;position:absolute;top:0;left:0;z-index:5000;">go</button>
-			<div id="w1" class="w">one</div>
-			<div id="w2" class="w">two</div>
-			<div id="w3" class="w">three</div>				
-			<div id="w4" class="w">four</div>	
-			<div id="w5" class="w">five</div>	
-		</div>
-	
-	 	<script type="text/javascript" src="../../lib/jquery-1.9.0-min.js"></script>
-		<script type="text/javascript" src="../../lib/jquery-ui-1.9.2-min.js"></script>
-		<script type="text/javascript" src="../../lib/jsBezier-0.6-min.js"></script>
-		<script type="text/javascript" src="../../build/js/jquery.jsPlumb-1.4.0-all.js"></script>					            			
-		
-		<script>				
+#w2 {
+	top: 17em;
+	left: 12em;
+	height: 5em;
+	width: 5em;
+}
+
+#w3 {
+	top: 21em;
+	left: 21em;
+	width: 7em;
+	height: 5em;
+}
+
+#w4 {
+	top: 6em;
+	left: 18em;
+	height: 7em;
+	width: 12em;
+}
+
+#w5 {
+	top: 10em;
+	left: 10em;
+	width: 5em;
+	height: 5em;
+}
+</style>
+</head>
+<body>
+	<div id="demo">
+		<button id="go"
+			style="display: none; position: absolute; top: 0; left: 0; z-index: 5000;">go</button>
+		<div id="w1" class="w">one</div>
+		<div id="w2" class="w">two</div>
+		<div id="w3" class="w">three</div>
+		<div id="w4" class="w">four</div>
+		<div id="w5" class="w">five</div>
+	</div>
+
+	<script type="text/javascript" src="../../lib/jquery-1.9.0-min.js"></script>
+	<script type="text/javascript" src="../../lib/jquery-ui-1.9.2-min.js"></script>
+	<script type="text/javascript" src="../../lib/jsBezier-0.6-min.js"></script>
+	<script type="text/javascript"
+		src="../../build/js/jquery.jsPlumb-1.4.0-all.js"></script>
+
+	<script>				
 			jsPlumb.ready(function() {
 				$("#go").show();
 				$("#go").click(function() {
@@ -231,5 +235,5 @@
 				});				
 			});
 		</script>
-	</body>
+</body>
 </html>

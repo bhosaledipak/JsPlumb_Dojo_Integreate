@@ -4,42 +4,87 @@
 
 -->
 <html>
-	<head>
-		<title>change endpoint style test</title>
-		<meta http-equiv="X-UA-Compatible" content="IE=7">
-		<link rel="stylesheet" href="/mp.css"></link>
-		<link rel="stylesheet" href="../demo/css/jsPlumbDemo.css"></link>
-		<link rel="stylesheet" href="../demo/css/demo.css"></link>		
-		<style type="text/css">
-		.dropHover { border:1px dotted red; }
-.dragActive { border:2px dotted orange; }
-._jsPlumb_endpoint { z-index:100; }
-#window1 { left:2em; top:2em; }
-#window2 { left:40em; top:2em; }
-#window3 { left:2em; top:26em; }
-#window4 { left:40em; top:26em; }
-#btnGreen { position:absolute; top:1em; left:18em; background-color:green; width:3em;height:2em;}
-#btnBlue { position:absolute; top:1em; left:22em; background-color:blue; width:3em;height:2em;}
-		</style>
-	</head>
-	<body onunload="jsPlumb.unload();">
+<head>
+<title>change endpoint style test</title>
+<meta http-equiv="X-UA-Compatible" content="IE=7">
+<link rel="stylesheet" href="/mp.css"></link>
+<link rel="stylesheet" href="../demo/css/jsPlumbDemo.css"></link>
+<link rel="stylesheet" href="../demo/css/demo.css"></link>
+<style type="text/css">
+.dropHover {
+	border: 1px dotted red;
+}
 
-		<button id="btnGreen"></button>
-		<button id="btnBlue"></button>
-	
-		<div class="window" id="window1">WINDOW 1</div>
-		<div class="window" id="window2">WINDOW 2</div>
-		<div class="window" id="window3">WINDOW 3</div>
-		<div class="window" id="window4">WINDOW 4</div>	
-	    
-	    <script type="text/javascript" src="http://explorercanvas.googlecode.com/svn/trunk/excanvas.js"></script>
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js"></script>
-		<script type="text/javascript" src="../js/1.2.6/jsPlumb-1.2.6-RC1.js"></script>
-		<script type="text/javascript" src="../js/1.2.6/jsPlumb-defaults-1.2.6-RC1.js"></script>
-		<script type="text/javascript" src="../js/1.2.6/jquery.jsPlumb-1.2.6-RC1.js"></script>
-		<script type="text/javascript" src="../js/1.2.6/jsBezier-0.2-min.js"></script>					            	
-		<script type="text/javascript">
+.dragActive {
+	border: 2px dotted orange;
+}
+
+._jsPlumb_endpoint {
+	z-index: 100;
+}
+
+#window1 {
+	left: 2em;
+	top: 2em;
+}
+
+#window2 {
+	left: 40em;
+	top: 2em;
+}
+
+#window3 {
+	left: 2em;
+	top: 26em;
+}
+
+#window4 {
+	left: 40em;
+	top: 26em;
+}
+
+#btnGreen {
+	position: absolute;
+	top: 1em;
+	left: 18em;
+	background-color: green;
+	width: 3em;
+	height: 2em;
+}
+
+#btnBlue {
+	position: absolute;
+	top: 1em;
+	left: 22em;
+	background-color: blue;
+	width: 3em;
+	height: 2em;
+}
+</style>
+</head>
+<body onunload="jsPlumb.unload();">
+
+	<button id="btnGreen"></button>
+	<button id="btnBlue"></button>
+
+	<div class="window" id="window1">WINDOW 1</div>
+	<div class="window" id="window2">WINDOW 2</div>
+	<div class="window" id="window3">WINDOW 3</div>
+	<div class="window" id="window4">WINDOW 4</div>
+
+	<script type="text/javascript"
+		src="http://explorercanvas.googlecode.com/svn/trunk/excanvas.js"></script>
+	<script type="text/javascript"
+		src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+	<script type="text/javascript"
+		src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="../js/1.2.6/jsPlumb-1.2.6-RC1.js"></script>
+	<script type="text/javascript"
+		src="../js/1.2.6/jsPlumb-defaults-1.2.6-RC1.js"></script>
+	<script type="text/javascript"
+		src="../js/1.2.6/jquery.jsPlumb-1.2.6-RC1.js"></script>
+	<script type="text/javascript" src="../js/1.2.6/jsBezier-0.2-min.js"></script>
+	<script type="text/javascript">
 			$(function() {
 
 				// chrome fix.
@@ -83,5 +128,5 @@
 				
 		</script>
 
-	</body>
+</body>
 </html>

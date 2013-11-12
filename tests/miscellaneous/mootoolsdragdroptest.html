@@ -1,30 +1,54 @@
 <!doctype html>
 <html>
-	<head>
-		<title>mootools drag/drop test</title>	
-		<style type="text/css">
-			.aDiv { width:5em; height:5em; border:1px solid red; position:absolute;}
-			#div1 { left:20em;top:5em; }
-			#div2 { left:5em;top:15em; }
-			#div3 { left:35em;top:5em; }
-			#div4 { left:35em;top:15em; }
-			
-			.hover { border: 1px dotted blue; }
-		</style>
-	</head>
-	<body>
-	
-		<div id="div1" class="aDiv">div one</div>
-		<div id="div2" class="aDiv">div two</div>
-		<div id="div3" class="aDiv">div three</div>
-		<div id="div4" class="aDiv">div four</div>
-		
-		<div id="div5" class="aDiv">div five</div>
-	
-	
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/mootools/1.2.4/mootools-yui-compressed.js"></script>
-		<script type="text/javascript" src="../js/mootools-1.2.4.4-more.js"></script>
-		<script type="text/javascript">
+<head>
+<title>mootools drag/drop test</title>
+<style type="text/css">
+.aDiv {
+	width: 5em;
+	height: 5em;
+	border: 1px solid red;
+	position: absolute;
+}
+
+#div1 {
+	left: 20em;
+	top: 5em;
+}
+
+#div2 {
+	left: 5em;
+	top: 15em;
+}
+
+#div3 {
+	left: 35em;
+	top: 5em;
+}
+
+#div4 {
+	left: 35em;
+	top: 15em;
+}
+
+.hover {
+	border: 1px dotted blue;
+}
+</style>
+</head>
+<body>
+
+	<div id="div1" class="aDiv">div one</div>
+	<div id="div2" class="aDiv">div two</div>
+	<div id="div3" class="aDiv">div three</div>
+	<div id="div4" class="aDiv">div four</div>
+
+	<div id="div5" class="aDiv">div five</div>
+
+
+	<script type="text/javascript"
+		src="http://ajax.googleapis.com/ajax/libs/mootools/1.2.4/mootools-yui-compressed.js"></script>
+	<script type="text/javascript" src="../js/mootools-1.2.4.4-more.js"></script>
+	<script type="text/javascript">
 			window.addEvent('domready', function() {
 				
 				var hoverClass="hover";
@@ -105,5 +129,5 @@
 				initDroppable($("div5"), 'scope2');
 			});
 		</script>
-	</body>
+</body>
 </html>
