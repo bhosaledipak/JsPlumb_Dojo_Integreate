@@ -69,8 +69,8 @@ function(dom,fx,on, lang,geometry,domClass,query,domConstruct){
 	{
 		
 		//return typeof(el) == "string" ? dom.byId(el) : dom.byId(el.id);
-		//return typeof(el) == "string" ? dom.byId(el) : dom.byId(el);
-		return typeof(el) == "string" ? dom.byId(el) : el.id!=null ? dom.byId(el.id) : dom.byId(el);
+		return dom.byId(el);
+		//return typeof(el) == "string" ? dom.byId(el) : el.id!=null ? dom.byId(el.id) : dom.byId(el);
 	};
 	
 	jsPlumb.CurrentLibrary = {
