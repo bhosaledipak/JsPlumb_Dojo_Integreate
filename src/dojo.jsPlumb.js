@@ -55,8 +55,8 @@
  */
 
 
-require(['dojo/dom','dojo/_base/fx','dojo/on','dojo/_base/lang','dojo/dom-geometry','dojo/dom-class','dojo/query','dojo/dom-construct','dojo/dnd/Source','dojo/on','dojo/NodeList-traverse'],
-function(dom,fx,on, lang,geometry,domClass,query,domConstruct,source,on){
+require(['dojo/dom','dojo/_base/fx','dojo/on','dojo/_base/lang','dojo/dom-geometry','dojo/dom-class','dojo/query','dojo/dom-construct','dojo/dnd/Source','dojo/on','dojo/dnd/moveable','dojo/NodeList-traverse'],
+function(dom,fx,on, lang,geometry,domClass,query,domConstruct,source,on,moveable){
 	
 	/*
 	var _getElementObject = function(el)
@@ -318,7 +318,7 @@ TODO: find jquery equivalent original event in dojo
 		},		
 		
 		hasClass : function(el, clazz) {
-			return domClass.hasClass(el, clazz);
+			return domClass.contains(el, clazz);
 		},
 		
 		
@@ -328,11 +328,12 @@ TODO: find jquery equivalent original event in dojo
 		initDraggable : function(el, options, isPlumbedComponent, _jsPlumb) {
 			options.scope = options.scope || jsPlumb.Defaults.Scope;
 			
-			//generate a source to be droppable
-			var dropSource = new source(_getElementObject(el));
+			//generate a source to be draggable
+			var dom = _getElementObject(el);
+			var drag = new moveable(dom);
 			
-			on(dropSource, "onDraggingOver",options.over);
-			on(dropSource, "onDraggingOut",options.out);
+			on(dom, "mouseover",options.over);
+			on(dom, "mouseout",options.out);
 			//$(el).droppable(options);
 		},
 		
@@ -350,6 +351,12 @@ TODO: find jquery equivalent original event in dojo
 			on(dropSource, "onDraggingOut",options.out);
 			//$(el).droppable(options);
 		},
+		
+		isAlreadyDraggable : function(el) {
+			
+			return this.hasClass(_getElementObject(el), "dojoDndContainer");
+		},
+		
 		
 		/**
 		 * returns whether or not drag is supported (by the library, not whether or not it is disabled) for the given element.
