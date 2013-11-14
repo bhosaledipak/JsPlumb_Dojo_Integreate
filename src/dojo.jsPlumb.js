@@ -55,8 +55,8 @@
  */
 
 
-require(['dojo/dom','dojo/_base/fx','dojo/on','dojo/_base/lang','dojo/dom-geometry','dojo/dom-class','dojo/query','dojo/dom-construct','dojo/NodeList-traverse'],
-function(dom,fx,on, lang,geometry,domClass,query,domConstruct){
+require(['dojo/dom','dojo/_base/fx','dojo/on','dojo/_base/lang','dojo/dom-geometry','dojo/dom-class','dojo/query','dojo/dom-construct','dojo/dnd/Source','dojo/on','dojo/NodeList-traverse'],
+function(dom,fx,on, lang,geometry,domClass,query,domConstruct,source,on){
 	
 	/*
 	var _getElementObject = function(el)
@@ -146,15 +146,15 @@ TODO: modify this later
 			if ($(el).data("droppable"))
 				$(el).droppable("destroy");
 		},
-	
-          mapping of drag events for jQuery  
+*/	
+       //   mapping of drag events for jQuery  
 		dragEvents : {
 			'start':'start', 'stop':'stop', 'drag':'drag', 'step':'step',
 			'over':'over', 'out':'out', 'drop':'drop', 'complete':'complete'
 		},		
 		
 		
-		*/
+		
 
 /**
 		 * wrapper around the library's 'extend' functionality (which it hopefully has.
@@ -226,7 +226,11 @@ TODO: modify this later
 		  * { left:xxx, top: xxx }
 		 */
 		getOffset : function(el) {
-			return geometry.position(el);
+			
+			var o = geometry.position(el); 
+			return {left:o["x"], top:o["y"]};
+			//return geometry.position(el);
+			
 		},
 
 /**		
@@ -253,16 +257,16 @@ TODO: find jquery equivalent original event in dojo
 		},
 		
 		
-/*
 
-		TODO: search for method to get descendants in dojo
+
+//		TODO: search for method to get descendants in dojo
 		
 		getSelector : function(context, spec) {
             if (arguments.length == 2)
                 return _getElementObject(context).find(spec);
             else
-                return $(context);
-		},*/
+                return query(context);
+		}, 
 		
 		/**
 		 * gets the size for the element object, in an array : [ width, height ].
@@ -316,6 +320,55 @@ TODO: find jquery equivalent original event in dojo
 		hasClass : function(el, clazz) {
 			return domClass.hasClass(el, clazz);
 		},
+		
+		
+		/**
+		 * initializes the given element to be droppable.
+		 */
+		initDraggable : function(el, options, isPlumbedComponent, _jsPlumb) {
+			options.scope = options.scope || jsPlumb.Defaults.Scope;
+			
+			//generate a source to be droppable
+			var dropSource = new source(_getElementObject(el));
+			
+			on(dropSource, "onDraggingOver",options.over);
+			on(dropSource, "onDraggingOut",options.out);
+			//$(el).droppable(options);
+		},
+		
+		
+		/**
+		 * initializes the given element to be droppable.
+		 */
+		initDroppable : function(el, options) {
+			options.scope = options.scope || jsPlumb.Defaults.Scope;
+			
+			//generate a source to be droppable
+			var dropSource = new source(_getElementObject(el));
+			
+			on(dropSource, "onDraggingOver",options.over);
+			on(dropSource, "onDraggingOut",options.out);
+			//$(el).droppable(options);
+		},
+		
+		/**
+		 * returns whether or not drag is supported (by the library, not whether or not it is disabled) for the given element.
+		 */
+		isDragSupported : function(el, options) {
+			//return $(el).draggable;
+			//change this when solution is found out
+			return true;
+		},				
+						
+		/**
+		 * returns whether or not drop is supported (by the library, not whether or not it is disabled) for the given element.
+		 */
+		isDropSupported : function(el, options) {
+			
+			//return $(el).droppable;
+			//change this when solution is found out
+			return true;
+		},	
 		
 		
 		/**
