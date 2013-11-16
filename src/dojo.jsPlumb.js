@@ -55,14 +55,8 @@
  */
 
 
-require(['dojo/dom','dojo/_base/fx','dojo/on','dojo/_base/lang','dojo/dom-geometry','dojo/dom-class','dojo/query','dojo/dom-construct','dojo/dnd/Source','dojo/on','dojox/layout/FloatingPane','dojo/NodeList-traverse'],
-function(dom,fx,on, lang,geometry,domClass,query,domConstruct,source,on,floatingPane){
-	
-	/*
-	var _getElementObject = function(el)
-	{
-		return dom.byId(el);
-	};*/
+require(['dojo/dom','dojo/_base/fx','dojo/on','dojo/_base/lang','dojo/dom-geometry','dojo/dom-class','dojo/query','dojo/dom-construct','dojo/dnd/Moveable','dojo/on','dojo/NodeList-traverse'],
+function(dom,fx,on, lang,geometry,domClass,query,domConstruct,Moveable,on){
 	
 	
 	var _getElementObject = function(el)
@@ -331,21 +325,12 @@ TODO: find jquery equivalent original event in dojo
 			options.scope = options.scope || jsPlumb.Defaults.Scope;
 			
 			//generate a source to be droppable
-		/*	var dropSource = new source(_getElementObject(el));
+			var dropSource = new Moveable(_getElementObject(el));
 			
 			on(dropSource, "onDraggingOver",options.over);
-			on(dropSource, "onDraggingOut",options.out);*/
+			on(dropSource, "onDraggingOut",options.out);
 			//$(el).droppable(options);
-			
-			//pradeep
-			var dropSource = new floatingPane({
-			     title: "A floating pane",
-			     resizable: true, dockable: true,
-			     style: "position:absolute;top:0;left:0;width:100px;height:100px;visibility:hidden;",
-			     id: 
-			  },dojo.byId(el));
-			
-			//dropSource.startup();
+		
 		},
 		
 		
@@ -356,7 +341,7 @@ TODO: find jquery equivalent original event in dojo
 			options.scope = options.scope || jsPlumb.Defaults.Scope;
 			
 			//generate a source to be droppable
-			var dropSource = new source(el);
+			var dropSource = new Moveable(el);
 			
 			console.log('inside initDroppable');
 			console.log(el);
