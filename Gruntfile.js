@@ -38,11 +38,12 @@ var JS_BEZIER = "0.6", // current js bezier version
     JS_PLUMB_GEOM = "0.1",
     getJsBezier = function() { return "lib/jsBezier-" + JS_BEZIER + ".js"; },
     getJsPlumbGeom = function() { return "lib/jsplumb-geom-" + JS_PLUMB_GEOM + ".js"; },
-    libraries = [ "jquery", "mootools", "yui" ],
+    libraries = [ "jquery", "mootools", "yui","dojo" ],
     runtimeLibraries = {
         jquery:"<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js'></script><script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js'></script><script type='text/javascript' src='../../lib/jquery.ui.touch-punch.min.js'></script>",
         mootools:"<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/mootools/1.3.2/mootools-yui-compressed.js'></script>",
-        yui:""
+        yui:"",
+        dojo:""
     }
     version = "1.5.0",
     objects = {

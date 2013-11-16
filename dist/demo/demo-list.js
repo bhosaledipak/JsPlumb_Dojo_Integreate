@@ -18,7 +18,8 @@
 	libraries = [
 		{id:"jquery", name:"jQuery"},
 		{id:"mootools", name:"MooTools"},
-		{id:"yui", name:"YUI3"}
+		{id:"yui", name:"YUI3"},
+		{id:"dojo", name:"DOJO"}
 	],
 	prepareOtherLibraryString = function(demoId, library) {
 		var s = "", demoInfo = jsPlumb.DemoList.find(demoId);

@@ -322,13 +322,29 @@ TODO: find jquery equivalent original event in dojo
 		 * initializes the given element to be droppable.
 		 */
 		initDraggable : function(el, options, isPlumbedComponent, _jsPlumb) {
-			options.scope = options.scope || jsPlumb.Defaults.Scope;
+			options = options || {};
+			options.start = jsPlumbUtil.wrap(options.start, function() {
+				_getElementObject("body").addClass(_jsPlumb.dragSelectClass);
+			}, false);
+
+			options.stop = jsPlumbUtil.wrap(options.stop, function() {
+				_getElementObject("body").removeClass(_jsPlumb.dragSelectClass);
+			});
+
+			// remove helper directive if present and no override
+			if (!options.doNotRemoveHelper)
+				options.helper = null;
+			if (isPlumbedComponent)
+				options.scope = options.scope || jsPlumb.Defaults.Scope;
+			
+			
 			
 			//generate a source to be droppable
 			var dropSource = new Moveable(_getElementObject(el));
 			
-			on(dropSource, "onDraggingOver",options.over);
-			on(dropSource, "onDraggingOut",options.out);
+			on(dropSource, "onMoveStart",options.over);
+			on(dropSource, "onMoved",options.out);
+//			on(dropSource, "onDraggingOut",options.out);
 			//$(el).droppable(options);
 		
 		},
@@ -342,13 +358,11 @@ TODO: find jquery equivalent original event in dojo
 			
 			//generate a source to be droppable
 			var dropSource = new Moveable(el);
-			
-			console.log('inside initDroppable');
-			console.log(el);
-			console.log(dropSource);
-			
-			on(dropSource, "onDraggingOver",options.over);
-			on(dropSource, "onDraggingOut",options.out);
+						
+			on(dropSource, "onMoveStart",options.over);
+			on(dropSource, "onMoved",options.out);
+//			on(dropSource, "onDraggingOver",options.over);
+//			on(dropSource, "onDraggingOut",options.out);
 			//$(el).droppable(options);
 		},
 		

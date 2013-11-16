@@ -20,7 +20,7 @@
     "tricks"
   ],
   "author": "Simon Porritt",
-  "license": "MIT/GPL2",
+  "license": "BSD-2-Clause",
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-concat": "~0.3.0",
@@ -34,5 +34,8 @@
     "grunt-contrib-clean": "~0.5.0",
     "jsdoc": "git://github.com/sporritt/jsdoc.git",
     "grunt-jsdoc": "~0.4.0"
+  },
+  "bugs": {
+    "url": "https://github.com/sporritt/jsPlumb/issues"
   }
 }
