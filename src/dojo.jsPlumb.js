@@ -55,8 +55,8 @@
  */
 
 
-require(['dojo/dom','dojo/_base/fx','dojo/on','dojo/_base/lang','dojo/dom-geometry','dojo/dom-class','dojo/query','dojo/dom-construct','dojo/dnd/Moveable','dojo/on','dojo/NodeList-traverse'],
-function(dom,fx,on, lang,geometry,domClass,query,domConstruct,Moveable,on){
+require(['dojo/dom','dojo/_base/fx','dojo/on','dojo/_base/lang','dojo/dom-geometry','dojo/dom-class','dojo/query','dojo/dom-construct','dojo/dnd/Moveable','dojo/dnd/Container','dojo/on','dojo/NodeList-traverse','dojo/NodeList-dom'],
+function(dom,fx,on, lang,geometry,domClass,query,domConstruct,Moveable,Container,on){
 	
 	
 	var _getElementObject = function(el)
@@ -84,7 +84,7 @@ function(dom,fx,on, lang,geometry,domClass,query,domConstruct,Moveable,on){
 				// SVGAnimatedString not supported; no problem.
 			}
             try {                
-                el.addClass(clazz);
+                el.addClass(clazz);	
             }
             catch (e) {
                 // you probably have jQuery 1.9 and Firefox.  
@@ -141,15 +141,14 @@ TODO: modify this later
 				$(el).droppable("destroy");
 		},
 */	
-       //   mapping of drag events for jQuery  
+       //   mapping of drag events for Dojo  
+		
+		// some of them are not in dojo eg. http://dojotoolkit.org/reference-guide/1.9/dojo/dnd/Moveable.html
+		//http://stackoverflow.com/questions/20123003/jquery-drag-events-to-dojo-drag-events
 		dragEvents : {
-			'start':'start', 'stop':'stop', 'drag':'drag', 'step':'step',
-			'over':'over', 'out':'out', 'drop':'drop', 'complete':'complete'
+			'start':'MoveStart', 'stop':'MoveStop', 'drag':'Move',
+			'over':'Moved', 'out':'MoveStop', 'complete':'Moved'
 		},		
-		
-		
-		
-
 /**
 		 * wrapper around the library's 'extend' functionality (which it hopefully has.
 		 * otherwise you'll have to do it yourself). perhaps jsPlumb could do this for you
@@ -315,20 +314,24 @@ TODO: find jquery equivalent original event in dojo
 			return domClass.hasClass(el, clazz);
 		},
 		isAlreadyDraggable : function(el) {
-			return domClass.contains(el,"dojoDndItem");
+			//return domClass.contains(el,"dojoDndItem");
+			return false;
 		},
 		
 		/**
 		 * initializes the given element to be droppable.
 		 */
 		initDraggable : function(el, options, isPlumbedComponent, _jsPlumb) {
+			
 			options = options || {};
+			
 			options.start = jsPlumbUtil.wrap(options.start, function() {
-				_getElementObject("body").addClass(_jsPlumb.dragSelectClass);
+				//dojo.query('body')[0].addClass(_jsPlumb.dragSelectClass);
+				query("body").addClass(_jsPlumb.dragSelectClass);
 			}, false);
 
 			options.stop = jsPlumbUtil.wrap(options.stop, function() {
-				_getElementObject("body").removeClass(_jsPlumb.dragSelectClass);
+				query("body").removeClass(_jsPlumb.dragSelectClass);
 			});
 
 			// remove helper directive if present and no override
@@ -336,14 +339,16 @@ TODO: find jquery equivalent original event in dojo
 				options.helper = null;
 			if (isPlumbedComponent)
 				options.scope = options.scope || jsPlumb.Defaults.Scope;
-			
-			
-			
-			//generate a source to be droppable
+					
 			var dropSource = new Moveable(_getElementObject(el));
-			
-			on(dropSource, "onMoveStart",options.over);
-			on(dropSource, "onMoved",options.out);
+				
+			on(dropSource, "MoveStart",options.start);
+			on(dropSource,"Move",options.drag);
+			on(dropSource,"Moved",options.stop);
+		//	}
+			//chrome debugger api
+			//monitorEvents(dropSource,['mousemove']);
+			//on(dropSource, "onMoved",options.out);
 //			on(dropSource, "onDraggingOut",options.out);
 			//$(el).droppable(options);
 		
@@ -357,10 +362,10 @@ TODO: find jquery equivalent original event in dojo
 			options.scope = options.scope || jsPlumb.Defaults.Scope;
 			
 			//generate a source to be droppable
-			var dropSource = new Moveable(el);
+			//var dropSource = new Container(el);
 						
-			on(dropSource, "onMoveStart",options.over);
-			on(dropSource, "onMoved",options.out);
+			//on(dropSource, "onMoveStart",options.over);
+			//on(dropSource, "onMoved",options.out);
 //			on(dropSource, "onDraggingOver",options.over);
 //			on(dropSource, "onDraggingOut",options.out);
 			//$(el).droppable(options);
@@ -402,16 +407,8 @@ TODO: find jquery equivalent original event in dojo
 			}
 			
 			domClass.remove(el,clazz);
-		},
-		
-        
-        
+		},  
 	};
-	
-	
-	
-	
-	
 });
 
 
