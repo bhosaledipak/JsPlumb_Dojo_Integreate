@@ -55,8 +55,8 @@
  */
 
 
-require(['dojo/dom','dojo/_base/fx','dojo/on','dojo/_base/lang','dojo/dom-geometry','dojo/dom-class','dojo/query','dojo/dom-construct','dojo/dnd/Source','dojo/on','dojo/dnd/moveable','dojo/NodeList-traverse'],
-function(dom,fx,on, lang,geometry,domClass,query,domConstruct,source,on,moveable){
+require(['dojo/dom','dojo/_base/fx','dojo/on','dojo/_base/lang','dojo/dom-geometry','dojo/dom-class','dojo/query','dojo/dom-construct','dojo/dnd/Source','dojo/on','dojo/dnd/moveable','dojo','dojo/NodeList-traverse'],
+function(dom,fx,on, lang,geometry,domClass,query,domConstruct,source,on,moveable,dojo){
 	
 	/*
 	var _getElementObject = function(el)
@@ -292,6 +292,8 @@ TODO: find jquery equivalent original event in dojo
 		getUIPosition : function(eventArgs, zoom) {
 			
 			zoom = zoom || 1;
+			var node = eventArgs[0].node;
+			var dom = _getElementObject(node);
 			// this code is a workaround for the case that the element being dragged has a margin set on it. jquery UI passes
 			// in the wrong offset if the element has a margin (it doesn't take the margin into account).  the getBoundingClientRect
 			// method, which is in pretty much all browsers now, reports the right numbers.  but it introduces a noticeable lag, which
@@ -302,17 +304,24 @@ TODO: find jquery equivalent original event in dojo
 				return { left : r.left, top: r.top };
 			} else {*/
 			if (eventArgs.length == 1) {
-				ret = { left: eventArgs[0].pageX, top:eventArgs[0].pageY };
+				ret = {left:geometry.position(dom).x,top:geometry.position(dom).y};
 			}
 			else {
-				var ui = eventArgs[1],
-				  _offset = {left:geometry.position(el).x, top:geometry.position(el).y};
+				
+				//var node = eventArgs[0].node;
+				//var dom = _getElementObject(node);
+				var _offset = {left:geometry.position(dom).x,top:geometry.position(dom).y};
+				
+				ret = _offset;
+				/*
+				var ui = eventArgs[1];
+				  _offset = {left:geometry.position(el).x, top:geometry.position(el).y};*/
 				  
-				ret = _offset || ui.absolutePosition;
+				//ret = _offset || ui.absolutePosition;
 				
 				// adjust ui position to account for zoom, because jquery ui does not do this.
-				ui.position.left /= zoom;
-				ui.position.top /= zoom;
+				//ui.position.left /= zoom;
+				//ui.position.top /= zoom;
 			}
             return { left:ret.left / zoom, top: ret.top / zoom };
 		},		
@@ -331,10 +340,40 @@ TODO: find jquery equivalent original event in dojo
 			//generate a source to be draggable
 			var dom = _getElementObject(el);
 			var drag = new moveable(dom);
+	/*		
+			dojo.connect(drag,"onMoveStart",function(){
+				
+				alert('moved');
+			});*/
 			
-			on(dom, "mouseover",options.over);
-			on(dom, "mouseout",options.out);
-			//$(el).droppable(options);
+			dojo.connect(drag,"onMoveStart",options.start);
+			dojo.connect(drag,"onMove",options.drag);
+			dojo.connect(drag,"onMoveStop",options.stop);
+			
+			/*
+			options.start = jsPlumbUtil.wrap(options.start, function() {
+				var dom = document.body;
+				this.addClass(dom,_jsPlumb.dragSelectClass);
+			}, false);
+
+			options.stop = jsPlumbUtil.wrap(options.stop, function() {
+				var dom = document.body;
+				this.removeClass(dom,_jsPlumb.dragSelectClass);
+			});
+
+			// remove helper directive if present and no override
+			if (!options.doNotRemoveHelper)
+				options.helper = null;
+			if (isPlumbedComponent)
+				options.scope = options.scope || jsPlumb.Defaults.Scope;
+			
+//			on(dom, "mouseover",options.over);
+//			on(dom, "mouseout",options.out);
+//			on(drag,"onMove",options.drag);
+//			on(drag,"onMoveStart",options.start);
+//			on(drag,"onMoveStop",options.stop);
+			
+			//$(el).droppable(options);*/
 		},
 		
 		

@@ -285,13 +285,14 @@ TODO: REMOVE!
 			options = options || {};
 			el = $(el);
 
+			/*
 			options.start = jsPlumbUtil.wrap(options.start, function() {
 				$("body").addClass(_jsPlumb.dragSelectClass);
 			}, false);
 
 			options.stop = jsPlumbUtil.wrap(options.stop, function() {
 				$("body").removeClass(_jsPlumb.dragSelectClass);
-			});
+			}); */
 
 			// remove helper directive if present and no override
 			if (!options.doNotRemoveHelper)

@@ -189,7 +189,7 @@
 				source:"window7",
 				target:"window3"
 			}, stateMachineConnector);
-
+				 
 			// jsplumb event handlers
 	
 			// double click on any connection 

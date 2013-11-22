@@ -1,143 +1,214 @@
+/*
+	this is the JS for the main jsPlumb demo.  it is shared between the YUI, jQuery and MooTools
+	demo pages.
+*/
 ;(function() {
-	
+
 	window.jsPlumbDemo = {
-		init : function() {
-				
+			
+		init : function() {			
+			
 			jsPlumb.importDefaults({
-				// default drag options
-				DragOptions : { cursor: 'pointer', zIndex:2000 },
-				// default to blue at one end and green at the other
-				EndpointStyles : [{ fillStyle:'#225588' }, { fillStyle:'#558822' }],
-				// blue endpoints 7 px; green endpoints 11.
-				Endpoints : [ [ "Dot", {radius:7} ], [ "Dot", { radius:11 } ]],
-				// the overlays to decorate each connection with.  note that the label overlay uses a function to generate the label text; in this
-				// case it returns the 'labelText' member that we set on each connection in the 'init' method below.
-				ConnectionOverlays : [
-					[ "Arrow", { location:1 } ],
-					[ "Label", { 
-						location:0.1,
+				DragOptions : { cursor: "pointer", zIndex:2000 },
+				HoverClass:"connector-hover"
+			});
+	
+			var connectorStrokeColor = "rgba(50, 50, 200, 1)",
+				connectorHighlightStrokeColor = "rgba(180, 180, 200, 1)",
+				hoverPaintStyle = { strokeStyle:"#7ec3d9" };			// hover paint style is merged on normal style, so you 
+			                                                        // don't necessarily need to specify a lineWidth			
+
+			// 
+			// connect window1 to window2 with a 13 px wide olive colored Bezier, from the BottomCenter of 
+			// window1 to 3/4 of the way along the top edge of window2.  give the connection a 1px black outline,
+			// and allow the endpoint styles to derive their color and outline from the connection.
+			// label it "Connection One" with a label at 0.7 of the length of the connection, and put an arrow that has a 50px
+			// wide tail at a point 0.2 of the length of the connection.  we use 'cssClass' and 'endpointClass' to assign
+			// our own css classes, and the Label overlay has three css classes specified for it too.  we also give this
+			// connection a 'hoverPaintStyle', which defines the appearance when the mouse is hovering over it. 
+			//
+			var connection1 = jsPlumb.connect({
+				source:"window1", 
+			   	target:"window2", 			   	
+				connector:["Bezier", { curviness:70 }],
+			   	cssClass:"c1",
+			   	endpoint:"Blank",
+			   	endpointClass:"c1Endpoint",													   
+			   	anchors:["BottomCenter", [ 0.75, 0, 0, -1 ]], 
+			   	paintStyle:{ 
+					lineWidth:6,
+					strokeStyle:"#a7b04b",
+					outlineWidth:1,
+					outlineColor:"#666"
+				},
+				endpointStyle:{ fillStyle:"#a7b04b" },
+			   	hoverPaintStyle:hoverPaintStyle,			   
+			   	overlays : [
+					["Label", {													   					
+						cssClass:"l1 component label",
+						label : "Connection One", 
+						location:0.7,
 						id:"label",
-						cssClass:"aLabel"
+						events:{
+							"click":function(label, evt) {
+								alert("clicked on label for connection " + label.component.id);
+							}
+						}
+					}],
+					["Arrow", {
+						cssClass:"l1arrow",
+						location:0.5, width:20,length:20,
+						events:{
+							"click":function(arrow, evt) {
+								alert("clicked on arrow for connection " + arrow.component.id);
+							}
+						}
 					}]
 				]
-			});		
-
-			// this is the paint style for the connecting lines..
-			var connectorPaintStyle = {
-				lineWidth:4,
-				strokeStyle:"#deea18",
-				joinstyle:"round",
-				outlineColor:"#eaedef",
-				outlineWidth:2
-			},
-			// .. and this is the hover style. 
-			connectorHoverStyle = {
-				lineWidth:4,
-				strokeStyle:"#5C96BC",
-				outlineWidth:2,
-				outlineColor:"white"
-			},
-			endpointHoverStyle = {fillStyle:"#5C96BC"},
-			// the definition of source endpoints (the small blue ones)
-			sourceEndpoint = {
-				endpoint:"Dot",
+			});            
+				
+				    
+	        var w23Stroke = "rgb(189,11,11)"; 
+	        var connection3 = jsPlumb.connect({
+				source:"window2", 
+				target:"window3", 
 				paintStyle:{ 
-					strokeStyle:"#1e8151",
-					fillStyle:"transparent",
-					radius:7,
-					lineWidth:2 
-				},				
-				isSource:true,
-				connector:[ "Flowchart", { stub:[40, 60], gap:10, cornerRadius:5, alwaysRespectStubs:true } ],								                
-				connectorStyle:connectorPaintStyle,
-				hoverPaintStyle:endpointHoverStyle,
-				connectorHoverStyle:connectorHoverStyle,
-                dragOptions:{},
-                overlays:[
-                	[ "Label", { 
-	                	location:[0.5, 1.5], 
-	                	label:"Drag",
-	                	cssClass:"endpointSourceLabel" 
-	                } ]
-                ]
-			},
-			// a source endpoint that sits at BottomCenter
-		//	bottomSource = jsPlumb.extend( { anchor:"BottomCenter" }, sourceEndpoint),
-			// the definition of target endpoints (will appear when the user drags a connection) 
-			targetEndpoint = {
-				endpoint:"Dot",					
-				paintStyle:{ fillStyle:"#1e8151",radius:11 },
-				hoverPaintStyle:endpointHoverStyle,
-				maxConnections:-1,
-				dropOptions:{ hoverClass:"hover", activeClass:"active" },
-				isTarget:true,			
-                overlays:[
-                	[ "Label", { location:[0.5, -0.5], label:"Drop", cssClass:"endpointTargetLabel" } ]
-                ]
-			},			
-			init = function(connection) {
-				connection.getOverlay("label").setLabel(connection.sourceId.substring(6) + "-" + connection.targetId.substring(6));
-				connection.bind("editCompleted", function(o) {
-					if (typeof console != "undefined")
-						console.log("connection edited. path is now ", o.path);
-				});
-			};			
+					lineWidth:8,
+					strokeStyle:w23Stroke,
+					outlineColor:"#666",
+					outlineWidth:1 
+				},
+				detachable:false,
+				hoverPaintStyle:hoverPaintStyle, 
+				anchors:[ [ 0.3 , 1, 0, 1 ], "TopCenter" ], 
+				endpoint:"Rectangle", 
+				endpointStyles:[
+					{ gradient : { stops:[[0, w23Stroke], [1, "#558822"]] }},
+					{ gradient : {stops:[[0, w23Stroke], [1, "#882255"]] }}
+				]	
+			});					
+				
+			var connection2 = jsPlumb.connect({
+				source:'window3', target:'window4', 
+				paintStyle:{ 
+				   lineWidth:10,
+				   strokeStyle:connectorStrokeColor,
+				   outlineColor:"#666",
+				   outlineWidth:1
+				},
+				hoverPaintStyle:hoverPaintStyle, 
+				anchor:"AutoDefault",
+				detachable:false,
+				endpointStyle:{ 
+					   gradient : { 
+						   stops:[[0, connectorStrokeColor], [1, connectorHighlightStrokeColor]],
+						   offset:17.5, 
+						   innerRadius:15 
+					   }, 
+					   radius:35
+				},				        					        			
+				label : function(connection) { 
+					var d = new Date();
+					var fmt = function(n, m) { m = m || 10;  return (n < m ? new Array(("" + m).length - (""+n).length + 1).join("0") : "") + n; }; 
+					return (fmt(d.getHours()) + ":" + fmt(d.getMinutes()) + ":" + fmt(d.getSeconds())+ "." + fmt(d.getMilliseconds(), 100)); 
+				},
+				labelStyle:{
+					cssClass:"component label"
+				}
+		   });
+	
 
-			var _addEndpoints = function(toId, sourceAnchors, targetAnchors) {
-					for (var i = 0; i < sourceAnchors.length; i++) {
-						var sourceUUID = toId + sourceAnchors[i];
-						jsPlumb.addEndpoint(toId, sourceEndpoint, { anchor:sourceAnchors[i], uuid:sourceUUID });						
-					}
-					for (var j = 0; j < targetAnchors.length; j++) {
-						var targetUUID = toId + targetAnchors[j];
-						jsPlumb.addEndpoint(toId, targetEndpoint, { anchor:targetAnchors[j], uuid:targetUUID });						
-					}
-				};
-
-			_addEndpoints("window4", ["TopCenter", "BottomCenter"], ["LeftMiddle", "RightMiddle"]);			
-			_addEndpoints("window2", ["LeftMiddle", "BottomCenter"], ["TopCenter", "RightMiddle"]);
-			_addEndpoints("window3", ["RightMiddle", "BottomCenter"], ["LeftMiddle", "TopCenter"]);
-			_addEndpoints("window1", ["LeftMiddle", "RightMiddle"], ["TopCenter", "BottomCenter"]);
-						
-			// listen for new connections; initialise them the same way we initialise the connections at startup.
-			jsPlumb.bind("connection", function(connInfo, originalEvent) { 
-				init(connInfo.connection);
-			});			
-						
-			// make all the window divs draggable						
-			jsPlumb.draggable(jsPlumb.getSelector(".window"), { grid: [20, 20] });		
-			// THIS DEMO ONLY USES getSelector FOR CONVENIENCE. Use your library's appropriate selector 
-			// method, or document.querySelectorAll:
-			//jsPlumb.draggable(document.querySelectorAll(".window"), { grid: [20, 20] });
-            
-			// connect a few up
-			jsPlumb.connect({uuids:["window2BottomCenter", "window3TopCenter"], editable:true});
-			jsPlumb.connect({uuids:["window2LeftMiddle", "window4LeftMiddle"], editable:true});
-			jsPlumb.connect({uuids:["window4TopCenter", "window4RightMiddle"], editable:true});
-			jsPlumb.connect({uuids:["window3RightMiddle", "window2RightMiddle"], editable:true});
-			jsPlumb.connect({uuids:["window4BottomCenter", "window1TopCenter"], editable:true});
-			jsPlumb.connect({uuids:["window3BottomCenter", "window1BottomCenter"], editable:true});
+            //
+            //this connects window5 with window6 using a Flowchart connector that is painted green,
+            //with large Dot endpoints that are placed in the center of each element.  there is a
+            //label at the default location of 0.5, and the connection is marked as not being
+            //detachable.
 			//
-            
-			//
-			// listen for clicks on connections, and offer to delete connections on click.
-			//
-			jsPlumb.bind("click", function(conn, originalEvent) {
-				if (confirm("Delete connection from " + conn.sourceId + " to " + conn.targetId + "?"))
-					jsPlumb.detach(conn); 
-			});	
-			
-			jsPlumb.bind("connectionDrag", function(connection) {
-				console.log("connection " + connection.id + " is being dragged. suspendedElement is ", connection.suspendedElement, " of type ", connection.suspendedElementType);
-			});		
-			
-			jsPlumb.bind("connectionDragStop", function(connection) {
-				console.log("connection " + connection.id + " was dragged");
+	        var conn4Color = "rgba(46,164,26,0.8)";
+	        var connection4 = jsPlumb.connect({  
+				source:'window5', 
+				target:'window6', 
+				connector:[ "Flowchart", { cornerRadius:10 } ],
+				anchors:["Center", "Center"],  
+				paintStyle:{ 
+					lineWidth:9, 
+					strokeStyle:conn4Color, 
+					outlineColor:"#666",
+					outlineWidth:2,
+					joinstyle:"round"
+				},
+				hoverPaintStyle:hoverPaintStyle,
+				detachable:false,
+				endpointsOnTop:false, 
+				endpointStyle:{ radius:65, fillStyle:conn4Color },
+				labelStyle : { cssClass:"component label" },
+				label : "big\nendpoints"
+		    });
+	
+	        var connection5 = jsPlumb.connect({
+				source:"window4", 
+				target:"window5", 
+				anchors:["BottomRight", "TopLeft"], 
+				paintStyle:{ 
+					lineWidth:7,
+					strokeStyle:"rgb(131,8,135)",
+//										outlineColor:"#666",
+//						 				outlineWidth:1,
+					dashstyle:"4 2",
+					joinstyle:"miter"
+				},
+				hoverPaintStyle:hoverPaintStyle, 
+				endpoint:["Image", {url:"endpointTest1.png"}], 
+				connector:"Straight", 
+				endpointsOnTop:true,
+				overlays:[ ["Label", {
+								cssClass:"component label",		    			        				 
+								label : "4 - 5",
+								location:0.3
+							}],
+							"Arrow"
+							
+				]
 			});
+									
+			var stateMachineConnector = {				
+				connector:"StateMachine",
+				paintStyle:{lineWidth:3,strokeStyle:"#056"},
+				hoverPaintStyle:{strokeStyle:"#dbe300"},
+				endpoint:"Blank",
+				anchor:"Continuous",
+				overlays:[ ["PlainArrow", {location:1, width:15, length:12} ]]
+			};
+			
+			jsPlumb.connect({
+				source:"window3",
+				target:"window7"
+			}, stateMachineConnector);
+			
+			jsPlumb.connect({
+				source:"window7",
+				target:"window3"
+			}, stateMachineConnector);
 
-			jsPlumb.bind("connectionMoved", function(params) {
-				console.log("connection " + params.connection.id + " was moved");
-			});
+			// jsplumb event handlers
+	
+			// double click on any connection 
+			jsPlumb.bind("dblclick", function(connection, originalEvent) { alert("double click on connection from " + connection.sourceId + " to " + connection.targetId); });
+			// single click on any endpoint
+			jsPlumb.bind("endpointClick", function(endpoint, originalEvent) { alert("click on endpoint on element " + endpoint.elementId); });
+			// context menu (right click) on any component.
+			jsPlumb.bind("contextmenu", function(component, originalEvent) {
+                alert("context menu on component " + component.id);
+                originalEvent.preventDefault();
+                return false;
+            });
+			
+			// make all .window divs draggable. note that here i am just using a convenience method - getSelector -
+			// that enables me to reuse this code across all three libraries. In your own usage of jsPlumb you can use
+			// your library's selector method - "$" for jQuery, "$$" for MooTools, "Y.all" for YUI3.
+			var a = jsPlumb.getSelector(".window");
+			jsPlumb.draggable(jsPlumb.getSelector(".window"), { containment:".demo"});    
+
 		}
-	};
+	};	
 })();
