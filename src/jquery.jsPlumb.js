@@ -59,7 +59,6 @@
 	var _getElementObject = function(el) {			
 		return typeof(el) == "string" ? $("#" + el) : $(el);
 	};
-
 	jsPlumb.CurrentLibrary = {					        
 		
 		/**
@@ -298,7 +297,10 @@ TODO: REMOVE!
 				options.helper = null;
 			if (isPlumbedComponent)
 				options.scope = options.scope || jsPlumb.Defaults.Scope;
-			el.draggable(options);
+			
+			
+			el.draggable(options);  // dude inspect options here - pradeep
+			//el.draggable();
 		},
 		
 		/**
@@ -306,7 +308,8 @@ TODO: REMOVE!
 		 */
 		initDroppable : function(el, options) {
 			options.scope = options.scope || jsPlumb.Defaults.Scope;
-			$(el).droppable(options);
+			//$(el).droppable(options);  --really this is not required ?
+			//$(el).droppable();
 		},
 		
 		isAlreadyDraggable : function(el) {

@@ -55,24 +55,15 @@
  */
 
 
-require(['dojo/dom','dojo/_base/fx','dojo/on','dojo/_base/lang','dojo/dom-geometry','dojo/dom-class','dojo/query','dojo/dom-construct','dojo/dnd/Moveable','dojo/dnd/Container','dojo/on','dojo/NodeList-traverse','dojo/NodeList-dom'],
-function(dom,fx,on, lang,geometry,domClass,query,domConstruct,Moveable,Container,on){
-	
-	
+require(['dojo/dom','dojo/_base/fx','dojo/_base/lang','dojo/dom-geometry','dojo/dom-class','dojo/query','dojo/dom-construct','dojo/dnd/Moveable','dojo/dnd/Source','dojo/on','dojo/NodeList-traverse'],
+function(dom,fx,lang,geometry,domClass,query,domConstruct,Moveable,Source,on){	
 	var _getElementObject = function(el)
 	{
-		
-		//return typeof(el) == "string" ? dom.byId(el) : dom.byId(el.id);
 		return dom.byId(el);
-		//return typeof(el) == "string" ? dom.byId(el) : el.id!=null ? dom.byId(el.id) : dom.byId(el);
 	};
 	
 	jsPlumb.CurrentLibrary = {
 		
-		
-				/**
-		 * adds the given class to the element object.
-		 */
 		addClass : function(el, clazz) {
 			el = _getElementObject(el);
 			try {
@@ -146,8 +137,8 @@ TODO: modify this later
 		// some of them are not in dojo eg. http://dojotoolkit.org/reference-guide/1.9/dojo/dnd/Moveable.html
 		//http://stackoverflow.com/questions/20123003/jquery-drag-events-to-dojo-drag-events
 		dragEvents : {
-			'start':'MoveStart', 'stop':'MoveStop', 'drag':'Move',
-			'over':'Moved', 'out':'MoveStop', 'complete':'Moved'
+			'start':'start', 'stop':'stop', 'drag':'drag', 'step':'step',
+			'over':'over', 'out':'out', 'drop':'drop', 'complete':'complete'
 		},		
 /**
 		 * wrapper around the library's 'extend' functionality (which it hopefully has.
@@ -248,10 +239,6 @@ TODO: find jquery equivalent original event in dojo
 		getScrollTop : function(el) {
 			return dojo.query('body')[0].scrollTop;
 		},
-		
-		
-
-
 //		TODO: search for method to get descendants in dojo
 		
 		getSelector : function(context, spec) {
@@ -282,40 +269,27 @@ TODO: find jquery equivalent original event in dojo
 		 * different libraries have different signatures for their event callbacks.  
 		 * see getDragObject as well
 		 */
-		getUIPosition : function(eventArgs, zoom) {
+        getUIPosition : function(eventArgs, zoom) {
 			
 			zoom = zoom || 1;
-			// this code is a workaround for the case that the element being dragged has a margin set on it. jquery UI passes
-			// in the wrong offset if the element has a margin (it doesn't take the margin into account).  the getBoundingClientRect
-			// method, which is in pretty much all browsers now, reports the right numbers.  but it introduces a noticeable lag, which
-			// i don't like.
-            
-			/*if ( getBoundingClientRectSupported ) {
-				var r = eventArgs[1].helper[0].getBoundingClientRect();
-				return { left : r.left, top: r.top };
-			} else {*/
+			var node = eventArgs[0].node;
+			var dom = _getElementObject(node);
 			if (eventArgs.length == 1) {
-				ret = { left: eventArgs[0].pageX, top:eventArgs[0].pageY };
+
+				ret = {left:geometry.position(dom).x,top:geometry.position(dom).y};
 			}
 			else {
-				var ui = eventArgs[1],
-				  _offset = {left:geometry.position(el).x, top:geometry.position(el).y};
-				  
-				ret = _offset || ui.absolutePosition;
-				
-				// adjust ui position to account for zoom, because jquery ui does not do this.
-				ui.position.left /= zoom;
-				ui.position.top /= zoom;
+				var _offset = {left:geometry.position(dom).x,top:geometry.position(dom).y};
+				ret = _offset;
 			}
             return { left:ret.left / zoom, top: ret.top / zoom };
-		},		
+		},	
 		
 		hasClass : function(el, clazz) {
-			return domClass.hasClass(el, clazz);
+			return domClass.contains(el, clazz);
 		},
 		isAlreadyDraggable : function(el) {
-			//return domClass.contains(el,"dojoDndItem");
-			return false;
+			return this.hasClass(_getElementObject(el), "dojoDndContainer");
 		},
 		
 		/**
@@ -325,12 +299,12 @@ TODO: find jquery equivalent original event in dojo
 			
 			options = options || {};
 			
-			options.start = jsPlumbUtil.wrap(options.start, function() {
+			options.start = jsPlumbUtil.wrap(options.MoveStart, function() {
 				//dojo.query('body')[0].addClass(_jsPlumb.dragSelectClass);
 				query("body").addClass(_jsPlumb.dragSelectClass);
 			}, false);
-
-			options.stop = jsPlumbUtil.wrap(options.stop, function() {
+			
+			options.stop = jsPlumbUtil.wrap(options.MoveStop, function() {
 				query("body").removeClass(_jsPlumb.dragSelectClass);
 			});
 
@@ -338,20 +312,12 @@ TODO: find jquery equivalent original event in dojo
 			if (!options.doNotRemoveHelper)
 				options.helper = null;
 			if (isPlumbedComponent)
-				options.scope = options.scope || jsPlumb.Defaults.Scope;
+			options.scope = options.scope || jsPlumb.Defaults.Scope;
 					
 			var dropSource = new Moveable(_getElementObject(el));
-				
 			on(dropSource, "MoveStart",options.start);
 			on(dropSource,"Move",options.drag);
-			on(dropSource,"Moved",options.stop);
-		//	}
-			//chrome debugger api
-			//monitorEvents(dropSource,['mousemove']);
-			//on(dropSource, "onMoved",options.out);
-//			on(dropSource, "onDraggingOut",options.out);
-			//$(el).droppable(options);
-		
+			on(dropSource,"MoveStop",options.stop);
 		},
 		
 		
@@ -360,15 +326,7 @@ TODO: find jquery equivalent original event in dojo
 		 */
 		initDroppable : function(el, options) {
 			options.scope = options.scope || jsPlumb.Defaults.Scope;
-			
-			//generate a source to be droppable
-			//var dropSource = new Container(el);
-						
-			//on(dropSource, "onMoveStart",options.over);
-			//on(dropSource, "onMoved",options.out);
-//			on(dropSource, "onDraggingOver",options.over);
-//			on(dropSource, "onDraggingOut",options.out);
-			//$(el).droppable(options);
+			//i don't know it still works
 		},
 		
 		/**
