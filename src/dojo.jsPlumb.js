@@ -434,15 +434,8 @@ TODO: find jquery equivalent original event in dojo
 			
 			domClass.remove(el,clazz);
 		},
-		
-        
         
 	};
-	
-	
-	
-	
-	
 });
 
 

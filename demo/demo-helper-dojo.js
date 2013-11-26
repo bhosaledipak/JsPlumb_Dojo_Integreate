@@ -8,10 +8,8 @@ require(['dojo/ready','dojo/dom','dojo/dom-class','dojo/dom-attr','dojo/query'],
 ready(function(){
 	
 	jsPlumb.init();
-//	var a = query("#window1");
-//	var b = a.children();
-	  jsPlumb.DemoList.init();
-	  jsPlumbDemo.init();
+	jsPlumb.DemoList.init();
+	jsPlumbDemo.init();
 	
 }); 	
   
