@@ -98,15 +98,17 @@ function(dom,fx,lang,geometry,domClass,query,domConstruct,Moveable,Source,on){
 		},
 		
 		/**
-		 * appends the given child to the given parent.
-
-TODO: REMOVE!
-
+		 * appends the given child to the given parent. TODO: REMOVE!
 		 */
 		appendElement : function(child, parent) {
 			
 			 var pr = _getElementObject(parent);
-			 domConstruct.place(child,pr[0]);
+			// domConstruct.place(child,pr[0]);
+			 if(pr.length!=null)
+				 domConstruct.place(child,pr[0]);
+			 else
+				 domConstruct.place(child,pr);
+			 
 			 //a.appendChild(child);
 			//_getElementObject(parent).appendChild(child);			
 		}, 
@@ -337,7 +339,10 @@ TODO: find jquery equivalent original event in dojo
 			//change this when solution is found out
 			return true;
 		},				
-						
+		setDragFilter : function(el, filter) {
+			
+		}	
+		,
 		/**
 		 * returns whether or not drop is supported (by the library, not whether or not it is disabled) for the given element.
 		 */

@@ -51,6 +51,5 @@
 					
 			instance.draggable(windows);		
 		});
-	});
-	
+	});	
 })();

@@ -18,7 +18,8 @@
 	var libs = [
 		[ "jquery", "jQuery"],
 		[ "mootools", "MooTools" ],
-		[ "yui", "YUI3" ]
+		[ "yui", "YUI3" ],
+		[ "dojo", "DOJO" ]
 	];
 
 	jsPlumb.bind("ready", function() {
