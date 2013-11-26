@@ -161,7 +161,9 @@ TODO: modify this later
 		  return [eventObject.layerX, eventObject.layerY];
 		},
 		
-		
+		removeElement : function(element) {			
+			_getElementObject(element).remove();
+		},		
 				/**
 		 * takes the args passed to an event function and returns you an object representing that which is being dragged.
 		 */
