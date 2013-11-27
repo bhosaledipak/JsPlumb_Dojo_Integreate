@@ -91,13 +91,25 @@ body {
  #main {  
   margin-top:85px;  
   font-size: 80%;    
-  width:75%;
+  width:85%;
   margin-left:auto;
   margin-right: auto;  
   height:600px;
   text-align: center;
   position: relative;
-  max-width:852px;
+  max-width:900px;
+}
+
+#main1 {  
+  margin-top:85px;  
+  font-size: 80%;    
+  width:85%;
+  margin-left:auto;
+  margin-right: auto;  
+  height:600px;
+  text-align: center;
+  position: relative;
+  max-width:900px;
 }
 
 .demo {
@@ -109,6 +121,7 @@ body {
   margin-top:35px;
   margin-bottom:25px;
 }
+
 
 .explanation {
   position: absolute;

@@ -22,7 +22,28 @@
                }}]
 			],
 			Container:"flowchart-demo"
-		});		
+		});
+
+		
+		var instance1 = jsPlumb.getInstance({
+			// default drag options
+			DragOptions : { cursor: 'pointer', zIndex:2000 },
+			// the overlays to decorate each connection with.  note that the label overlay uses a function to generate the label text; in this
+			// case it returns the 'labelText' member that we set on each connection in the 'init' method below.
+			ConnectionOverlays : [
+				[ "Arrow", { location:1 } ],
+				["Custom", {
+               create:function(component) {
+                   var img = document.createElement("img");
+                                       img.setAttribute('src','upArrow.png');
+                                       img.setAttribute('width','25');
+                                       img.setAttribute('height','26');
+                                       return img;
+               }}]
+			],
+			Container:"flowchart-demo1"
+		});
+		
 
 		// this is the paint style for the connecting lines..
 		var connectorPaintStyle = {
@@ -73,16 +94,9 @@
             /*overlays:[
             	[ "Label", { location:[0.5, -0.5], label:"Drop", cssClass:"endpointTargetLabel" } ]
             ]*/
-		},			
-		init = function(connection) {			
-			connection.getOverlay("label").setLabel(connection.sourceId.substring(15) + "-" + connection.targetId.substring(15));
-			connection.bind("editCompleted", function(o) {
-				if (typeof console != "undefined")
-					console.log("connection edited. path is now ", o.path);
-			});
 		};			
 
-		var _addEndpoints = function(toId, sourceAnchors, targetAnchors) {
+		var _addEndpoints = function(toId, sourceAnchors, targetAnchors,instance) {
 				for (var i = 0; i < sourceAnchors.length; i++) {
 					var sourceUUID = toId + sourceAnchors[i];
 					instance.addEndpoint("flowchart" + toId, sourceEndpoint, { anchor:sourceAnchors[i], uuid:sourceUUID });						
@@ -92,25 +106,64 @@
 					instance.addEndpoint("flowchart" + toId, targetEndpoint, { anchor:targetAnchors[j], uuid:targetUUID });						
 				}
 			};
+			
+			
+			// suspend drawing and initialise.
+		instance1.doWhileSuspended(function() {
+			//Second Example
+			
+			_addEndpoints("Window4", ["RightMiddle"], ["TopCenter","BottomCenter"],instance1);
+			_addEndpoints("Window5", ["LeftMiddle","TopCenter","BottomCenter"], ["LeftMiddle","RightMiddle"],instance1);
+			_addEndpoints("Window6", ["LeftMiddle","RightMiddle"],[],instance1);
+			_addEndpoints("Window7", ["LeftMiddle"], ["TopCenter","BottomCenter","RightMiddle"],instance1);
+			_addEndpoints("Window8", ["LeftMiddle"], ["TopCenter","RightMiddle"],instance1);
+			_addEndpoints("Window9", ["LeftMiddle"], [],instance1);
+			
+			
+			// listen for new connections; initialise them the same way we initialise the connections at startup.
+			instance1.bind("connection", function(connInfo, originalEvent) { 
+				init(connInfo.connection);
+			});	
+			
+			
+			
+			instance1.connect({uuids:["Window4RightMiddle", "Window5LeftMiddle"], editable:true});
+			instance1.connect({uuids:["Window6LeftMiddle", "Window4TopCenter"], editable:true});
+			instance1.connect({uuids:["Window5BottomCenter", "Window4BottomCenter"], editable:true});
+			instance1.connect({uuids:["Window5BottomCenter", "Window4BottomCenter"], editable:true});
+			instance1.connect({uuids:["Window6RightMiddle", "Window7TopCenter"], editable:true});
+			instance1.connect({uuids:["Window5BottomCenter", "Window7BottomCenter"], editable:true});
+			instance1.connect({uuids:["Window7LeftMiddle", "Window5RightMiddle"], editable:true});
+			instance1.connect({uuids:["Window5TopCenter", "Window8TopCenter"], editable:true});
+			instance1.connect({uuids:["Window8LeftMiddle", "Window7RightMiddle"], editable:true});
+			instance1.connect({uuids:["Window9LeftMiddle", "Window8RightMiddle"], editable:true});
+			
+			
+			// make all the window divs draggable						
+			instance1.draggable(jsPlumb.getSelector(".flowchart-demo .window "), { grid: [20, 20] });		
+			instance1.draggable(jsPlumb.getSelector(".diamond"), { grid: [20, 20] });
+			instance1.draggable(jsPlumb.getSelector(".circle"), { grid: [20, 20] });	
+			
+		
+			});	
 
 		// suspend drawing and initialise.
 		instance.doWhileSuspended(function() {
 
-			_addEndpoints("Window1", ["TopCenter","RightMiddle"], ["TopCenter"]);			
-			_addEndpoints("Window2", ["TopCenter"], ["LeftMiddle","TopCenter","RightMiddle"]);
-			_addEndpoints("Window3", ["LeftMiddle"], []);
-			//_addEndpoints("Window1", ["LeftMiddle", "RightMiddle"], ["TopCenter", "BottomCenter"]);
-			//_addEndpoints("Window5", ["LeftMiddle", "RightMiddle"], ["TopCenter", "BottomCenter"]);
-						
-			// listen for new connections; initialise them the same way we initialise the connections at startup.
-			instance.bind("connection", function(connInfo, originalEvent) { 
-				init(connInfo.connection);
-			});			
+		
+			//Exponential Growth and Decay
+			
+			_addEndpoints("Window1", ["TopCenter","RightMiddle"], ["TopCenter"],instance);			
+			_addEndpoints("Window2", ["TopCenter"], ["LeftMiddle","RightMiddle"],instance);
+			_addEndpoints("Window3", ["LeftMiddle"], [],instance);
+			
+					
 						
 			// make all the window divs draggable						
 			instance.draggable(jsPlumb.getSelector(".flowchart-demo .window "), { grid: [20, 20] });		
 			instance.draggable(jsPlumb.getSelector(".diamond"), { grid: [20, 20] });
-			instance.draggable(jsPlumb.getSelector(".circle"), { grid: [20, 20] });			
+			instance.draggable(jsPlumb.getSelector(".circle"), { grid: [20, 20] });	
+			
 			// THIS DEMO ONLY USES getSelector FOR CONVENIENCE. Use your library's appropriate selector 
 			// method, or document.querySelectorAll:
 			//jsPlumb.draggable(document.querySelectorAll(".window"), { grid: [20, 20] });
@@ -119,18 +172,7 @@
 			instance.connect({uuids:["Window1RightMiddle", "Window2LeftMiddle"], editable:true});
 			instance.connect({uuids:["Window2TopCenter", "Window1TopCenter"], editable:true});
 			instance.connect({uuids:["Window3LeftMiddle", "Window2RightMiddle"], editable:true});
-			instance.connect({uuids:["Window3LeftMiddle", "Window2RightMiddle"], editable:true});
 			
-			//instance.connect({uuids:["Window3RightMiddle", "Window2RightMiddle"], editable:true});
-			//instance.connect({uuids:["Window4BottomCenter", "Window1TopCenter"], editable:true});
-			//instance.connect({uuids:["Window3BottomCenter", "Window1BottomCenter"], editable:true});
-			//instance.connect({uuids:["Window5BottomCenter", "Window1BottomCenter"], editable:true});
-			
-			//
-	        
-			//
-			// listen for clicks on connections, and offer to delete connections on click.
-			//
 			instance.bind("click", function(conn, originalEvent) {
 				if (confirm("Delete connection from " + conn.sourceId + " to " + conn.targetId + "?"))
 					jsPlumb.detach(conn); 
