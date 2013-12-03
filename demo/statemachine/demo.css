@@ -3,7 +3,8 @@
 }
 
 .w { 	
-	padding:16px;
+	width: 80px; 
+    height: 80px; 
 	position:absolute;
 	border: 1px solid black;
 	z-index:4;
@@ -30,6 +31,75 @@
 	color:white;
 
 }
+
+.diamond-inner{
+
+	  z-index:20; position:absolute;
+      transform:rotate(45deg);
+      -ms-transform:rotate(45deg);
+      -webkit-transform:rotate(45deg);
+      position:absolute;
+	  font-family:helvetica;
+	  font-size:1.2em;
+    }
+
+.diamond {
+   width: 80px; 
+   height: 80px; 
+   margin: 23px 0 0 30px;
+   z-index:20; position:absolute;
+   /* Rotate */
+   -webkit-transform: rotate(-45deg);
+   -moz-transform: rotate(-45deg);
+   -ms-transform: rotate(-45deg);
+   -o-transform: rotate(-45deg);
+   transform: rotate(-45deg);
+   /* Rotate Origin */
+   -webkit-transform-origin: 50% 100%;
+   -moz-transform-origin: 50% 100%;
+   -ms-transform-origin: 50% 100%;
+   -o-transform-origin: 50% 100%;
+   transform-origin: 50% 100%;
+   
+  border-radius:1em;
+	border:1px solid #2e6f9a;
+	box-shadow: 2px 2px 19px #e0e0e0;
+	-o-box-shadow: 2px 2px 19px #e0e0e0;
+	-webkit-box-shadow: 2px 2px 19px #e0e0e0;
+	-moz-box-shadow: 2px 2px 19px #e0e0e0;
+	-moz-border-radius:8px;
+	border-radius:8px;
+	opacity:0.8;
+	filter:alpha(opacity=80);
+	cursor:move;
+	background-color:white;
+	font-size:11px;
+	-webkit-transition:background-color 0.25s ease-in;
+	-moz-transition:background-color 0.25s ease-in;
+	transition:background-color 0.25s ease-in;	
+}
+
+
+ .circle {
+    width: 80px;
+    height: 80px;
+   z-index:20; position:absolute;
+   border-radius: 50px;
+border:1px solid #2e6f9a;
+	box-shadow: 2px 2px 19px #e0e0e0;
+	-o-box-shadow: 2px 2px 19px #e0e0e0;
+	-webkit-box-shadow: 2px 2px 19px #e0e0e0;
+	-moz-box-shadow: 2px 2px 19px #e0e0e0;
+   opacity:0.8;
+	filter:alpha(opacity=80);
+	cursor:move;
+	background-color:white;
+	font-size:11px;
+	-webkit-transition:background-color 0.25s ease-in;
+	-moz-transition:background-color 0.25s ease-in;
+	transition:background-color 0.25s ease-in;	
+}
+
 
 .aLabel {
 	-webkit-transition:background-color 0.25s ease-in;
@@ -73,17 +143,17 @@
 	z-index:3;
 }
 
-#opened {
+#population {
 	left:10em;
 	top:5em;
 }
 
-#phone1 {
+#growth {
 	left:35em;
 	top:12em;
 	width:7em;
 }
-#inperson {
+#grate {
 	left:12em;
 	top:23em;
 }
