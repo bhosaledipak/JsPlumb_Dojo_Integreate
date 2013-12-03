@@ -148,11 +148,28 @@ border:1px solid #2e6f9a;
 	top:5em;
 }
 
+#opened {
+	left:10em;
+	top:5em;
+}
+
+#phone1 {
+	left:35em;
+	top:12em;
+	width:7em;
+}
+
 #growth {
 	left:35em;
 	top:12em;
 	width:7em;
 }
+
+#phone2 {
+	left:12em;
+	top:23em;
+}
+
 #grate {
 	left:12em;
 	top:23em;

@@ -193,7 +193,10 @@
 			// jsplumb event handlers
 	
 			// double click on any connection 
-			jsPlumb.bind("dblclick", function(connection, originalEvent) { alert("double click on connection from " + connection.sourceId + " to " + connection.targetId); });
+			jsPlumb.bind("dblclick", function(connection, originalEvent) {
+			alert("double click on connection from " + connection.sourceId + " to " + connection.targetId);
+			jsPlumb.detach(connection);
+			});
 			// single click on any endpoint
 			jsPlumb.bind("endpointClick", function(endpoint, originalEvent) { alert("click on endpoint on element " + endpoint.elementId); });
 			// context menu (right click) on any component.
@@ -220,4 +223,5 @@
     };
 
 	jsPlumb.ready(jsPlumbDemo.init);
+	console.log('just a breakpoint');
 })();

@@ -57,6 +57,9 @@
 
 require(['dojo/dom','dojo/_base/fx','dojo/_base/lang','dojo/dom-geometry','dojo/dom-class','dojo/query','dojo/dom-construct','dojo/dnd/Moveable','dojo/dnd/Source','dojo/on','dojo/NodeList-traverse'],
 function(dom,fx,lang,geometry,domClass,query,domConstruct,Moveable,Source,on){	
+
+    var eventHandlerMap = new Object(); // for storing dojo event handler returned by on method
+
 	var _getElementObject = function(el)
 	{
 		return dom.byId(el);
@@ -119,9 +122,15 @@ function(dom,fx,lang,geometry,domClass,query,domConstruct,Moveable,Source,on){
 		 */
 		bind : function(el, event, callback) {
 			el = _getElementObject(el);
-			on(el, event, callback);
+			eventHandlerMap[el]=on(el, event, callback);
 		},
 		
+		destroyDraggable : function(el) {
+			//destroy draggable in dojo 
+		},	
+		destroyDroppable : function(el) {
+		   //destroy droppable in Dojo
+		},	
 /*		
 TODO: modify this later
 		destroyDraggable : function(el) {
@@ -373,6 +382,10 @@ TODO: find jquery equivalent original event in dojo
 			
 			domClass.remove(el,clazz);
 		},  
+		unbind : function(el, event, callback) {
+			el = _getElementObject(el);
+			eventHandlerMap[el].remove();
+		}
 	};
 });
 
