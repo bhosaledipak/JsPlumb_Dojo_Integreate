@@ -55,10 +55,12 @@
  */
 
 
-require(['dojo/dom','dojo/_base/fx','dojo/_base/lang','dojo/dom-geometry','dojo/dom-class','dojo/query','dojo/dom-construct','dojo/dnd/Moveable','dojo/dnd/Source','dojo/on','dojo/NodeList-traverse'],
-function(dom,fx,lang,geometry,domClass,query,domConstruct,Moveable,Source,on){	
+require(['dojo/dom','dojo/_base/fx','dojo/_base/lang','dojo/dom-geometry','dojo/dom-class','dojo/query','dojo/dom-construct','dojo/dnd/Moveable','dojo/dnd/Source','dojo/dnd/Target','dojo/on','dojo/NodeList-traverse'],
+function(dom,fx,lang,geometry,domClass,query,domConstruct,Moveable,Source,Target,on){	
 
     var eventHandlerMap = new Object(); // for storing dojo event handler returned by on method
+	var dragHandleMap = new Object(); // for storing drag handles
+	var dropHandleMap = new Object();
 
 	var _getElementObject = function(el)
 	{
@@ -126,10 +128,12 @@ function(dom,fx,lang,geometry,domClass,query,domConstruct,Moveable,Source,on){
 		},
 		
 		destroyDraggable : function(el) {
-			//destroy draggable in dojo 
+			//destroy draggable in dojo
+			dragHandleMap[el].destroy();
 		},	
 		destroyDroppable : function(el) {
 		   //destroy droppable in Dojo
+		   dropHandleMap[el].destroy();
 		},	
 /*		
 TODO: modify this later
@@ -331,15 +335,16 @@ TODO: find jquery equivalent original event in dojo
 			on(dropSource, "MoveStart",options.start);
 			on(dropSource,"Move",options.drag);
 			on(dropSource,"MoveStop",options.stop);
+			dragHandleMap[el]=dropSource;
 		},
-		
-		
 		/**
 		 * initializes the given element to be droppable.
 		 */
 		initDroppable : function(el, options) {
 			options.scope = options.scope || jsPlumb.Defaults.Scope;
-			//i don't know it still works
+			var droppable=new Target(_getElementObject(el));
+			//attach to events using on ?
+			dropHandleMap[el]=droppable;
 		},
 		
 		/**
@@ -351,14 +356,18 @@ TODO: find jquery equivalent original event in dojo
 			return true;
 		},				
 		setDragFilter : function(el, filter) {
-			
 		}	
+		,
+		setDraggable : function(el, draggable) {
+			//el.draggable("option", "disabled", !draggable);
+			if(!draggable)
+			   dragHandleMap[el]=new Moveable(_getElementObject(el));
+		}
 		,
 		/**
 		 * returns whether or not drop is supported (by the library, not whether or not it is disabled) for the given element.
 		 */
 		isDropSupported : function(el, options) {
-			
 			//return $(el).droppable;
 			//change this when solution is found out
 			return true;
