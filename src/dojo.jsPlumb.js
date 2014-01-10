@@ -252,7 +252,7 @@ TODO: modify this later
 		
 		getSelector : function(context, spec) {
             if (arguments.length == 2)
-                return _getElementObject(context).find(spec);
+			     return query(spec, _getElementObject(context));
             else
                 return query(context);
 		}, 
