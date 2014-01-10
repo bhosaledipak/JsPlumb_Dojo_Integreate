@@ -61,6 +61,7 @@ function(dom,fx,lang,geometry,domClass,query,domConstruct,Moveable,Source,Target
     var eventHandlerMap = new Object(); // for storing dojo event handler returned by on method
 	var dragHandleMap = new Object(); // for storing drag handles
 	var dropHandleMap = new Object();
+	
 
 	var _getElementObject = function(el)
 	{
@@ -177,12 +178,6 @@ TODO: modify this later
 		removeElement : function(element) {			
 			_getElementObject(element).remove();
 		},		
-				/**
-		 * takes the args passed to an event function and returns you an object representing that which is being dragged.
-		 */
-		 /*
-		 
-		 TODO: Do this later
 		getDragObject : function(eventArgs) {
 			return eventArgs[1].draggable || eventArgs[1].helper;
 		},
@@ -197,7 +192,7 @@ TODO: modify this later
 		
 		getDropScope : function(el) {
 			return $(el).droppable("option", "scope");		
-		},*/
+		},
 		
 		/**
 		* gets a DOM element from the given input, which might be a string (in which case we just do document.getElementById),
@@ -233,12 +228,9 @@ TODO: modify this later
 			//return geometry.position(el);
 			
 		},
-
-/**		
-TODO: find jquery equivalent original event in dojo
 		getOriginalEvent : function(e) {
-			return e.originalEvent;
-		}, **/
+			return e;
+		},
 		
 		getPageXY : function(eventObject) {
 			return [eventObject.pageX, eventObject.pageY];
@@ -315,13 +307,13 @@ TODO: find jquery equivalent original event in dojo
 		initDraggable : function(el, options, isPlumbedComponent, _jsPlumb) {
 			
 			options = options || {};
-			
-			options.start = jsPlumbUtil.wrap(options.MoveStart, function() {
+
+			options.start = jsPlumbUtil.wrap(options.start, function() {
 				//dojo.query('body')[0].addClass(_jsPlumb.dragSelectClass);
 				query("body").addClass(_jsPlumb.dragSelectClass);
 			}, false);
 			
-			options.stop = jsPlumbUtil.wrap(options.MoveStop, function() {
+			options.stop = jsPlumbUtil.wrap(options.stop, function() {
 				query("body").removeClass(_jsPlumb.dragSelectClass);
 			});
 
@@ -331,20 +323,27 @@ TODO: find jquery equivalent original event in dojo
 			if (isPlumbedComponent)
 			options.scope = options.scope || jsPlumb.Defaults.Scope;
 					
-			var dropSource = new Moveable(_getElementObject(el));
-			on(dropSource, "MoveStart",options.start);
-			on(dropSource,"Move",options.drag);
-			on(dropSource,"MoveStop",options.stop);
-			dragHandleMap[el]=dropSource;
+		    var dropSource = new Source(_getElementObject(el),{accept:[options.scope]});  // similar to scope in jquery
+			var movableObject = new Moveable(_getElementObject(el));
+			
+			
+			//var dropSource = new Moveable(_getElementObject(el));
+			//on(dropSource, "MoveStart",options.start);
+			
+			dojo.connect(movableObject,'onMoveStart',options.start);
+			dojo.connect(movableObject,'onMove',options.drag);
+			dojo.connect(movableObject,'onMoveEnd',options.stop);
+			
+			//on(dropSource,"MoveStop",options.stop);
+			dragHandleMap[el]=movableObject;
 		},
 		/**
 		 * initializes the given element to be droppable.
 		 */
 		initDroppable : function(el, options) {
 			options.scope = options.scope || jsPlumb.Defaults.Scope;
-			var droppable=new Target(_getElementObject(el));
-			//attach to events using on ?
-			dropHandleMap[el]=droppable;
+			var dropTarget = new Target(_getElementObject(el),{accept:[options.scope]});  // similar to scope in jquery
+			dropHandleMap[el]=dropTarget;
 		},
 		
 		/**
@@ -360,8 +359,8 @@ TODO: find jquery equivalent original event in dojo
 		,
 		setDraggable : function(el, draggable) {
 			//el.draggable("option", "disabled", !draggable);
-			if(!draggable)
-			   dragHandleMap[el]=new Moveable(_getElementObject(el));
+			//if(!draggable)
+			  // dragHandleMap[el]=new Source(el);
 		}
 		,
 		/**
@@ -372,8 +371,12 @@ TODO: find jquery equivalent original event in dojo
 			//change this when solution is found out
 			return true;
 		},	
-		
-		
+		setOffset : function(el, o) {
+			el=_getElementObject(el);
+			el.offsetTop=o.top;
+			el.offsetLeft=o.left;
+		}
+		,
 		/**
 		 * removes the given class from the element object.
 		 */
@@ -391,6 +394,10 @@ TODO: find jquery equivalent original event in dojo
 			
 			domClass.remove(el,clazz);
 		},  
+		trigger : function(el, event, originalEvent) {
+			//var h = jQuery._data(_getElementObject(el)[0], "handle");
+            //h(originalEvent);
+		},
 		unbind : function(el, event, callback) {
 			el = _getElementObject(el);
 			eventHandlerMap[el].remove();
