@@ -54,13 +54,21 @@
  * unbind				unbinds some listener from some element.
  */
 
+ //global variables
+ 
+    var eventHandlerMap = new Object(); // for storing dojo event handler returned by on method
+	var dragHandleMap = new Object(); // for storing drag handles
+	var dragScopeMap = new Object();
+	var dropScopeMap = new Object();
+	var dropHandleMap = new Object();
+	var mouseHandle = new Object();
+	var dragSourceMap= new Object();
+
+
 
 require(['dojo/dom','dojo/_base/fx','dojo/_base/lang','dojo/dom-geometry','dojo/dom-class','dojo/query','dojo/dom-construct','dojo/dnd/Moveable','dojo/dnd/Source','dojo/dnd/Target','dojo/on','dojo/NodeList-traverse'],
 function(dom,fx,lang,geometry,domClass,query,domConstruct,Moveable,Source,Target,on){	
 
-    var eventHandlerMap = new Object(); // for storing dojo event handler returned by on method
-	var dragHandleMap = new Object(); // for storing drag handles
-	var dropHandleMap = new Object();
 	
 
 	var _getElementObject = function(el)
@@ -130,11 +138,11 @@ function(dom,fx,lang,geometry,domClass,query,domConstruct,Moveable,Source,Target
 		
 		destroyDraggable : function(el) {
 			//destroy draggable in dojo
-			dragHandleMap[el].destroy();
+			dragHandleMap[el].remove();
 		},	
 		destroyDroppable : function(el) {
 		   //destroy droppable in Dojo
-		   dropHandleMap[el].destroy();
+		   dropHandleMap[el].remove();
 		},	
 /*		
 TODO: modify this later
@@ -183,7 +191,8 @@ TODO: modify this later
 		},
 		
 		getDragScope : function(el) {
-			return $(el).draggable("option", "scope");
+			//return $(el).draggable("option", "scope");
+			return dragScopeMap[el];
 		},
 
 		getDropEvent : function(args) {
@@ -191,7 +200,7 @@ TODO: modify this later
 		},
 		
 		getDropScope : function(el) {
-			return $(el).droppable("option", "scope");		
+			return dropScopeMap[el];
 		},
 		
 		/**
@@ -323,7 +332,10 @@ TODO: modify this later
 			if (isPlumbedComponent)
 			options.scope = options.scope || jsPlumb.Defaults.Scope;
 					
-		    var dropSource = new Source(_getElementObject(el),{accept:[options.scope]});  // similar to scope in jquery
+		    var dragSource = new Source(_getElementObject(el)); 
+			dragSource.accept=[options.scope];
+			dragScopeMap[el]=dragSource.accept;
+			dragSourceMap[el]=dragSource;
 			var movableObject = new Moveable(_getElementObject(el));
 			
 			
@@ -331,19 +343,25 @@ TODO: modify this later
 			//on(dropSource, "MoveStart",options.start);
 			
 			dojo.connect(movableObject,'onMoveStart',options.start);
-			dojo.connect(movableObject,'onMove',options.drag);
+			var handle=dojo.connect(movableObject,'onMove',options.drag);
 			dojo.connect(movableObject,'onMoveEnd',options.stop);
 			
 			//on(dropSource,"MoveStop",options.stop);
 			dragHandleMap[el]=movableObject;
+			mouseHandle[el]=handle;
 		},
 		/**
 		 * initializes the given element to be droppable.
 		 */
 		initDroppable : function(el, options) {
 			options.scope = options.scope || jsPlumb.Defaults.Scope;
-			var dropTarget = new Target(_getElementObject(el),{accept:[options.scope]});  // similar to scope in jquery
-			dropHandleMap[el]=dropTarget;
+			var dropTarget = new Target(_getElementObject(el));  // similar to scope in jquery
+			dojo.connect(dropTarget,"onDraggingOver",options.over);
+			dojo.connect(dropTarget,"onDraggingOut",options.out);
+			var handle=dojo.connect(dropTarget,"onDrop",options.drop);
+			dropTarget.accept=[options.scope];
+			dropScopeMap[el]=dropTarget.accept;
+			dropHandleMap[el]=handle;
 		},
 		
 		/**
@@ -360,7 +378,11 @@ TODO: modify this later
 		setDraggable : function(el, draggable) {
 			//el.draggable("option", "disabled", !draggable);
 			//if(!draggable)
-			  // dragHandleMap[el]=new Source(el);
+			 //  dragHandleMap[el]=new Source(el);
+		},
+		setDragScope : function(el, scope) { //scope is already array
+			dragSourceMap[el].accept = scope;
+			dragScopeMap[el]=scope; //update scope map
 		}
 		,
 		/**
@@ -397,6 +419,8 @@ TODO: modify this later
 		trigger : function(el, event, originalEvent) {
 			//var h = jQuery._data(_getElementObject(el)[0], "handle");
             //h(originalEvent);
+			var handle=mouseHandle[el];
+			//el.dispatchEvent(originalEvent);
 		},
 		unbind : function(el, event, callback) {
 			el = _getElementObject(el);
