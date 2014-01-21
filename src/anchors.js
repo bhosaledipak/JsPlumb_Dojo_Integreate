@@ -1,3 +1,4 @@
+/* global jsPlumb, jsPlumbUtil, jsPlumbInstance */
 /*
  * jsPlumb
  * 
@@ -838,7 +839,7 @@
             var xy = params.xy, wh = params.wh, timestamp = params.timestamp, txy = params.txy, twh = params.twh;				
             
             if(params.clearUserDefinedLocation)
-                userDefinedLocation = null;
+                this.userDefinedLocation = null;
 
             this.timestamp = timestamp;            
             

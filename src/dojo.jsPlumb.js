@@ -1,4 +1,4 @@
-
+/* global require, jsPlumb, jsPlumbUtil, SVGAnimatedString */
 /*
  * jsPlumb
  * 
@@ -7,7 +7,7 @@
  * Provides a way to visually connect elements on an HTML page, using either SVG, Canvas
  * elements, or VML.  
  * 
- * This file contains the jQuery adapter.
+ * This file contains the Dojo adapter.
  *
  * Copyright (c) 2010 - 2013 Simon Porritt (http://jsplumb.org)
  * 
@@ -183,7 +183,8 @@ TODO: modify this later
 		},
 		
 		getDragScope : function(el) {
-			return $(el).draggable("option", "scope");
+		        console.warn("getDragScope not implemented for Dojo");
+			// return $(el).draggable("option", "scope");
 		},
 
 		getDropEvent : function(args) {
@@ -191,7 +192,8 @@ TODO: modify this later
 		},
 		
 		getDropScope : function(el) {
-			return $(el).droppable("option", "scope");		
+		        console.warn("getDropScope not implemented for Dojo");
+			// return $(el).droppable("option", "scope");		
 		},
 		
 		/**
@@ -246,7 +248,7 @@ TODO: modify this later
 		},
 		
 		getScrollTop : function(el) {
-			return dojo.query('body')[0].scrollTop;
+			return query('body')[0].scrollTop;
 		},
 //		TODO: search for method to get descendants in dojo
 		
@@ -283,6 +285,7 @@ TODO: modify this later
 			zoom = zoom || 1;
 			var node = eventArgs[0].node;
 			var dom = _getElementObject(node);
+	                var ret;
 			if (eventArgs.length == 1) {
 
 				ret = {left:geometry.position(dom).x,top:geometry.position(dom).y};
@@ -330,9 +333,9 @@ TODO: modify this later
 			//var dropSource = new Moveable(_getElementObject(el));
 			//on(dropSource, "MoveStart",options.start);
 			
-			dojo.connect(movableObject,'onMoveStart',options.start);
-			dojo.connect(movableObject,'onMove',options.drag);
-			dojo.connect(movableObject,'onMoveEnd',options.stop);
+			on(movableObject,'onMoveStart',options.start);
+			on(movableObject,'onMove',options.drag);
+			on(movableObject,'onMoveEnd',options.stop);
 			
 			//on(dropSource,"MoveStop",options.stop);
 			dragHandleMap[el]=movableObject;

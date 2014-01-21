@@ -1,3 +1,4 @@
+/* global define, exports, jsPlumbUtil, jsPlumbAdapter */
 /**
  * @module jsPlumb
  * @description Provides a way to visually connect elements on an HTML page, using either SVG, Canvas
@@ -2983,13 +2984,19 @@
 	};
 // maybe register static instance as an AMD module, and getInstance method too.
 	if ( typeof define === "function") {
-		define( "jsplumb", [], function () { return jsPlumb; } );
-		define( "jsplumbinstance", [], function () { return jsPlumb.getInstance(); } );
+	    console.info("Registering jsplumb and jsplumbinstance with AMD");
+		define( "jsplumb", ["jsPlumbLoaded!"], function () { return jsPlumb; } );
+		define( "jsplumbinstance", ["jsPlumbLoaded!"], function () { return jsPlumb.getInstance(); } );
+	} else {
+	    console.warn("AMD registration for jsPlumb failed.");
 	}
  // CommonJS 
 	if (typeof exports !== 'undefined') {
-      exports.jsPlumb = jsPlumb;
-  	}
+	    exports.jsPlumb = jsPlumb;
+	    console.info("Register jsPlumb with global exports (for AMD).");
+  	} else {
+	    console.warn("Unable to register jsPlumb with exports.");
+	}
 	
 	
 // --------------------- end static instance + AMD registration -------------------------------------------		

@@ -25,6 +25,9 @@
 	jsPlumb.bind("ready", function() {
 		var current = document.body.getAttribute("data-demo-id"),
 			library = document.body.getAttribute("data-library");
+	    console.log("starting demo-list.js");
+	    console.assert(current,"Can't find data-demo-id");
+	    console.assert(library,"Can't find data-library");
 
 		if (current && library) {
 			var idx = jsPlumbUtil.findWithFunction(list, function(i) { return i[0] == current; }),
@@ -88,9 +91,9 @@
 			}
 
 
+		} else {
+		    console.error("demo-list.js failed");
 		}
-
-			
 
 	});
 })();
