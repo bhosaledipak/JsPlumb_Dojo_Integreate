@@ -1,76 +1,69 @@
 <!doctype html>
 <html>
-<head>
+    <head>
 
-<title>jsPlumb 1.5.3 demo - jQuery</title>
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-<link rel="stylesheet" href="../demo-all.css">
-<link rel="stylesheet" href="demo.css">
-</head>
-<body data-demo-id="home" data-library="dojo">
+        <title>jsPlumb 1.5.4 demo - Dojo</title>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
+        <link rel="stylesheet" href="../demo-all.css">
+        <link rel="stylesheet" href="demo.css">
+    </head>
+    <body data-demo-id="home" data-library="dojo">
 	<div id="headerWrapper">
+                <div class="logo"><img src="../../logo-bw.png"></div>
 		<div id="header">
 			<div class="menu">
-				<a href="http://localhost:4567">DOCS</a> <a href="../../apidocs">API</a>
-				<a href="../../tests/all-tests.html">TESTS</a> <a
-					href="mailto:hello@jsplumbtoolkit.com">CONTACT</a> <a
-					href="http://github.com/sporritt/jsplumb/">GITHUB</a> <a
-					href="https://groups.google.com/forum/?fromgroups#!forum/jsplumb">DISCUSS</a>
+				<a href="http://localhost:4567">DOCS</a> 
+                                <a href="../../apidocs">API</a>
+				<a href="../../tests/all-tests.html">TESTS</a> 
+                                <a href="mailto:hello@jsplumbtoolkit.com">CONTACT</a> 
+				<a href="http://github.com/sporritt/jsplumb/">GITHUB</a> 
+				<a href="https://groups.google.com/forum/?fromgroups#!forum/jsplumb">DISCUSS</a>
 				<a href="https://github.com/sporritt/jsPlumb/issues">ISSUES</a>
 			</div>
 		</div>
 	</div>
 
+	<iframe id="like" src="http://www.facebook.com/widgets/like.php?href=http://jsplumb.com&amp;layout=button_count"></iframe>
+
+        <div id="retweet_button">
+             <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://jsplumb.org" data-text
+="jsPlumb - visually connect DOM elements." data-count="horizontal" data-via="jsPlumb">Tweet</a>
+>             <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+        </div>
+
 	<div id="main">
-		<div id="render"></div>
-		<div class="component window" id="window1">
-			<strong>Window 1</strong>
-		</div>
-		<div class="component window" id="window2">
-			<strong>Window 2</strong>
-		</div>
-		<div class="component window" id="window3">
-			<strong>Window 3</strong>
-		</div>
-		<div class="component window" id="window4">
-			<strong>Window 4</strong>
-		</div>
-		<div class="component window" id="window5">
-			<strong>Window 5</strong>
-		</div>
-		<div class="component window" id="window6">
-			<strong>Window 6</strong>
-		</div>
-		<div class="component window" id="window7">
-			<strong>Window 7</strong>
-		</div>
 
-		<iframe id="like"
-			src="http://www.facebook.com/widgets/like.php?href=http://jsplumb.com&amp;layout=box_count"></iframe>
-	</div>
-
-	<div id="sidebar">
-		<div id="explanation">
+		<div class="explanation">
 			<h4>JSPLUMB</h4>
 			<p>jsPlumb provides a way to connect elements in a UI.</p>
-			<p>This page contains examples of the various types of
-				connections you can make.</p>
-			<p>There are several other demonstrations that offer a more
-				focused look at some specific part of jsPlumb's functionality - pick
-				one from the drop down or cycle through Next/Previous.</p>
-			<p>jsPlumb requires one of jQuery, MooTools or YUI3. See the
-				documentation for a more detailed discussion of requirements.</p>
-			<p>This demonstration uses jsPlumb 1.5.3, jQuery 1.9.0 and jQuery
-				UI 1.9.2.For touch support, jQuery Touch Punch is used.</p>
+			<p>This page contains examples of the various types of connections you can make.</p>
+			<p>There are several other demonstrations that offer 
+                        a more focused look at some specific part of jsPlumb's functionality - pick one from the drop down or cycle through Next/Previous.
+                        </p>
+			<p>jsPlumb requires one of jQuery, MooTools, YUI3 or Dojo. See the documentation for a more detailed discussion of requirements.</p>
+			<p>This demonstration uses jsPlumb 1.5.3, and Dojo 1.9.1.</p>
 		</div>
+                <div class="demo kitchensink-demo" id="kitchensink-demo">
+		<div class="component window" id="window1"><strong>Window 1</strong></div>
+		<div class="component window" id="window2"><strong>Window 2</strong></div>
+		<div class="component window" id="window3"><strong>Window 3</strong></div>
+		<div class="component window" id="window4"><strong>Window 4</strong></div>
+		<div class="component window" id="window5"><strong>Window 5</strong></div>
+		<div class="component window" id="window6"><strong>Window 6</strong></div>
+		<div class="component window" id="window7"><strong>Window 7</strong></div>
+	</div>
 	</div>
 
+
 	<!-- DEP -->
-	<!-- 
-	<script src="../../lib/jquery-1.9.0.js"></script>
-	<script src="../../lib/jquery-ui-1.9.2-min.js"></script>
-	<script src="../../lib/jquery.ui.touch-punch.min.js"></script> -->
+	<!-- <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojo/dojo.js"></script> -->
+        <!-- Alternatively, use local copy (better for debugging). -->
+	<script src="../../../dojo/dojo.js"></script>
 	<!-- /DEP -->
+
+         <!-- for demo dropdown. not a jsplumb dependency -->
+         <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 
 	<!-- JS -->
 	<!-- support lib for bezier stuff -->
@@ -104,48 +97,20 @@
 	<!-- vml renderer -->
 	<script src="../../src/renderers-vml.js"></script>
 	
-	<!--<script src="../../src/dojo/dojo.js"></script>-->
-	<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojo/dojo.js"></script>
-	<!--  demo code -->
+	<script src="../../src/connector-editors.js"></script>
 	
-	<!-- jquery jsPlumb adapter -->
+	<!-- Dojo jsPlumb adapter -->
 	<script src="../../src/dojo.jsPlumb.js"></script>
 	<!-- /JS -->
-	<script src="demo.js"></script>
 
+        <!--  demo code -->
+	<script src="demo.js"></script>
 
 	<!--  demo list and helper code. you don't need this stuff if you're just copying the single demo. -->
 	<script src="../demo-list.js"></script>
-	<script src="../demo-helper-dojo.js"></script>
-	
-<!-- 
-    <script>
-    
-    var flag = false;
-    if(document.readyState === "complete") {
-    	   alert('Inside Dom ready');
-    	   jsPlumb.init;
-    	}
-    	else {
-    	  
-    	  window.onload=function()
-    	  {
-    		  alert('Inside DOM not ready');
-    		  if(flag == false)
-    		  {
-    			 // jsPlumb.init();
-    			 // demoHelper.init();
-    			  flag=true;
-    		  }
-    		  
-    		  
-    	  };
-    	  
-    	}
-    
-    
-    </script> -->
 
-    
-</body>
+        <!-- Dojo AMD stuff:  maybe this should be merged with adapter? -->
+	<script src="../demo-helper-dojo.js"></script>
+	    
+    </body>
 </html>
