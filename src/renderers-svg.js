@@ -31,7 +31,10 @@
  * IE9 hover jquery: http://forum.jquery.com/topic/1-6-2-broke-svg-hover-events
  *
  */
-define([],function() {
+define([
+	 "./jsPlumb",
+	 "./util"
+],function() {
 	
 // ************************** SVG utility methods ********************************************	
 	

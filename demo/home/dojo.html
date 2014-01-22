@@ -67,8 +67,15 @@
 	    dojoConfig = {
                isDebug: true,
 	       async: true,
+	       baseUrl: "../../",
 	       packages: [
-	           {name: "jsPlumb", location: "../../src"}
+                   {name: "dojo", location: "../dojo"},
+	           {name: "jsPlumb", location: "src"},
+                   {name: "demo", location: "demo"},
+                   // AMD doesn't handle file names with dots,
+                   // need to specify explicitly
+                   {name: "jsBezier", location: "lib", main: "jsBezier-0.6"},
+		   {name: "jsplumb-geom", location: "lib", main: "jsplumb-geom-0.1"}
 	       ]
 	    };
         </script>
@@ -80,51 +87,52 @@
 	<!-- JS -->
         <script type="text/javascript">
             console.log("Require jsPlumb modules");
-	    require.trace.set("loader-define",1);
-	    require.trace.set("loader-define-module",1);
-	    require.trace.set("loader-exec",1);
+	    // require.trace.set("loader-define",1);
+	    // require.trace.set("loader-define-module",1);
+	    // require.trace.set("loader-exec",1);
 	    require([
 	    // support lib for bezier stuff 
-	           "../../lib/jsBezier-0.6",
+            // since name has a version, need to specify as package.
+	           "jsBezier",
 	// jsplumb geom functions 
-	           "../../lib/jsplumb-geom-0.1",
+	           "jsplumb-geom",
 	// jsplumb util 
-	           "../../src/util",
+	           "jsPlumb/util",
 	// base DOM adapter 
-	           "../../src/dom-adapter",
+	           "jsPlumb/dom-adapter",
 	// main jsplumb engine 
-	           "../../src/jsPlumb",
+	           "jsPlumb/jsPlumb",
 	// endpoint 
-	           "../../src/endpoint",
+	           "jsPlumb/endpoint",
 	// connection 
-	           "../../src/connection",
+	           "jsPlumb/connection",
 	// anchors 
-	        "../../src/anchors",
+	        "jsPlumb/anchors",
 	// connectors, endpoint and overlays  
-	        "../../src/defaults",
+	        "jsPlumb/defaults",
 	// bezier connectors 
-	        "../../src/connectors-bezier",
+	        "jsPlumb/connectors-bezier",
 	// state machine connectors 
-	        "../../src/connectors-statemachine",
+	        "jsPlumb/connectors-statemachine",
 	// flowchart connectors 
-	        "../../src/connectors-flowchart",
+	        "jsPlumb/connectors-flowchart",
 	// SVG renderer 
-	        "../../src/renderers-svg",
+	        "jsPlumb/renderers-svg",
 	// canvas renderer 
-	        "../../src/renderers-canvas",
+	        "jsPlumb/renderers-canvas",
 	// vml renderer 
-	        "../../src/renderers-vml",
+	        "jsPlumb/renderers-vml",
 	
 	//  demo code 
 	
 	// jquery jsPlumb adapter 
-	        "../../src/dojo-adapter",
+	        "jsPlumb/dojo-adapter",
 	// /JS 
-	        "./demo",
+	        "demo/home/demo"//,
 
 
 	//  demo list and helper code. you don't need this stuff if you're just copying the single demo. 
-	        "../demo-list"
+	     //   "demo-list"
               ],function(){
 	          console.log("In jsPlumb require");
 	      });

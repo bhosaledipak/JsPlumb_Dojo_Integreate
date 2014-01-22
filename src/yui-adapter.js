@@ -44,7 +44,9 @@
  * setDragScope			sets the drag scope for a given element.
  * setOffset			sets the offset of some element.
  */
-define([], function() {
+define([
+    "./jsPlumb"
+], function() {
 	
 	if (!Array.prototype.indexOf) {
 		Array.prototype.indexOf = function( v, b, s ) {

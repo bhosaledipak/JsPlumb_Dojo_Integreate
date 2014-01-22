@@ -1,5 +1,7 @@
 /* global define, jsPlumb */
-define([],function() {
+define([
+    "./jsPlumb"
+],function() {
 
 	var Bezier = function(params) {
         params = params || {};

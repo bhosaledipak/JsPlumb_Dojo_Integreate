@@ -1,4 +1,4 @@
-/* global define, exports, jsPlumb, jsPlumbUtil, jsPlumbAdapter */
+/* global define, exports, jsPlumb, jsPlumbUtil, jsPlumbAdapter, window */
 /**
  * @module jsPlumb
  * @description Provides a way to visually connect elements on an HTML page, using either SVG, Canvas
@@ -11,7 +11,9 @@
  *
  * Copyright (c) 2010 - 2013 Simon Porritt (simon.porritt@gmail.com)
  */
-define([], function() {
+define([
+       "./util"
+], function() {
 			
     var _ju = jsPlumbUtil,
     	_addClass = function(el, clazz) { jsPlumb.CurrentLibrary.addClass(_gel(el), clazz); },
@@ -2965,6 +2967,27 @@ define([], function() {
     	}
     });
 
-    return jsPlumbInstance;
+// --------------------- static instance -------------------------------------------
+
+// create static instance and assign to window if window exists.
+ 
+       var jsPlumb = new jsPlumbInstance();
+       // register on window if defined (lets us run on server)
+       if (typeof window != 'undefined'){
+	   window.jsPlumb = jsPlumb;
+       } else {
+  	   console.warn("Unable to attach jsPlumb to window");
+       }
+       // add 'getInstance' method to static instance
+       /**
+       * @name jsPlumb.getInstance
+       * @param {object} [_defaults] Optional default settings for the new instance.
+       * @desc Gets a new instance of jsPlumb.
+       */
+       jsPlumb.getInstance = function(_defaults) {
+               var j = new jsPlumbInstance(_defaults);
+               j.init();
+               return j;
+       };
 	
 });

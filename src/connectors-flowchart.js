@@ -17,7 +17,10 @@
  * 
  * Dual licensed under the MIT and GPL2 licenses.
  */
-define([], function() {
+define([
+	 "./jsPlumb",
+	 "./util"
+], function() {
    
     /**
      * Function: Constructor

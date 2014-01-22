@@ -20,7 +20,9 @@
  * Dual licensed under the MIT and GPL2 licenses.
  */
 
-define([],function() {
+define([
+    "./jsPlumb"
+],function() {
 
 	var Line = function(x1, y1, x2, y2) {
 
