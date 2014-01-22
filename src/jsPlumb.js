@@ -1,4 +1,4 @@
-/* global define, exports, jsPlumbUtil, jsPlumbAdapter */
+/* global define, exports, jsPlumb, jsPlumbUtil, jsPlumbAdapter */
 /**
  * @module jsPlumb
  * @description Provides a way to visually connect elements on an HTML page, using either SVG, Canvas
@@ -11,7 +11,7 @@
  *
  * Copyright (c) 2010 - 2013 Simon Porritt (simon.porritt@gmail.com)
  */
-define([],function() {
+define([], function() {
 			
     var _ju = jsPlumbUtil,
     	_addClass = function(el, clazz) { jsPlumb.CurrentLibrary.addClass(_gel(el), clazz); },
@@ -2964,5 +2964,7 @@ define([],function() {
     		this.dragManager.setParent(_el, _id, _pel, _pid);
     	}
     });
+
+    return jsPlumbInstance;
 	
 });

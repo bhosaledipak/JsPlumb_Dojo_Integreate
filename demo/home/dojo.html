@@ -65,7 +65,11 @@
 	<!-- DEP -->
 	<script type="text/javascript">
 	    dojoConfig = {
-               isDebug: true
+               isDebug: true,
+	       async: true,
+	       packages: [
+	           {name: "jsPlumb", location: "../../src"}
+	       ]
 	    };
         </script>
         <!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojo/dojo.js"></script> -->
@@ -76,13 +80,16 @@
 	<!-- JS -->
         <script type="text/javascript">
             console.log("Require jsPlumb modules");
+	    require.trace.set("loader-define",1);
+	    require.trace.set("loader-define-module",1);
+	    require.trace.set("loader-exec",1);
 	    require([
 	    // support lib for bezier stuff 
 	           "../../lib/jsBezier-0.6",
 	// jsplumb geom functions 
-	           "../../lib/jsplumb-geom-0.1.js",
+	           "../../lib/jsplumb-geom-0.1",
 	// jsplumb util 
-	           "../../src/util.js",
+	           "../../src/util",
 	// base DOM adapter 
 	           "../../src/dom-adapter",
 	// main jsplumb engine 
@@ -117,13 +124,13 @@
 
 
 	//  demo list and helper code. you don't need this stuff if you're just copying the single demo. 
-	        "../demo-list",
-	        "../demo-helper-dojo"
+	        "../demo-list"
               ],function(){
 	          console.log("In jsPlumb require");
 	      });
          console.log("done require jsPlumb");
         </script>
+	<script type="text/javascript" src="../demo-helper-dojo.js"></script>
 	    
 </body>
 </html>

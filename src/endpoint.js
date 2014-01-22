@@ -1,5 +1,7 @@
 /* global define, jsPlumb */
-define([], function() {
+define([
+    "./jsPlumb"
+], function() {
         
     // create the drag handler for a connection
     var _makeConnectionDragHandler = function(placeholder, _jsPlumb) {

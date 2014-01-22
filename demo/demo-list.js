@@ -1,8 +1,9 @@
+/* global define, jsPlumb, jsPlumbUtil, jQuery, $ */
 //
 // this file is just used to automate the process of adding links to the individual demos to their previous/next
 // demo.  you don't need to concern yourself with what's going on in here.
 //
-;(function() {
+define([], function() {
 	var list = [ 
 		[ "home", "Kitchen Sink" ],
 		[ "flowchart", "Flowchart" ],
@@ -96,4 +97,4 @@
 		}
 
 	});
-})();
+});

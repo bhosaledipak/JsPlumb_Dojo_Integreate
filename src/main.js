@@ -1,5 +1,5 @@
-/* global define, jsPlumb, window, exports */
-define([],function(){
+/* global define */
+define(["./jsPlumb"],function(jsPlumbInstance){
 	 // --------------------- static instance + AMD registration -------------------------------------------	
 	
 // create static instance and assign to window if window exists.	
