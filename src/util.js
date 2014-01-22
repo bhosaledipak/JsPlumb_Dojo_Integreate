@@ -1,3 +1,4 @@
+/* global define, jsPlumbUtil,  */
 /*
  * jsPlumb
  * 
@@ -16,7 +17,7 @@
  * Dual licensed under the MIT and GPL2 licenses.
  */
 
-;(function() {
+define([], function() {
 
     var _isa = function(a) { return Object.prototype.toString.call(a) === "[object Array]"; },
         _isnum = function(n) { return Object.prototype.toString.call(n) === "[object Number]"; },
@@ -436,4 +437,4 @@
       };
     }
 
-})();
+});

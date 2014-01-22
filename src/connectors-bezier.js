@@ -1,5 +1,5 @@
-
-;(function() {
+/* global define, jsPlumb */
+define([],function() {
 
 	var Bezier = function(params) {
         params = params || {};
@@ -64,4 +64,4 @@
 
 	jsPlumb.registerConnectorType(Bezier, "Bezier");
 
-})();
+});

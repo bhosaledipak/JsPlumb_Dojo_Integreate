@@ -1,4 +1,4 @@
-/* global require, jsPlumb, jsPlumbUtil, SVGAnimatedString */
+/* global define, jsPlumb, jsPlumbUtil, SVGAnimatedString */
 /*
  * jsPlumb
  * 
@@ -55,7 +55,7 @@
  */
 
 
-require(['dojo/dom','dojo/_base/fx','dojo/_base/lang','dojo/dom-geometry','dojo/dom-class','dojo/query','dojo/dom-construct','dojo/dnd/Moveable','dojo/dnd/Source','dojo/dnd/Target','dojo/on','dojo/NodeList-traverse'],
+define(['dojo/dom','dojo/_base/fx','dojo/_base/lang','dojo/dom-geometry','dojo/dom-class','dojo/query','dojo/dom-construct','dojo/dnd/Moveable','dojo/dnd/Source','dojo/dnd/Target','dojo/on','dojo/NodeList-traverse'],
 function(dom,fx,lang,geometry,domClass,query,domConstruct,Moveable,Source,Target,on){	
 
     var eventHandlerMap = new Object(); // for storing dojo event handler returned by on method

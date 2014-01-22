@@ -1,4 +1,5 @@
-/*
+/* global define, jsPlumb, jsPlumbUtil */
+/* 
  * jsPlumb
  * 
  * Title:jsPlumb 1.5.4
@@ -16,7 +17,7 @@
  * 
  * Dual licensed under the MIT and GPL2 licenses.
  */
-;(function() {
+define([], function() {
    
     /**
      * Function: Constructor
@@ -359,4 +360,4 @@
 
     jsPlumbUtil.extend(Flowchart, jsPlumb.Connectors.AbstractConnector);
     jsPlumb.registerConnectorType(Flowchart, "Flowchart");
-})();
+});

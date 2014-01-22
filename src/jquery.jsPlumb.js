@@ -1,3 +1,4 @@
+/* global define, jsPlumb */
 /*
  * jsPlumb
  * 
@@ -52,7 +53,9 @@
  * trigger				triggers some event on an element.
  * unbind				unbinds some listener from some element.
  */
-(function($) {	
+// pre-AMD version had "jQuery" as argument of wrapper function
+define([],function() {	
+	 var $ = jQuery;
 	
 	//var getBoundingClientRectSupported = "getBoundingClientRect" in document.documentElement;
 
@@ -386,5 +389,5 @@ TODO: REMOVE!
 	
 	$(document).ready(jsPlumb.init);
 	
-})(jQuery);
+});
 

@@ -1,3 +1,4 @@
+/* global define, jsPlumb */
 /*
  * jsPlumb
  * 
@@ -17,7 +18,7 @@
  * 
  * Dual licensed under the MIT and GPL2 licenses.
  */
-;(function() {
+define([],function() {
     
     var AbstractEditor = function(params) {
         var self = this;        
@@ -366,4 +367,4 @@
         this.setHover(false);
     };
         
-})();
+});

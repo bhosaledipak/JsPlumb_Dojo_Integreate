@@ -2,7 +2,7 @@
 <html>
 <head>
 
-<title>jsPlumb 1.5.3 demo - jQuery</title>
+<title>jsPlumb 1.5.3 demo - Dojo</title>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <link rel="stylesheet" href="../demo-all.css">
 <link rel="stylesheet" href="demo.css">
@@ -58,94 +58,75 @@
 			<p>There are several other demonstrations that offer a more
 				focused look at some specific part of jsPlumb's functionality - pick
 				one from the drop down or cycle through Next/Previous.</p>
-			<p>jsPlumb requires one of jQuery, MooTools or YUI3. See the
+			<p>jsPlumb requires one of jQuery, MooTools, YUI3 or Dojo. See the
 				documentation for a more detailed discussion of requirements.</p>
-			<p>This demonstration uses jsPlumb 1.5.3, jQuery 1.9.0 and jQuery
-				UI 1.9.2.For touch support, jQuery Touch Punch is used.</p>
+			<p>This demonstration uses jsPlumb 1.5.3 and Dojo 1.9.1.</p>
 		</div>
 	</div>
 
 	<!-- DEP -->
-	<!-- 
-	<script src="../../lib/jquery-1.9.0.js"></script>
-	<script src="../../lib/jquery-ui-1.9.2-min.js"></script>
-	<script src="../../lib/jquery.ui.touch-punch.min.js"></script> -->
+	<script type="text/javascript">
+	    dojoConfig = {
+               isDebug: true
+	    };
+            console.log("in dojoConfig");
+        </script>
+        <!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojo/dojo.js"></script> -->
+	<!-- Alternatively, reference local copy (for debugging). -->
+	<script type="text/javascript" src="../../../dojo/dojo.js"></script>
 	<!-- /DEP -->
 
 	<!-- JS -->
-	<!-- support lib for bezier stuff -->
-	<script src="../../lib/jsBezier-0.6.js"></script>
-	<!-- jsplumb geom functions -->
-	<script src="../../lib/jsplumb-geom-0.1.js"></script>
-	<!-- jsplumb util -->
-	<script src="../../src/util.js"></script>
-	<!-- base DOM adapter -->
-	<script src="../../src/dom-adapter.js"></script>
-	<!-- main jsplumb engine -->
-	<script src="../../src/jsPlumb.js"></script>
-	<!-- endpoint -->
-	<script src="../../src/endpoint.js"></script>
-	<!-- connection -->
-	<script src="../../src/connection.js"></script>
-	<!-- anchors -->
-	<script src="../../src/anchors.js"></script>
-	<!-- connectors, endpoint and overlays  -->
-	<script src="../../src/defaults.js"></script>
-	<!-- bezier connectors -->
-	<script src="../../src/connectors-bezier.js"></script>
-	<!-- state machine connectors -->
-	<script src="../../src/connectors-statemachine.js"></script>
-	<!-- flowchart connectors -->
-	<script src="../../src/connectors-flowchart.js"></script>
-	<!-- SVG renderer -->
-	<script src="../../src/renderers-svg.js"></script>
-	<!-- canvas renderer -->
-	<script src="../../src/renderers-canvas.js"></script>
-	<!-- vml renderer -->
-	<script src="../../src/renderers-vml.js"></script>
+        <script type="text/javascript">
+            console.log("Require jsPlumb modules");
+	    require([
+	    // support lib for bezier stuff 
+	           "../../lib/jsBezier-0.6.js",
+	// jsplumb geom functions 
+	           "../../lib/jsplumb-geom-0.1.js",
+	// jsplumb util 
+	           "../../src/util.js",
+	// base DOM adapter 
+	           "../../src/dom-adapter",
+	// main jsplumb engine 
+	           "../../src/jsPlumb",
+	// endpoint 
+	           "../../src/endpoint",
+	// connection 
+	           "../../src/connection"
+	// anchors 
+	        "../../src/anchors",
+	// connectors, endpoint and overlays  
+	        "../../src/defaults",
+	// bezier connectors 
+	        "../../src/connectors-bezier",
+	// state machine connectors 
+	        "../../src/connectors-statemachine",
+	// flowchart connectors 
+	        "../../src/connectors-flowchart",
+	// SVG renderer 
+	        "../../src/renderers-svg",
+	// canvas renderer 
+	        "../../src/renderers-canvas",
+	// vml renderer 
+	        "../../src/renderers-vml",
 	
-	<!--<script src="../../src/dojo/dojo.js"></script>-->
-	<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojo/dojo.js"></script>
-	<!--  demo code -->
+	//  demo code 
 	
-	<!-- jquery jsPlumb adapter -->
-	<script src="../../src/dojo.jsPlumb.js"></script>
-	<!-- /JS -->
-	<script src="demo.js"></script>
+	// jquery jsPlumb adapter 
+	        "../../src/dojo.jsPlumb",
+	// /JS 
+	        "demo",
 
 
-	<!--  demo list and helper code. you don't need this stuff if you're just copying the single demo. -->
-	<script src="../demo-list.js"></script>
-	<script src="../demo-helper-dojo.js"></script>
-	
-<!-- 
-    <script>
-    
-    var flag = false;
-    if(document.readyState === "complete") {
-    	   alert('Inside Dom ready');
-    	   jsPlumb.init;
-    	}
-    	else {
-    	  
-    	  window.onload=function()
-    	  {
-    		  alert('Inside DOM not ready');
-    		  if(flag == false)
-    		  {
-    			 // jsPlumb.init();
-    			 // demoHelper.init();
-    			  flag=true;
-    		  }
-    		  
-    		  
-    	  };
-    	  
-    	}
-    
-    
-    </script> -->
-
-    
+	//  demo list and helper code. you don't need this stuff if you're just copying the single demo. 
+	        "../demo-list",
+	        "../demo-helper-dojo"
+              ],function(){
+	          console.log("In jsPlumb require");
+	      });
+         console.log("done require jsPlumb");
+        </script>
+	    
 </body>
 </html>

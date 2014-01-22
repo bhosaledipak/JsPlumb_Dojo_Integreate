@@ -1,4 +1,4 @@
-/* global jsPlumb, jsPlumbUtil, jsPlumbInstance */
+/* global define, jsPlumb, jsPlumbUtil, jsPlumbInstance */
 /*
  * jsPlumb
  * 
@@ -17,7 +17,7 @@
  * 
  * Dual licensed under the MIT and GPL2 licenses.
  */
-;(function() {	
+define([],function(){	
     
     //
 	// manages anchors for all elements.
@@ -1071,4 +1071,4 @@
 		a.type = "Perimeter";
 		return a;
 	};
-})();
+});

@@ -11,7 +11,7 @@
  *
  * Copyright (c) 2010 - 2013 Simon Porritt (simon.porritt@gmail.com)
  */
-;(function() {
+define([],function() {
 			
     var _ju = jsPlumbUtil,
     	_addClass = function(el, clazz) { jsPlumb.CurrentLibrary.addClass(_gel(el), clazz); },
@@ -2964,41 +2964,5 @@
     		this.dragManager.setParent(_el, _id, _pel, _pid);
     	}
     });
-
-// --------------------- static instance + AMD registration -------------------------------------------	
 	
-// create static instance and assign to window if window exists.	
-	var jsPlumb = new jsPlumbInstance();
-	// register on window if defined (lets us run on server)
-	if (typeof window != 'undefined') window.jsPlumb = jsPlumb;	
-	// add 'getInstance' method to static instance
-	/**
-	* @name jsPlumb.getInstance
-	* @param {object} [_defaults] Optional default settings for the new instance.
-	* @desc Gets a new instance of jsPlumb.
-	*/
-	jsPlumb.getInstance = function(_defaults) {
-		var j = new jsPlumbInstance(_defaults);
-		j.init();
-		return j;
-	};
-// maybe register static instance as an AMD module, and getInstance method too.
-	if ( typeof define === "function") {
-	    console.info("Registering jsplumb and jsplumbinstance with AMD");
-		define( "jsplumb", ["jsPlumbLoaded!"], function () { return jsPlumb; } );
-		define( "jsplumbinstance", ["jsPlumbLoaded!"], function () { return jsPlumb.getInstance(); } );
-	} else {
-	    console.warn("AMD registration for jsPlumb failed.");
-	}
- // CommonJS 
-	if (typeof exports !== 'undefined') {
-	    exports.jsPlumb = jsPlumb;
-	    console.info("Register jsPlumb with global exports (for AMD).");
-  	} else {
-	    console.warn("Unable to register jsPlumb with exports.");
-	}
-	
-	
-// --------------------- end static instance + AMD registration -------------------------------------------		
-	
-})();
+});

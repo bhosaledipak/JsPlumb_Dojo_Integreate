@@ -1,3 +1,4 @@
+/* global define, jsPlumb, jsPlumbUtil */
 /*
  * jsPlumb
  * 
@@ -17,7 +18,7 @@
  * Dual licensed under the MIT and GPL2 licenses.
  */
 
-;(function() {	
+define([], function() {	
 				
 	/**
 	 * 
@@ -1506,4 +1507,4 @@
 
  // ********************************* END OF OVERLAY DEFINITIONS ***********************************************************************
     
-})();
+});

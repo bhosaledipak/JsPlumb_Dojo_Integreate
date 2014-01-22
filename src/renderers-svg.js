@@ -1,3 +1,4 @@
+/* global define, jsPlumb, jsPlumbUtil, window */
 /*
  * jsPlumb
  * 
@@ -30,7 +31,7 @@
  * IE9 hover jquery: http://forum.jquery.com/topic/1-6-2-broke-svg-hover-events
  *
  */
-;(function() {
+define([],function() {
 	
 // ************************** SVG utility methods ********************************************	
 	
@@ -625,4 +626,4 @@
         };        
     };
     jsPlumbUtil.extend(jsPlumb.Overlays.svg.GuideLines, jsPlumb.Overlays.GuideLines);
-})();
+});

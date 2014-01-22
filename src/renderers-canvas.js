@@ -1,3 +1,4 @@
+/* global define, window, jsPlumb, jsPlumbUtil */
 /*
  * jsPlumb
  * 
@@ -19,7 +20,7 @@
  * Dual licensed under the MIT and GPL2 licenses.
  */
 
-;(function() {
+define([],function() {
 
 	
 // ********************************* CANVAS RENDERERS FOR CONNECTORS AND ENDPOINTS *******************************************************************
@@ -532,4 +533,4 @@
     	AbstractCanvasArrowOverlay.apply(this, [jsPlumb.Overlays.Diamond, arguments]);    	
     };		
     jsPlumbUtil.extend(jsPlumb.Overlays.canvas.Diamond, [ jsPlumb.Overlays.Diamond, CanvasOverlay ] );
-})();
+});

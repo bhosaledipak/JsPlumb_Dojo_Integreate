@@ -1,4 +1,5 @@
-;(function() {
+/* global define, jsPlumb */
+define([],function() {
 
     var makeConnector = function(_jsPlumb, renderMode, connectorName, connectorArgs) {
             if (!_jsPlumb.Defaults.DoNotThrowErrors && jsPlumb.Connectors[renderMode][connectorName] == null)
@@ -500,4 +501,4 @@
         }
         
     }); // END Connection class            
-})();
+});

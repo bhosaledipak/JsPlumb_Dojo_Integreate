@@ -1,3 +1,4 @@
+/* global define, jsPlumb */
 /*
  * jsPlumb
  *
@@ -19,7 +20,7 @@
  * Dual licensed under the MIT and GPL2 licenses.
  */
 
-;(function() {
+define([],function() {
 
 	var Line = function(x1, y1, x2, y2) {
 
@@ -240,7 +241,7 @@
         };                        
 	};
 	jsPlumb.registerConnectorType(StateMachine, "StateMachine");
-})();
+});
 
 /*
     	// a possible rudimentary avoidance scheme, old now, perhaps not useful.

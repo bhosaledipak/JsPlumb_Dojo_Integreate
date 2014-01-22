@@ -1,3 +1,4 @@
+/* global define, jsPlumb, jsPlumbUtil */
 /*
  * jsPlumb
  * 
@@ -17,7 +18,7 @@
  * Dual licensed under the MIT and GPL2 licenses.
  */
 
-;(function() {
+define([], function() {
 	
 	// http://ajaxian.com/archives/the-vml-changes-in-ie-8
 	// http://www.nczonline.net/blog/2010/01/19/internet-explorer-8-document-and-browser-modes/
@@ -526,4 +527,4 @@
     
 // ******************************* /vml overlays *****************************************************    
     
-})();
+});

@@ -1,8 +1,9 @@
+/* global window */
 /*
  * this is experimental and probably will not be used.  solutions exist for most libraries.  but of course if
  * i want to support multiple scopes at some stage then i will have to do dragging inside jsPlumb.
  */ 
-;(function() {
+define([],function() {
     
     window.jsPlumbDrag = function(_jsPlumb) {
       
@@ -58,4 +59,4 @@
         
     };
     
-})();
+});

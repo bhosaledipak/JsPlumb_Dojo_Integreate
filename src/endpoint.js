@@ -1,5 +1,5 @@
-
-;(function() {
+/* global define, jsPlumb */
+define([], function() {
         
     // create the drag handler for a connection
     var _makeConnectionDragHandler = function(placeholder, _jsPlumb) {
@@ -994,4 +994,4 @@
             return this.anchor.compute(params);
         }
     });
-})();
+});

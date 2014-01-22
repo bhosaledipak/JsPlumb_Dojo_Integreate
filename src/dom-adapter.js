@@ -1,3 +1,4 @@
+/* global define, window */
 /*
  * jsPlumb
  * 
@@ -16,7 +17,7 @@
  * 
  * Dual licensed under the MIT and GPL2 licenses.
  */
-;(function() {
+define([],function() {
     
 		var canvasAvailable = !!document.createElement('canvas').getContext,
 		svgAvailable = !!window.SVGAngle || document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1"),
@@ -298,4 +299,4 @@
 
 */
 
-})();
+});

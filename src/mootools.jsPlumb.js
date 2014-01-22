@@ -1,3 +1,4 @@
+/* global define, jsPlumb, window */
 /*
  * jsPlumb
  * 
@@ -17,7 +18,7 @@
  * Dual licensed under the MIT and GPL2 licenses.
  */
 
-;(function() {
+define([], function() {
 	
 	/*
 	 * overrides the FX class to inject 'step' functionality, which MooTools does not
@@ -451,4 +452,4 @@
 	};
 	
 	window.addEvent('domready', jsPlumb.init);
-})();
+});

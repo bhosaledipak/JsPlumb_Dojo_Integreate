@@ -1,3 +1,4 @@
+/* global define, jsPlumb */
 /*
  * jsPlumb
  * 
@@ -43,7 +44,7 @@
  * setDragScope			sets the drag scope for a given element.
  * setOffset			sets the offset of some element.
  */
-(function() {
+define([], function() {
 	
 	if (!Array.prototype.indexOf) {
 		Array.prototype.indexOf = function( v, b, s ) {
@@ -414,4 +415,4 @@
 			_getElementObject(el).detach(event, callback);
 		}
 	};				
-})();
+});
