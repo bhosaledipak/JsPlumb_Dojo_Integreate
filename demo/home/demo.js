@@ -1,11 +1,12 @@
+/* global define, jsPlumb, jsPlumbDemo */
 /*
 	This is the JS for the main jsPlumb demo.  
         It is shared between the YUI, jQuery, MooTools, and Dojo
 	demo pages.
 */
-;(function() {
+define([], function() {
 
-	window.jsPlumbDemo = {
+	jsPlumbDemo = {
 			
 		init : function() {			
 			
@@ -226,4 +227,4 @@
 
 	jsPlumb.ready(jsPlumbDemo.init);
 	console.log('just a breakpoint');
-})();
+});

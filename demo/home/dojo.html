@@ -1,11 +1,10 @@
 <!doctype html>
 <html>
 <head>
-
-<title>jsPlumb 1.5.3 demo - Dojo</title>
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-<link rel="stylesheet" href="../demo-all.css">
-<link rel="stylesheet" href="demo.css">
+    <title>jsPlumb 1.5.3 demo - Dojo</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" href="../demo-all.css">
+    <link rel="stylesheet" href="graph.css">
 </head>
 <body data-demo-id="home" data-library="dojo">
 	<div id="headerWrapper">
@@ -44,10 +43,9 @@
 		<div class="component window" id="window7">
 			<strong>Window 7</strong>
 		</div>
-
+         </div>
 		<iframe id="like"
 			src="http://www.facebook.com/widgets/like.php?href=http://jsplumb.com&amp;layout=box_count"></iframe>
-	</div>
 
 	<div id="sidebar">
 		<div id="explanation">
@@ -69,7 +67,6 @@
 	    dojoConfig = {
                isDebug: true
 	    };
-            console.log("in dojoConfig");
         </script>
         <!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojo/dojo.js"></script> -->
 	<!-- Alternatively, reference local copy (for debugging). -->
@@ -81,7 +78,7 @@
             console.log("Require jsPlumb modules");
 	    require([
 	    // support lib for bezier stuff 
-	           "../../lib/jsBezier-0.6.js",
+	           "../../lib/jsBezier-0.6",
 	// jsplumb geom functions 
 	           "../../lib/jsplumb-geom-0.1.js",
 	// jsplumb util 
@@ -116,7 +113,7 @@
 	// jquery jsPlumb adapter 
 	        "../../src/dojo-adapter",
 	// /JS 
-	        "demo",
+	        "./demo",
 
 
 	//  demo list and helper code. you don't need this stuff if you're just copying the single demo. 
