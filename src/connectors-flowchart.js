@@ -19,7 +19,8 @@
  */
 define([
 	 "./jsPlumb",
-	 "./util"
+	 "./util",
+         "./defaults" // for jsPlumb.Connectors.AbstractConnector
 ], function() {
    
     /**

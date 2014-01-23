@@ -1,6 +1,7 @@
 /* global define, jsPlumb */
 define([
-    "./jsPlumb"
+    "./jsPlumb",
+    "./defaults"  // for jsPlumb.Connectors.AbstractConnector
 ],function() {
 
 	var Bezier = function(params) {

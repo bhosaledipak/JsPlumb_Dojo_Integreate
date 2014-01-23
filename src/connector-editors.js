@@ -19,7 +19,8 @@
  * Dual licensed under the MIT and GPL2 licenses.
  */
 define([
-    "./jsPlumb"
+    "./jsPlumb",
+    "./defaults" // for jsPlumb.Connectors.AbstractConnector
 ],function() {
     
     var AbstractEditor = function(params) {

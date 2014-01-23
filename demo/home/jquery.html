@@ -67,11 +67,14 @@
                    // AMD doesn't handle file names with dots,
                    // need to specify explicitly
                     "jsBezier": "lib/jsBezier-0.6",
-		    "jsplumb-geom": "lib/jsplumb-geom-0.1"	
+		    "jsplumb-geom": "lib/jsplumb-geom-0.1",
+	           // For demo dropdon.  Nothing to do with jsPlumb itself.
+	            "bootstrap": "http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min"
                 },
 	        "shim" : {
-	            "jquery-ui": "jquery",
-	            "jquery-ui-touch-punch" : "jquery"
+	            "jquery-ui": ["jquery"],
+	            "jquery-ui-touch-punch" : ["jquery"],
+	            "bootstrap": ["jquery"]
 	        }
             });
 
@@ -84,12 +87,8 @@
 	           "jsBezier",
 	// jsplumb geom functions 
 	           "jsplumb-geom",
-	// jsplumb util 
-	           "jsPlumb/util",
 	// base DOM adapter 
 	           "jsPlumb/dom-adapter",
-	// main jsplumb engine 
-	           "jsPlumb/jsPlumb",
 	// endpoint 
 	           "jsPlumb/endpoint",
 	// connection 
@@ -126,12 +125,6 @@
 	      });
          console.log("done require jsPlumb");
         </script>
-          
-
-
-        <!-- for demo dropdown. not a jsplumb dependency -->
-        <!-- not working yet:  should move this to requirejs config -->
-        <!-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script> -->
-        
+                  
     </body>
 </html>

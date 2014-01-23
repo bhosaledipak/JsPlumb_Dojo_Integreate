@@ -4,7 +4,9 @@
         It is shared between the YUI, jQuery, MooTools, and Dojo
 	demo pages.
 */
-define([], function() {
+define([
+    "jsPlumb/jsPlumb"
+], function() {
 
 	jsPlumbDemo = {
 			

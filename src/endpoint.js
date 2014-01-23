@@ -1,4 +1,4 @@
-/* global define, jsPlumb */
+/* global define, jsPlumb, OverlayCapableJsPlumbUIComponent */
 define([
     "./jsPlumb"
 ], function() {

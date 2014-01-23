@@ -21,7 +21,8 @@
  */
 
 define([
-    "./jsPlumb"
+    "./jsPlumb",
+    "./defaults" // for jsPlumb.Connectors.AbstractConnector
 ],function() {
 
 	var Line = function(x1, y1, x2, y2) {
