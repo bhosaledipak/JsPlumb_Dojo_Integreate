@@ -308,7 +308,7 @@ define([
             return this.element;
         };		
                  
-        // container not supported in 1.5.4; you cannot change the container once it is set.
+        // container not supported in 1.5.5; you cannot change the container once it is set.
         // it might come back int a future release.
         this.setElement = function(el/*, container*/) {
             var parentId = this._jsPlumb.instance.getId(el),
