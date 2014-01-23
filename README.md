@@ -7,24 +7,19 @@ outstanding issues:
 - jsPlumb uses a number of global variables, which is contray to
   AMD-style programming.  The use of global variables needs to be
   reduced in favor of module-provided variables.
-
 - Module dependence has only been partially determined.  This needs to
   be completed.
-
 - jsPlumb should have a top-level module `src/main.js` which
   determines the load procedure for jsPlumb.  Right now, this file is
   just a skeleton.
-
 - Drag and Drop isn't really working in the Dojo version.
-
 - AMD conversion for MooTools and YUI has not been started.
-
 - Right now, only the `home/dojo.html` and `home/jquery.html` demos
   have been converted to AMD.  Need to convert remaining demos.
-
 - Need to get the build process to work with AMD version.
-
 - Need to get the tests working with the AMD version.
+- The code has only been tested in Chrome and Firefox.  Still need to test in (shudder) IE.
+- Some of the functionality in jsPlumb overlaps with features provided by the Dojo libraries.  For instance, `dojox/gfx` provides an abstraction layer for vector graphics.  Also, it provides an equivalent function to ``jsPlumb.ready()`.
 
 # jsPlumb
 jsPlumb provides a means for a developer to visually connect elements on their web pages. It uses SVG or Canvas in modern browsers, and VML on IE 8 and below. The latest version is 1.5.5.
