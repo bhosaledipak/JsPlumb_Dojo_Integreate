@@ -54,7 +54,12 @@
  * unbind				unbinds some listener from some element.
  */
 // pre-AMD version had "jQuery" as argument of wrapper function
-define([],function() {	
+define([
+    "jquery",
+    "jquery-ui",
+    "jquery-ui-touch-punch"
+],function(jQuery) {
+         console.log("start loading jquery-adapter");	
 	 var $ = jQuery;
 	
 	//var getBoundingClientRectSupported = "getBoundingClientRect" in document.documentElement;

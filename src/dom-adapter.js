@@ -18,6 +18,7 @@
  * Dual licensed under the MIT and GPL2 licenses.
  */
 define([],function() {
+    console.log("starting load of dom-adapter.js");
     
 		var canvasAvailable = !!document.createElement('canvas').getContext,
 		svgAvailable = !!window.SVGAngle || document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1"),
