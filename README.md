@@ -20,6 +20,7 @@ outstanding issues:
 - Need to get the tests working with the AMD version.
 - The code has only been tested in Chrome and Firefox.  Still need to test in (shudder) IE.
 - Some of the functionality in jsPlumb overlaps with features provided by the Dojo libraries.  For instance, `dojox/gfx` provides an abstraction layer for vector graphics.  Also, it provides an equivalent function to ``jsPlumb.ready()`.
+- In the jQuery demo `home/jquery.html`, when I double-click on the link "big endpoints" and dismiss the alert box, the link then disappears.  This happens in both Chrome and Firefox.
 
 # jsPlumb
 jsPlumb provides a means for a developer to visually connect elements on their web pages. It uses SVG or Canvas in modern browsers, and VML on IE 8 and below. The latest version is 1.5.5.
