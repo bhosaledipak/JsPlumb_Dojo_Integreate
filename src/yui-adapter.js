@@ -1,4 +1,4 @@
-/* global define, jsPlumb */
+/* global define, jsPlumb, YUI, jsPlumbUtil */
 /*
  * jsPlumb
  * 
@@ -45,7 +45,8 @@
  * setOffset			sets the offset of some element.
  */
 define([
-    "./jsPlumb"
+    "./jsPlumb",
+    "./util"
 ], function() {
 	
 	if (!Array.prototype.indexOf) {
@@ -347,6 +348,7 @@ define([
 			options["drop:enter"] = jsPlumbUtil.wrap(options["drop:enter"], function(e) {
 				if (e.drag.scope !== scope) return true;
 				_checkHover(el, true);
+			        return(false);
 			}, true);
 			options["drop:exit"] = jsPlumbUtil.wrap(options["drop:exit"], function(e) {
 				_checkHover(el, false);
@@ -354,6 +356,7 @@ define([
 			options["drop:hit"] = jsPlumbUtil.wrap(options["drop:hit"], function(e) {
 				if (e.drag.scope !== scope) return true;
 				_checkHover(el, false);
+                                return(false);
 			}, true);
 			
 			_attachListeners(dd, options, ddEvents);

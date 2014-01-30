@@ -1639,6 +1639,7 @@ define([
  
 		this.draggable = function(el, options) {
 			var i,j,ele;
+		        console.log("==== entering this.draggable");
 			// allows for array or jquery/mootools selector
 			if (typeof el == 'object' && el.length) {
 				for (i = 0, j = el.length; i < j; i++) {

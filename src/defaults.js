@@ -1,4 +1,4 @@
-/* global define, jsPlumb, jsPlumbUtil */
+/* global define, jsPlumb, jsPlumbGeom, jsPlumbUtil, jsBezier, Image */
 /*
  * jsPlumb
  * 
@@ -636,7 +636,7 @@ define([
             return seg.segment && seg.segment.pointOnPath(seg.proportion, absolute) || [0,0];
         };
         
-        this.gradientAtPoint = function(location) {
+        this.gradientAtPoint = function(location, absolute) {
             var seg = _findSegmentForLocation(location, absolute);          
             return seg.segment && seg.segment.gradientAtPoint(seg.proportion, absolute) || 0;
         };

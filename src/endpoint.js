@@ -1,6 +1,7 @@
-/* global define, jsPlumb, OverlayCapableJsPlumbUIComponent */
+/* global define, jsPlumb, jsPlumbUtil, jsPlumbAdapter, OverlayCapableJsPlumbUIComponent */
 define([
-    "./jsPlumb"
+    './jsPlumb',
+    './util'
 ], function() {
         
     // create the drag handler for a connection

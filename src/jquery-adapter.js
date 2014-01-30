@@ -1,4 +1,4 @@
-/* global define, jsPlumb */
+/* global define, jsPlumb, jsPlumbUtil, SVGAnimatedString */
 /*
  * jsPlumb
  * 
@@ -57,7 +57,9 @@
 define([
     "jquery",
     "jquery-ui",
-    "jquery-ui-touch-punch"
+    "jquery-ui-touch-punch",
+    "./util",
+    "./jsPlumb"
 ],function(jQuery) {
          console.log("start loading jquery-adapter");	
 	 var $ = jQuery;
@@ -257,6 +259,7 @@ TODO: REMOVE!
 		getUIPosition : function(eventArgs, zoom) {
 			
 			zoom = zoom || 1;
+		        var ret;
 			// this code is a workaround for the case that the element being dragged has a margin set on it. jquery UI passes
 			// in the wrong offset if the element has a margin (it doesn't take the margin into account).  the getBoundingClientRect
 			// method, which is in pretty much all browsers now, reports the right numbers.  but it introduces a noticeable lag, which
@@ -289,15 +292,30 @@ TODO: REMOVE!
 		/**
 		 * initialises the given element to be draggable.
 		 */
-		initDraggable : function(el, options, isPlumbedComponent, _jsPlumb) {
+		initDraggable : function(elIn, options, isPlumbedComponent, _jsPlumb) {
 			options = options || {};
-			el = $(el);
+		    // This turns a DOM element into an object with property draggable.
+			var el = $(elIn);
 
 			options.start = jsPlumbUtil.wrap(options.start, function() {
+			    console.log("******* initDraggable start event.");
+                            console.timeStamp("initDraggable start");
+                            console.trace();
 				$("body").addClass(_jsPlumb.dragSelectClass);
 			}, false);
 
+		        // For debugging
+			options.drag = jsPlumbUtil.wrap(options.drag, function() {
+			    console.log("******* initDraggable drag event.");
+                            console.trace();
+                            console.timeStamp("initDraggable drag");
+			    // debugger;
+			});
+
 			options.stop = jsPlumbUtil.wrap(options.stop, function() {
+			    console.log("******* initDraggable stop event.");
+                            console.trace();
+                            console.timeStamp("initDraggable stop");
 				$("body").removeClass(_jsPlumb.dragSelectClass);
 			});
 
@@ -306,6 +324,9 @@ TODO: REMOVE!
 				options.helper = null;
 			if (isPlumbedComponent)
 				options.scope = options.scope || jsPlumb.Defaults.Scope;
+                        console.log("initDraggable draggable for ",elIn.id || el,", arguments: ",options);
+                   
+		    // jQuery-ui create draggable object.
 			el.draggable(options);
 		},
 		
@@ -314,6 +335,8 @@ TODO: REMOVE!
 		 */
 		initDroppable : function(el, options) {
 			options.scope = options.scope || jsPlumb.Defaults.Scope;
+                        // options carries all three functions 
+                         console.log("initDroppable:  options has all three: ",options);
 			$(el).droppable(options);
 		},
 		

@@ -1,4 +1,4 @@
-/* global define, jsPlumb, window */
+/* global define, jsPlumb, jsPlumbUtil, $$, $, $extend, Class, Fx, SVGAnimatedString, Drag, window */
 /*
  * jsPlumb
  * 

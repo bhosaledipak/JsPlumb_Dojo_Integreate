@@ -56,22 +56,24 @@
 
 
 define([
-    'dojo/dom', 'dojo/_base/fx', 'dojo/_base/lang',
+    'dojo/dom', 'dojo/_base/window', 'dojo/_base/fx', 'dojo/_base/lang',
     'dojo/dom-geometry', 'dojo/dom-class', 'dojo/query',
-    'dojo/dom-construct', 'dojo/dnd/Moveable', 'dojo/dnd/Source',
-    'dojo/dnd/Target', 'dojo/on', 
+    'dojo/dom-construct', 'dojo/dnd/Source', 'dojo/dnd/Target', 'dojo/dnd/Moveable', 'dojo/on', 'dojo/aspect',
     'dojo/NodeList-traverse', './jsPlumb', "./util"
-],function(dom,fx,lang,geometry,domClass,query,
-	   domConstruct,Moveable,Source,Target,on){	
+],function(dom, win, fx, lang, geometry, domClass, query,
+	   domConstruct, Source, Target, Moveable, on, aspect){	
 
     var eventHandlerMap = new Object(); // for storing dojo event handler returned by on method
 	var dragHandleMap = new Object(); // for storing drag handles
 	var dropHandleMap = new Object();
 	
 
-	var _getElementObject = function(el)
+	var _getElementObject = function(elIn)
 	{
-		return dom.byId(el);
+            // If el is already a DOM node, then el is returned.
+	    var el = dom.byId(elIn);
+	    console.assert(el,"dom.byId failed for ",elIn);
+	    return el;
 	};
 	
 	jsPlumb.CurrentLibrary = {
@@ -101,10 +103,8 @@ define([
 			fx.animateProperty(
 				{
 					node:el,
-					properties: properties
-					
+					properties: properties					
 				}
-			
 			
 			).play();
 		},
@@ -130,36 +130,31 @@ define([
 		 * uses 'on'.
 		 */
 		bind : function(el, event, callback) {
+                        // console.log("dojo-adapter: bind for ",el,event);
 			el = _getElementObject(el);
 			eventHandlerMap[el]=on(el, event, callback);
 		},
 		
 		destroyDraggable : function(el) {
+                        // jQuery version also had a test for draggable
+		        console.log("dojo-adapter:  destroyDraggable ", dragHandleMap[el]);
 			//destroy draggable in dojo
 			dragHandleMap[el].destroy();
 		},	
 		destroyDroppable : function(el) {
+                      // jQuery version also had a test for droppable
+		        console.log("dojo-adapter:  destroyDroppable ", dragHandleMap[el]);
 		   //destroy droppable in Dojo
 		   dropHandleMap[el].destroy();
 		},	
-/*		
-TODO: modify this later
-		destroyDraggable : function(el) {
-		if ($(el).data("draggable"))
-		    $(el).draggable("destroy");
-		}, 
-		
-		destroyDroppable : function(el) {
-			if ($(el).data("droppable"))
-				$(el).droppable("destroy");
-		},
-*/	
+
        //   mapping of drag events for Dojo  
 		
 		// some of them are not in dojo eg. http://dojotoolkit.org/reference-guide/1.9/dojo/dnd/Moveable.html
 		//http://stackoverflow.com/questions/20123003/jquery-drag-events-to-dojo-drag-events
 		dragEvents : {
-			'start':'start', 'stop':'stop', 'drag':'drag', 'step':'step',
+			'start':'onMoveStart', 'stop':'onMoveStop', 'drag':'onMove', 
+                        'step':'step',
 			'over':'over', 'out':'out', 'drop':'drop', 'complete':'complete'
 		},		
 /**
@@ -167,10 +162,8 @@ TODO: modify this later
 		 * otherwise you'll have to do it yourself). perhaps jsPlumb could do this for you
 		 * instead.  it's not like its hard.
 		 */
-		extend : function(o1, o2) {
-			
+		extend : function(o1, o2) {			
 			return lang.mixin(o1,o2);
-		//	return lang.extend(o1, o2);
 		},
 
 /**
@@ -208,10 +201,16 @@ TODO: modify this later
 		* two cases).  this is the opposite of getElementObject below.
 		*/
 		getDOMElement : function(el) {
-			if (el == null) return null;
-			if (typeof(el) == "string") return dom.byId(el);
-			else if (el.context || el.length != null) return el[0];
-			else return el;
+		    if (el == null){
+			console.warn("dojo-adapter: getDOMElement null");
+			return null;
+		    }
+		    if (typeof(el) == "string"){
+			var i = dom.byId(el);
+			console.assert(i,"dom.byId failed for ",el);
+			return i;
+		    } else if (el.context || el.length != null) return el[0];
+		    else return el;
 		},
 		
 				/**
@@ -244,8 +243,7 @@ TODO: modify this later
 			return [eventObject.pageX, eventObject.pageY];
 		},
 		
-		getParent : function(el) {
-			
+		getParent : function(el) {			
 			return query("#"+_getElementObject(el).id).parent();
 		},
 		
@@ -313,45 +311,81 @@ TODO: modify this later
 		/**
 		 * initializes the given element to be droppable.
 		 */
-		initDraggable : function(el, options, isPlumbedComponent, _jsPlumb) {
+		initDraggable : function(elIn, options, isPlumbedComponent, _jsPlumb) {
 			
 			options = options || {};
-
-			options.start = jsPlumbUtil.wrap(options.start, function() {
-				//dojo.query('body')[0].addClass(_jsPlumb.dragSelectClass);
-				query("body").addClass(_jsPlumb.dragSelectClass);
-			}, false);
-			
-			options.stop = jsPlumbUtil.wrap(options.stop, function() {
-				query("body").removeClass(_jsPlumb.dragSelectClass);
-			});
+		        var el = dom.byId(elIn);
+                        console.assert(el, "dojo-adapter:  initDraggable bad element");
 
 			// remove helper directive if present and no override
 			if (!options.doNotRemoveHelper)
 				options.helper = null;
+
+
+		        console.log("dojo-adapter: initDraggable options ",options);
+
+         		 options.onMoveStart = jsPlumbUtil.wrap(options.onMoveStart, function() {
+                           console.timeStamp("initDraggable start");
+                           console.trace();
+                           console.log("********initDraggable start event");
+			   jsPlumbUtil.wrap(options.start, function() {
+			       // This is identical to the jquery call
+			       // See http://moresoda.co.uk/blog/article/dojo-and-jquery-side-by-side-dom-basics/
+			       query("body").addClass(_jsPlumb.dragSelectClass);
+			   }, false);
+		       });
+			
+
+	               options.onMove = jsPlumbUtil.wrap(options.onMove, function() {
+                            console.log("********initDraggable drag event");
+                            console.timeStamp("initDraggable drag");
+                            console.trace();
+			    // debugger;
+			    // options.drag.apply(this,arguments);
+                            // this.onMoved(this,arguments);
+			});
+
+         		 options.onMoveStop = jsPlumbUtil.wrap(options.onMoveStop, function() {
+                            console.log("********initDraggable stop event");
+                            console.timeStamp("initDraggable stop");
+                            console.trace();
+			    jsPlumbUtil.wrap(options.stop, function() {
+				query("body").removeClass(_jsPlumb.dragSelectClass);
+			    });
+			});
+
+		        // Create new dnd/moveable, then override the handlers.
+			var moveableObject = new Moveable(el,{
+			    handle:options.helper
+			});
+
+		        // Doesn't work:
+		         on(moveableObject,"onMoveStart",options.onMoveStart);
+		         on(moveableObject,"onMove",options.onMove);
+		         on(moveableObject,"onMoveStop",options.onMoveStop);
+
+		        //moveableObject.onMoveStart=options.onMoveStart;
+		        //moveableObject.onMove=options.onMove;
+		        //moveableObject.onMoveStop=options.onMoveStop;
+
 			if (isPlumbedComponent)
-			options.scope = options.scope || jsPlumb.Defaults.Scope;
-					
-		    var dropSource = new Source(_getElementObject(el),{accept:[options.scope]});  // similar to scope in jquery
-			var movableObject = new Moveable(_getElementObject(el));
+			    // Setting movableObject.scope is just a wild guess ...
+			   moveableObject.scope = options.scope || jsPlumb.Defaults.Scope;
+                           
 			
-			
-			//var dropSource = new Moveable(_getElementObject(el));
-			//on(dropSource, "MoveStart",options.start);
-			
-			on(movableObject,'onMoveStart',options.start);
-			on(movableObject,'onMove',options.drag);
-			on(movableObject,'onMoveEnd',options.stop);
-			
-			//on(dropSource,"MoveStop",options.stop);
-			dragHandleMap[el]=movableObject;
+			dragHandleMap[el]=moveableObject;
 		},
 		/**
 		 * initializes the given element to be droppable.
 		 */
-		initDroppable : function(el, options) {
+		initDroppable : function(elIn, options) {
+ 
 			options.scope = options.scope || jsPlumb.Defaults.Scope;
-			var dropTarget = new Target(_getElementObject(el),{accept:[options.scope]});  // similar to scope in jquery
+                   console.log("initDroppable:  options should have all three, but doesn't: ",options);
+		        var el = dom.byId(elIn);
+                        console.assert(el, "dojo-adapter:  initDrappable bad element");
+		        console.log("dojo-adapter:  initDrappable el ", elIn, el);
+			var dropTarget = new Target(el,{accept:[options.scope]});  // similar to scope in jquery
 			dropHandleMap[el]=dropTarget;
 		},
 		
@@ -359,6 +393,7 @@ TODO: modify this later
 		 * returns whether or not drag is supported (by the library, not whether or not it is disabled) for the given element.
 		 */
 		isDragSupported : function(el, options) {
+                        console.warn("dojo-adapter: isDragSupported", el);
 			//return $(el).draggable;
 			//change this when solution is found out
 			return true;
@@ -367,6 +402,7 @@ TODO: modify this later
 		}	
 		,
 		setDraggable : function(el, draggable) {
+                        console.warn("dojo-adapter: setDraggable", el, draggable);
 			//el.draggable("option", "disabled", !draggable);
 			//if(!draggable)
 			  // dragHandleMap[el]=new Source(el);
@@ -376,16 +412,12 @@ TODO: modify this later
 		 * returns whether or not drop is supported (by the library, not whether or not it is disabled) for the given element.
 		 */
 		isDropSupported : function(el, options) {
+                        console.warn("dojo-adapter: isDropSupported", el);
 			//return $(el).droppable;
 			//change this when solution is found out
 			return true;
 		},	
-		setOffset : function(el, o) {
-			el=_getElementObject(el);
-			el.offsetTop=o.top;
-			el.offsetLeft=o.left;
-		}
-		,
+
 		/**
 		 * removes the given class from the element object.
 		 */
@@ -403,7 +435,15 @@ TODO: modify this later
 			
 			domClass.remove(el,clazz);
 		},  
+
+		setOffset : function(el, o) {
+			el=_getElementObject(el);
+			el.offsetTop=o.top;
+			el.offsetLeft=o.left;
+		},
+
 		trigger : function(el, event, originalEvent) {
+                        console.warn("dojo-adapter:  trigger for ", el, event, originalEvent);
 			//var h = jQuery._data(_getElementObject(el)[0], "handle");
             //h(originalEvent);
 		},

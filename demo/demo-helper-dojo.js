@@ -1,3 +1,4 @@
+/* global require, jsPlumb */
 /*
  *  This file contains the JS that handles the first init of each jQuery demonstration, and also switching
  *  between render modes.
