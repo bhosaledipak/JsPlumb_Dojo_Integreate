@@ -1,6 +1,6 @@
 # Status of this version
 This version includes a partial conversion to AMD and partially
-working Dojo version.  The jQuery version uses requireJs while the
+working Dojo version.  The jQuery and YUI versions use requireJs while the
 Dojo version uses Dojo's AMD library.  Howerver, there are a number of 
 outstanding issues:
 
@@ -13,14 +13,13 @@ outstanding issues:
   determines the load procedure for jsPlumb.  Right now, this file is
   just a skeleton.
 - Drag and Drop isn't really working in the Dojo version.
-- AMD conversion for MooTools and YUI has not been started.
-- Right now, only the `home/dojo.html` and `home/jquery.html` demos
+- AMD conversion for MooTools needs to be done.
+- Right now, only the `home/dojo.html`, `home/yui.html`, and `home/jquery.html` demos
   have been converted to AMD.  Need to convert remaining demos.
 - Need to get the build process to work with AMD version.
 - Need to get the tests working with the AMD version.
 - The code has only been tested in Chrome and Firefox.  Still need to test in (shudder) IE.
 - Some of the functionality in jsPlumb overlaps with features provided by the Dojo libraries.  For instance, `dojox/gfx` provides an abstraction layer for vector graphics.  Also, it provides an equivalent function to ``jsPlumb.ready()`.
-- In the jQuery demo `home/jquery.html`, when I double-click on the link "big endpoints" and dismiss the alert box, the link then disappears.  This happens in both Chrome and Firefox.
 
 # jsPlumb
 jsPlumb provides a means for a developer to visually connect elements on their web pages. It uses SVG or Canvas in modern browsers, and VML on IE 8 and below. The latest version is 1.5.5.
