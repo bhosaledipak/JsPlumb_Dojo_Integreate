@@ -64,10 +64,9 @@ define([
 ],function(dom,fx,lang,geometry,domClass,query,
 	   domConstruct,Moveable,Source,Target,on){	
 
-    var eventHandlerMap = new Object(); // for storing dojo event handler returned by on method
-	var dragHandleMap = new Object(); // for storing drag handles
-	var dropHandleMap = new Object();
-	
+    var _eventHandlers = new Object(); // for storing dojo event handler returned by on method
+	var _draggables = new Object(); // for storing drag handles
+	var _droppables = new Object();
 
 	var _getElementObject = function(el)
 	{
@@ -131,16 +130,16 @@ define([
 		 */
 		bind : function(el, event, callback) {
 			el = _getElementObject(el);
-			eventHandlerMap[el]=on(el, event, callback);
+			_eventHandlers[el]=on(el, event, callback);
 		},
 		
 		destroyDraggable : function(el) {
 			//destroy draggable in dojo
-			dragHandleMap[el].destroy();
+			_draggables[el].destroy();
 		},	
 		destroyDroppable : function(el) {
 		   //destroy droppable in Dojo
-		   dropHandleMap[el].destroy();
+		   _droppables[el].destroy();
 		},	
 /*		
 TODO: modify this later
@@ -154,14 +153,20 @@ TODO: modify this later
 				$(el).droppable("destroy");
 		},
 */	
-       //   mapping of drag events for Dojo  
-		
-		// some of them are not in dojo eg. http://dojotoolkit.org/reference-guide/1.9/dojo/dnd/Moveable.html
-		//http://stackoverflow.com/questions/20123003/jquery-drag-events-to-dojo-drag-events
-		dragEvents : {
-			'start':'start', 'stop':'stop', 'drag':'drag', 'step':'step',
-			'over':'over', 'out':'out', 'drop':'drop', 'complete':'complete'
-		},		
+
+	    //   mapping of drag events for Dojo  
+	    // See http://dojotoolkit.org/reference-guide/1.9/dojo/dnd.html		
+	    dragEvents : {
+		// Events from dojo/dnd/Moveable
+		'start':'onMoveStart', 'stop':'onMoveStop', 'drag':'onMove', 
+                // Need to find Dojo event for this:
+                'step':'step',
+                // Events associated with dojo/dnd/Target
+		'over':'onDraggingOver', 'out':'onDraggingOut', 'drop':'onDrop', 
+                // Need to find Dojo event for this:
+                'complete':'complete'
+	    },		
+
 /**
 		 * wrapper around the library's 'extend' functionality (which it hopefully has.
 		 * otherwise you'll have to do it yourself). perhaps jsPlumb could do this for you
@@ -317,12 +322,12 @@ TODO: modify this later
 			
 			options = options || {};
 
-			options.start = jsPlumbUtil.wrap(options.start, function() {
+			options.onMoveStart = jsPlumbUtil.wrap(options.onMoveStart, function() {
 				//dojo.query('body')[0].addClass(_jsPlumb.dragSelectClass);
 				query("body").addClass(_jsPlumb.dragSelectClass);
 			}, false);
 			
-			options.stop = jsPlumbUtil.wrap(options.stop, function() {
+			options.onMoveStop = jsPlumbUtil.wrap(options.onMoveStop, function() {
 				query("body").removeClass(_jsPlumb.dragSelectClass);
 			});
 
@@ -337,14 +342,12 @@ TODO: modify this later
 			
 			
 			//var dropSource = new Moveable(_getElementObject(el));
-			//on(dropSource, "MoveStart",options.start);
 			
-			on(movableObject,'onMoveStart',options.start);
-			on(movableObject,'onMove',options.drag);
-			on(movableObject,'onMoveEnd',options.stop);
+			on(movableObject,'onMoveStart',options.onMoveStart);
+			on(movableObject,'onMove',options.onMove);
+			on(movableObject,'onMoveStop',options.onMoveStop);
 			
-			//on(dropSource,"MoveStop",options.stop);
-			dragHandleMap[el]=movableObject;
+			_draggables[el]=movableObject;
 		},
 		/**
 		 * initializes the given element to be droppable.
@@ -352,7 +355,7 @@ TODO: modify this later
 		initDroppable : function(el, options) {
 			options.scope = options.scope || jsPlumb.Defaults.Scope;
 			var dropTarget = new Target(_getElementObject(el),{accept:[options.scope]});  // similar to scope in jquery
-			dropHandleMap[el]=dropTarget;
+			_droppables[el]=dropTarget;
 		},
 		
 		/**
@@ -369,7 +372,7 @@ TODO: modify this later
 		setDraggable : function(el, draggable) {
 			//el.draggable("option", "disabled", !draggable);
 			//if(!draggable)
-			  // dragHandleMap[el]=new Source(el);
+			  // _draggables[el]=new Source(el);
 		}
 		,
 		/**
@@ -409,7 +412,7 @@ TODO: modify this later
 		},
 		unbind : function(el, event, callback) {
 			el = _getElementObject(el);
-			eventHandlerMap[el].remove();
+			_eventHandlers[el].remove();
 		}
 	};
 });
