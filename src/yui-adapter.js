@@ -90,6 +90,7 @@ define([
 	_wrapper = function(fn) {
 		return function() {
 			try {
+                                console.log("******* _wrapper ",this,arguments);
 				return fn.apply(this, arguments);
 			}
 			catch (e) { }
