@@ -129,10 +129,14 @@ define([
 		 * event binding wrapper.  it just so happens that jQuery uses 'bind' also.  yui3, for example,
 		 * uses 'on'.
 		 */
-		bind : function(el, event, callback) {
-                        // console.log("dojo-adapter: bind for ",el,event);
-			el = _getElementObject(el);
-			_eventHandlers[el]=on(el, event, callback);
+		bind : function(elIn, event, callback) {
+		    // YUI version explicitly goes through list of elements
+		    // and binds each separately
+		    console.assert(!(elIn instanceof Array),"dojo-adapter:  bind given an array: ", elIn);
+		    var el = _getElementObject(elIn);
+		    var result = on(el, event, callback);
+		    console.assert(result, "dojo-adapter: bind failed for ", elIn, event);
+		    _eventHandlers[el] = result;
 		},
 		
 		destroyDraggable : function(el) {
@@ -140,23 +144,28 @@ define([
 		        console.log("dojo-adapter:  destroyDraggable ", _draggables[el]);
 			//destroy draggable in dojo
 			_draggables[el].destroy();
-		},	
+		},
+	
 		destroyDroppable : function(el) {
-                      // jQuery version also had a test for droppable
-		        console.log("dojo-adapter:  destroyDroppable ", _draggables[el]);
-		   //destroy droppable in Dojo
-		   _droppables[el].destroy();
+                    // jQuery version also had a test for droppable
+		    console.log("dojo-adapter:  destroyDroppable ", _draggables[el]);
+		    //destroy droppable in Dojo
+		    _droppables[el].destroy();
 		},	
 
-       //   mapping of drag events for Dojo  
+	    // mapping of drag events for Dojo  
+	    // some of them are not in dojo eg. http://dojotoolkit.org/reference-guide/1.9/dojo/dnd/Moveable.html
+	    dragEvents : {
+		// Events from dojo/dnd/Moveable
+		'start':'onMoveStart', 'stop':'onMoveStop', 'drag':'onMove', 
+                // Need to find Dojo event for this:
+                'step':'step',
+                // Events associated with dojo/dnd/Target
+               'over':'onDraggingOver', 'out':'onDraggingOut', 'drop':'onDrop', 
+                // Need to find Dojo event for this:
+                'complete':'complete'
+	    },
 		
-		// some of them are not in dojo eg. http://dojotoolkit.org/reference-guide/1.9/dojo/dnd/Moveable.html
-		//http://stackoverflow.com/questions/20123003/jquery-drag-events-to-dojo-drag-events
-		dragEvents : {
-			'start':'onMoveStart', 'stop':'onMoveStop', 'drag':'onMove', 
-                        'step':'step',
-			'over':'over', 'out':'out', 'drop':'drop', 'complete':'complete'
-		},		
 /**
 		 * wrapper around the library's 'extend' functionality (which it hopefully has.
 		 * otherwise you'll have to do it yourself). perhaps jsPlumb could do this for you
@@ -180,7 +189,7 @@ define([
 
 	        // Arguments are the arguments supplied to onMove
 		getDragObject : function(mover) {
-		    console.log("In getDragObject, mover=",mover);
+		    console.log("In getDragObject, arguments = ", arguments);
 			return mover.draggable || mover.helper;
 		},
 		
@@ -287,10 +296,17 @@ define([
 		 * different libraries have different signatures for their event callbacks.  
 		 * see getDragObject as well
 		 */
-            getUIPosition : function(mover, leftTop, zoom) {
-		console.log("in getUIPosition, args:  ", mover,leftTop,zoom);
+            getUIPosition : function(moverPlus, zoom) {
 		zoom = zoom || 1;
-		return { left:leftTop.l/zoom, top: leftTop.t/zoom };
+		console.log("in getUIPosition, ", moverPlus.length," args:  ", moverPlus);
+                // This is not working yet ...
+		if(moverPlus.length==1){
+		    return { left:moverPlus[0].marginBox.l/zoom, top: moverPlus[0].marginBox.t/zoom };
+		} else if(false && moverPlus.length==3) {
+		    return { left:moverPlus[2].clientX/zoom, top: moverPlus[2].clientY/zoom };
+		} else {
+		    return { left:moverPlus[1].l/zoom, top: moverPlus[1].t/zoom };
+		}
 	    },	
 		
 		hasClass : function(el, clazz) {
@@ -327,12 +343,12 @@ define([
 				query("body").removeClass(_jsPlumb.dragSelectClass);
 			    });
 
-		        // Create new dnd/Moveable and then bind handlers to its methods.
+		        // Create new dnd/Moveable and then attach handlers to its methods.
 			var moveableObject = new Moveable(el, {
 			    handle:options.helper
 			});
 
-
+                    // BvdS:  I tried using dojo/on for this, but the event was never signalled.
 		    aspect.after(moveableObject,"onMoveStart",function(){
 			    console.log("**** onMoveStart event fired");
 			    // arguments: mover
@@ -364,7 +380,7 @@ define([
 		initDroppable : function(elIn, options) {
  
 			options.scope = options.scope || jsPlumb.Defaults.Scope;
-                   console.log("initDroppable:  options should have all three, but doesn't: ",options);
+                   console.warn("initDroppable:  Dojo conversion not done.");
 		        var el = dom.byId(elIn);
                         console.assert(el, "dojo-adapter:  initDrappable bad element");
 		        console.log("dojo-adapter:  initDrappable el ", elIn, el);
