@@ -61,10 +61,6 @@ define([
                         // whether a certain face is honoured, or, if not, which face to replace it with. the behaviour when
                         // choosing an alternate face is to try for the opposite face first, then the next one clockwise, and then
                         // the opposite of that one.
-			if(!edges){
-			    console.warn("possiblyTranslateEdges empty argument");
-			    console.trace();
-			}
                         return [
                             sourceAnchor.isContinuous ? sourceAnchor.verifyEdge(edges[0]) : edges[0],    
                             targetAnchor.isContinuous ? targetAnchor.verifyEdge(edges[1]) : edges[1]
@@ -86,7 +82,7 @@ define([
                     else if (td.left < sd.left && td.top > sd.top)
                         out.a = ["left", "top" ];
                     else {
-			console.warn("Can't find out.a; sd, td = ",sd, td);
+			console.warn("Can't find out.a; sd=", sd, ", td=", td);
 		    }			
                 }
                 else if (h) {
@@ -98,7 +94,6 @@ define([
                     out.a = sd.left < td.left ? ["right", "left"] : ["left", "right"];
                 }
                 
-		console.log(" calculateOrientation out.a=",out.a);
                 out.a = possiblyTranslateEdges(out.a);
                 return out;
             },
