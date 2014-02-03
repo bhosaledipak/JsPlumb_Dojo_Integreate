@@ -56,21 +56,24 @@
 
 
 define([
-    'dojo/dom', 'dojo/_base/fx', 'dojo/_base/lang',
+    'dojo/dom', 'dojo/_base/window', 'dojo/_base/fx', 'dojo/_base/lang',
     'dojo/dom-geometry', 'dojo/dom-class', 'dojo/query',
-    'dojo/dom-construct', 'dojo/dnd/Moveable', 'dojo/dnd/Source',
-    'dojo/dnd/Target', 'dojo/on', 
+    'dojo/dom-construct', 'dojo/dnd/Source', 'dojo/dnd/Target', 'dojo/dnd/Moveable', 'dojo/aspect', 'dojo/on',
     'dojo/NodeList-traverse', './jsPlumb', "./util"
-],function(dom,fx,lang,geometry,domClass,query,
-	   domConstruct,Moveable,Source,Target,on){	
+],function(dom, win, fx, lang, geometry, domClass, query,
+	   domConstruct, Source, Target, Moveable, aspect, on){	
 
     var _eventHandlers = new Object(); // for storing dojo event handler returned by on method
 	var _draggables = new Object(); // for storing drag handles
 	var _droppables = new Object();
+	
 
-	var _getElementObject = function(el)
+	var _getElementObject = function(elIn)
 	{
-		return dom.byId(el);
+            // If el is already a DOM node, then el is returned.
+	    var el = dom.byId(elIn);
+	    console.assert(el,"dom.byId failed for ",elIn);
+	    return el;
 	};
 	
 	jsPlumb.CurrentLibrary = {
@@ -100,10 +103,8 @@ define([
 			fx.animateProperty(
 				{
 					node:el,
-					properties: properties
-					
+					properties: properties					
 				}
-			
 			
 			).play();
 		},
@@ -129,53 +130,46 @@ define([
 		 * uses 'on'.
 		 */
 		bind : function(el, event, callback) {
-			el = _getElementObject(el);
-			_eventHandlers[el]=on(el, event, callback);
+		    // YUI version explicitly goes through list of elements
+		    // and binds each separately
+                    console.log("dojo-adapter: bind for ", el, event);
+		    el = _getElementObject(el);
+		    _eventHandlers[el]=on(el, event, callback);
 		},
 		
 		destroyDraggable : function(el) {
+                        // jQuery version also had a test for draggable
+		        console.log("dojo-adapter:  destroyDraggable ", _draggables[el]);
 			//destroy draggable in dojo
 			_draggables[el].destroy();
 		},	
 		destroyDroppable : function(el) {
-		   //destroy droppable in Dojo
-		   _droppables[el].destroy();
+                    // jQuery version also had a test for droppable
+		    console.log("dojo-adapter:  destroyDroppable ", _draggables[el]);
+		    //destroy droppable in Dojo
+		    _droppables[el].destroy();
 		},	
-/*		
-TODO: modify this later
-		destroyDraggable : function(el) {
-		if ($(el).data("draggable"))
-		    $(el).draggable("destroy");
-		}, 
-		
-		destroyDroppable : function(el) {
-			if ($(el).data("droppable"))
-				$(el).droppable("destroy");
-		},
-*/	
 
-	    //   mapping of drag events for Dojo  
-	    // See http://dojotoolkit.org/reference-guide/1.9/dojo/dnd.html		
+	    // mapping of drag events for Dojo  
+	    // some of them are not in dojo eg. http://dojotoolkit.org/reference-guide/1.9/dojo/dnd/Moveable.html
 	    dragEvents : {
 		// Events from dojo/dnd/Moveable
 		'start':'onMoveStart', 'stop':'onMoveStop', 'drag':'onMove', 
                 // Need to find Dojo event for this:
                 'step':'step',
                 // Events associated with dojo/dnd/Target
-		'over':'onDraggingOver', 'out':'onDraggingOut', 'drop':'onDrop', 
+               'over':'onDraggingOver', 'out':'onDraggingOut', 'drop':'onDrop', 
                 // Need to find Dojo event for this:
                 'complete':'complete'
-	    },		
-
+	    },
+		
 /**
 		 * wrapper around the library's 'extend' functionality (which it hopefully has.
 		 * otherwise you'll have to do it yourself). perhaps jsPlumb could do this for you
 		 * instead.  it's not like its hard.
 		 */
-		extend : function(o1, o2) {
-			
+		extend : function(o1, o2) {			
 			return lang.mixin(o1,o2);
-		//	return lang.extend(o1, o2);
 		},
 
 /**
@@ -189,8 +183,11 @@ TODO: modify this later
 		removeElement : function(element) {			
 			_getElementObject(element).remove();
 		},		
-		getDragObject : function(eventArgs) {
-			return eventArgs[1].draggable || eventArgs[1].helper;
+
+	        // Arguments are the arguments supplied to onMove
+		getDragObject : function(mover) {
+		    console.log("In getDragObject, mover=", mover);
+			return mover.draggable || mover.helper;
 		},
 		
 		getDragScope : function(el) {
@@ -213,10 +210,16 @@ TODO: modify this later
 		* two cases).  this is the opposite of getElementObject below.
 		*/
 		getDOMElement : function(el) {
-			if (el == null) return null;
-			if (typeof(el) == "string") return dom.byId(el);
-			else if (el.context || el.length != null) return el[0];
-			else return el;
+		    if (el == null){
+			console.warn("dojo-adapter: getDOMElement null");
+			return null;
+		    }
+		    if (typeof(el) == "string"){
+			var i = dom.byId(el);
+			console.assert(i,"dom.byId failed for ",el);
+			return i;
+		    } else if (el.context || el.length != null) return el[0];
+		    else return el;
 		},
 		
 				/**
@@ -249,8 +252,7 @@ TODO: modify this later
 			return [eventObject.pageX, eventObject.pageY];
 		},
 		
-		getParent : function(el) {
-			
+		getParent : function(el) {			
 			return query("#"+_getElementObject(el).id).parent();
 		},
 		
@@ -291,22 +293,11 @@ TODO: modify this later
 		 * different libraries have different signatures for their event callbacks.  
 		 * see getDragObject as well
 		 */
-        getUIPosition : function(eventArgs, zoom) {
-			
-			zoom = zoom || 1;
-			var node = eventArgs[0].node;
-			var dom = _getElementObject(node);
-	                var ret;
-			if (eventArgs.length == 1) {
-
-				ret = {left:geometry.position(dom).x,top:geometry.position(dom).y};
-			}
-			else {
-				var _offset = {left:geometry.position(dom).x,top:geometry.position(dom).y};
-				ret = _offset;
-			}
-            return { left:ret.left / zoom, top: ret.top / zoom };
-		},	
+            getUIPosition : function(mover, leftTop, zoom) {
+		console.log("in getUIPosition, args:  ", mover,leftTop,zoom);
+		zoom = zoom || 1;
+		return { left:leftTop.l/zoom, top: leftTop.t/zoom };
+	    },	
 		
 		hasClass : function(el, clazz) {
 			return domClass.contains(el, clazz);
@@ -318,43 +309,72 @@ TODO: modify this later
 		/**
 		 * initializes the given element to be droppable.
 		 */
-		initDraggable : function(el, options, isPlumbedComponent, _jsPlumb) {
+		initDraggable : function(elIn, options, isPlumbedComponent, _jsPlumb) {
 			
 			options = options || {};
-
-			options.onMoveStart = jsPlumbUtil.wrap(options.onMoveStart, function() {
-				//dojo.query('body')[0].addClass(_jsPlumb.dragSelectClass);
-				query("body").addClass(_jsPlumb.dragSelectClass);
-			}, false);
-			
-			options.onMoveStop = jsPlumbUtil.wrap(options.onMoveStop, function() {
-				query("body").removeClass(_jsPlumb.dragSelectClass);
-			});
+		        var el = dom.byId(elIn);
+                        console.assert(el, "dojo-adapter:  initDraggable bad element");
 
 			// remove helper directive if present and no override
 			if (!options.doNotRemoveHelper)
 				options.helper = null;
+
+
+		        console.log("dojo-adapter: initDraggable options ",options);
+
+         		 options.onMoveStart = jsPlumbUtil.wrap(options.onMoveStart, function() {
+			       // This is identical to the jquery call
+			       // See http://moresoda.co.uk/blog/article/dojo-and-jquery-side-by-side-dom-basics/
+			       query("body").addClass(_jsPlumb.dragSelectClass);
+			   }, false);
+			
+
+         		 options.onMoveStop = jsPlumbUtil.wrap(options.onMoveStop, function() {
+				query("body").removeClass(_jsPlumb.dragSelectClass);
+			    });
+
+		        // Create new dnd/Moveable and then attach handlers to its methods.
+			var moveableObject = new Moveable(el, {
+			    handle:options.helper
+			});
+
+                    // BvdS:  I tried using dojo/on for this, but the event was never signalled.
+		    aspect.after(moveableObject,"onMoveStart",function(){
+			    console.log("**** onMoveStart event fired");
+			    // arguments: mover
+                            options.onMoveStart.apply(null, arguments);
+		    },true);
+
+		    aspect.after(moveableObject,"onMove",function(){
+			    console.log("**** onMove event fired");
+			    // arguments:  mover, leftTop
+                            options.onMove.apply(null, arguments);
+		    },true);
+
+		    aspect.after(moveableObject,"onMoveStop",function(){
+			    console.log("**** onMoveStop event fired");
+			    // arguments:  mover
+                            options.onMoveStop.apply(null, arguments);
+		    },true);
+
 			if (isPlumbedComponent)
-			options.scope = options.scope || jsPlumb.Defaults.Scope;
-					
-		    var dropSource = new Source(_getElementObject(el),{accept:[options.scope]});  // similar to scope in jquery
-			var movableObject = new Moveable(_getElementObject(el));
+			    // Setting movableObject.scope is just a wild guess ...
+			   moveableObject.scope = options.scope || jsPlumb.Defaults.Scope;
+                           
 			
-			
-			//var dropSource = new Moveable(_getElementObject(el));
-			
-			on(movableObject,'onMoveStart',options.onMoveStart);
-			on(movableObject,'onMove',options.onMove);
-			on(movableObject,'onMoveStop',options.onMoveStop);
-			
-			_draggables[el]=movableObject;
+			_draggables[el]=moveableObject;
 		},
 		/**
 		 * initializes the given element to be droppable.
 		 */
-		initDroppable : function(el, options) {
+		initDroppable : function(elIn, options) {
+ 
 			options.scope = options.scope || jsPlumb.Defaults.Scope;
-			var dropTarget = new Target(_getElementObject(el),{accept:[options.scope]});  // similar to scope in jquery
+                   console.log("initDroppable:  options should have all three, but doesn't: ",options);
+		        var el = dom.byId(elIn);
+                        console.assert(el, "dojo-adapter:  initDrappable bad element");
+		        console.log("dojo-adapter:  initDrappable el ", elIn, el);
+			var dropTarget = new Target(el,{accept:[options.scope]});  // similar to scope in jquery
 			_droppables[el]=dropTarget;
 		},
 		
@@ -362,6 +382,7 @@ TODO: modify this later
 		 * returns whether or not drag is supported (by the library, not whether or not it is disabled) for the given element.
 		 */
 		isDragSupported : function(el, options) {
+                        console.warn("dojo-adapter: isDragSupported", el);
 			//return $(el).draggable;
 			//change this when solution is found out
 			return true;
@@ -370,6 +391,7 @@ TODO: modify this later
 		}	
 		,
 		setDraggable : function(el, draggable) {
+                        console.warn("dojo-adapter: setDraggable", el, draggable);
 			//el.draggable("option", "disabled", !draggable);
 			//if(!draggable)
 			  // _draggables[el]=new Source(el);
@@ -379,16 +401,12 @@ TODO: modify this later
 		 * returns whether or not drop is supported (by the library, not whether or not it is disabled) for the given element.
 		 */
 		isDropSupported : function(el, options) {
+                        console.warn("dojo-adapter: isDropSupported", el);
 			//return $(el).droppable;
 			//change this when solution is found out
 			return true;
 		},	
-		setOffset : function(el, o) {
-			el=_getElementObject(el);
-			el.offsetTop=o.top;
-			el.offsetLeft=o.left;
-		}
-		,
+
 		/**
 		 * removes the given class from the element object.
 		 */
@@ -406,7 +424,15 @@ TODO: modify this later
 			
 			domClass.remove(el,clazz);
 		},  
+
+		setOffset : function(el, o) {
+			el=_getElementObject(el);
+			el.offsetTop=o.top;
+			el.offsetLeft=o.left;
+		},
+
 		trigger : function(el, event, originalEvent) {
+                        console.warn("dojo-adapter:  trigger for ", el, event, originalEvent);
 			//var h = jQuery._data(_getElementObject(el)[0], "handle");
             //h(originalEvent);
 		},

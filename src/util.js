@@ -252,6 +252,7 @@ define([], function() {
                 try {
                     var msg = arguments[arguments.length - 1];
                     console.log(msg);
+		    console.trace();
                 }
                 catch (e) {} 
             }
@@ -310,23 +311,34 @@ define([], function() {
         * @param {Object} [returnOnThisValue] Optional. Indicates that the wrappedFunction should 
         * not be executed if the newFunction returns a value matching 'returnOnThisValue'.
         * note that this is a simple comparison and only works for primitives right now.
-        */        
+        */   
         wrap : function(wrappedFunction, newFunction, returnOnThisValue) {
+	    // When debugging errors, the try-catch can be a hinderance.
+	    // Probably should have a jsPlumb-wide debug flag for this.
+	    var catchErrors = false;
             wrappedFunction = wrappedFunction || function() { };
             newFunction = newFunction || function() { };
             return function() {
                 var r = null;
-                try {
-                    r = newFunction.apply(this, arguments);
-                } catch (e) {
-                    jsPlumbUtil.log("jsPlumb function failed : " + e);
-                }
-                if (returnOnThisValue == null || (r !== returnOnThisValue)) {
-                    try {
-                        r = wrappedFunction.apply(this, arguments);
+		if(catchErrors){
+		    try {
+			r = newFunction.apply(this, arguments);
                     } catch (e) {
-                        jsPlumbUtil.log("wrapped function failed : " + e);
-                    }
+			jsPlumbUtil.log("jsPlumb function failed : " + e);
+		    }
+		} else {
+		    r = newFunction.apply(this, arguments);
+		}
+                if (returnOnThisValue == null || (r !== returnOnThisValue)) {
+		    if(catchErrors){
+			try {
+                            r = wrappedFunction.apply(this, arguments);
+			} catch (e) {
+                            jsPlumbUtil.log("wrapped function failed : " + e);
+			}
+		    } else {
+                        r = wrappedFunction.apply(this, arguments);
+		    }
                 }
                 return r;
             };
