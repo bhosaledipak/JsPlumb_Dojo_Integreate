@@ -298,15 +298,8 @@ define([
 		 */
             getUIPosition : function(moverPlus, zoom) {
 		zoom = zoom || 1;
-		console.log("in getUIPosition, ", moverPlus.length," args:  ", moverPlus);
-                // This is not working yet ...
-		if(moverPlus.length==1){
-		    return { left:moverPlus[0].marginBox.l/zoom, top: moverPlus[0].marginBox.t/zoom };
-		} else if(false && moverPlus.length==3) {
-		    return { left:moverPlus[2].clientX/zoom, top: moverPlus[2].clientY/zoom };
-		} else {
-		    return { left:moverPlus[1].l/zoom, top: moverPlus[1].t/zoom };
-		}
+		var place = geometry.position(moverPlus[0].node);
+		return {left: place.x/zoom, top: place.y/zoom};
 	    },	
 		
 		hasClass : function(el, clazz) {
@@ -362,7 +355,7 @@ define([
 		    },true);
 
 		    aspect.after(moveableObject,"onMoveStop",function(){
-			    console.log("**** onMoveStop event fired");
+			     console.log("**** onMoveStop event fired");
 			    // arguments:  mover
                             options.onMoveStop.apply(null, arguments);
 		    },true);
