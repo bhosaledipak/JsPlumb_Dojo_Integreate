@@ -188,9 +188,9 @@ define([
 		},		
 
 	        // Arguments are the arguments supplied to onMove
-		getDragObject : function(mover) {
-		    console.log("In getDragObject, arguments = ", arguments);
-			return mover.draggable || mover.helper;
+		getDragObject : function(moverPlus) {
+		    console.warn("getDragObject not tested, argument = ", moverPlus);
+			return moverPlus[0].node;
 		},
 		
 		getDragScope : function(el) {
@@ -322,9 +322,6 @@ define([
 			if (!options.doNotRemoveHelper)
 				options.helper = null;
 
-
-		        console.log("dojo-adapter: initDraggable options ",options);
-
          		 options.onMoveStart = jsPlumbUtil.wrap(options.onMoveStart, function() {
 			       // This is identical to the jquery call
 			       // See http://moresoda.co.uk/blog/article/dojo-and-jquery-side-by-side-dom-basics/
@@ -341,7 +338,7 @@ define([
 			    handle:options.helper
 			});
 
-                    // BvdS:  I tried using dojo/on for this, but the event was never signalled.
+                    // BvdS:  I tried using dojo/on to connect handlers, but the event was never signalled.
 		    aspect.after(moveableObject,"onMoveStart",function(){
 			    console.log("**** onMoveStart event fired");
 			    // arguments: mover
@@ -360,24 +357,45 @@ define([
                             options.onMoveStop.apply(null, arguments);
 		    },true);
 
-			if (isPlumbedComponent)
+			if (isPlumbedComponent){
+			    console.warn("dojo-adapter.js: setting scope in initDroppable not tested");
 			    // Setting movableObject.scope is just a wild guess ...
-			   moveableObject.scope = options.scope || jsPlumb.Defaults.Scope;
-                           
-			
+			    moveableObject.scope = options.scope || jsPlumb.Defaults.Scope;
+                           }
+		    
 			_draggables[el]=moveableObject;
 		},
 		/**
 		 * initializes the given element to be droppable.
 		 */
 		initDroppable : function(elIn, options) {
- 
-			options.scope = options.scope || jsPlumb.Defaults.Scope;
-                   console.warn("initDroppable:  Dojo conversion not done.");
+
+                   console.warn("initDroppable:  Dojo conversion not tested.");
 		        var el = dom.byId(elIn);
                         console.assert(el, "dojo-adapter:  initDrappable bad element");
-		        console.log("dojo-adapter:  initDrappable el ", elIn, el);
-			var dropTarget = new Target(el,{accept:[options.scope]});  // similar to scope in jquery
+
+ 		    options.scope = options.scope || jsPlumb.Defaults.Scope;
+		    // similar to scope in jquery
+		    var dropTarget = new Target(el,{accept:[options.scope]});  
+
+		    aspect.after(dropTarget,"onDraggingOver",function(){
+			    console.log("**** onDraggingOver event fired");
+			    // no arguments
+                            options.onDraggingOver.apply(null, arguments);
+		    },true);
+
+		    aspect.after(dropTarget,"onDraggingOut",function(){
+			    console.log("**** onDraggingOut event fired");
+			    // no arguments
+                            options.onDraggingOut.apply(null, arguments);
+		    },true);
+
+		    aspect.after(dropTarget,"onDrop",function(){
+			    console.log("**** onDrop event fired");
+			    // arguments:  source, nodes, copy
+                            options.onDrop.apply(null, arguments);
+		    },true);
+
 			_droppables[el]=dropTarget;
 		},
 		
@@ -385,7 +403,7 @@ define([
 		 * returns whether or not drag is supported (by the library, not whether or not it is disabled) for the given element.
 		 */
 		isDragSupported : function(el, options) {
-                        console.warn("dojo-adapter: isDragSupported", el);
+                        console.warn("dojo-adapter: isDragSupporte not tested, ", el);
 			//return $(el).draggable;
 			//change this when solution is found out
 			return true;
@@ -394,7 +412,7 @@ define([
 		}	
 		,
 		setDraggable : function(el, draggable) {
-                        console.warn("dojo-adapter: setDraggable", el, draggable);
+                        console.warn("dojo-adapter: setDraggable not implemented, args=", el, draggable);
 			//el.draggable("option", "disabled", !draggable);
 			//if(!draggable)
 			  // _draggables[el]=new Source(el);
@@ -404,7 +422,7 @@ define([
 		 * returns whether or not drop is supported (by the library, not whether or not it is disabled) for the given element.
 		 */
 		isDropSupported : function(el, options) {
-                        console.warn("dojo-adapter: isDropSupported", el);
+                        console.warn("dojo-adapter: isDropSupported not tested, ", el);
 			//return $(el).droppable;
 			//change this when solution is found out
 			return true;
@@ -435,7 +453,7 @@ define([
 		},
 
 		trigger : function(el, event, originalEvent) {
-                        console.warn("dojo-adapter:  trigger for ", el, event, originalEvent);
+                        console.warn("dojo-adapter:  trigger not implemented, args=", el, event, originalEvent);
 			//var h = jQuery._data(_getElementObject(el)[0], "handle");
             //h(originalEvent);
 		},

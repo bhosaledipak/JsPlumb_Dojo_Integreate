@@ -1,4 +1,4 @@
-/* global define, jsPlumb */
+/* global define, jsPlumb, jsPlumbUtil, SVGAnimatedString */
 /*
  * jsPlumb
  * 
@@ -257,6 +257,7 @@ TODO: REMOVE!
 		getUIPosition : function(eventArgs, zoom) {
 			
 			zoom = zoom || 1;
+		    var ret;
 			// this code is a workaround for the case that the element being dragged has a margin set on it. jquery UI passes
 			// in the wrong offset if the element has a margin (it doesn't take the margin into account).  the getBoundingClientRect
 			// method, which is in pretty much all browsers now, reports the right numbers.  but it introduces a noticeable lag, which
