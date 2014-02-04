@@ -12,7 +12,7 @@ outstanding issues:
 - jsPlumb should have a top-level module `src/main.js` which
   determines the load procedure for jsPlumb.  Right now, this file is
   just a skeleton.
-- Drag and Drop isn't really working in the Dojo version.
+- Drag and Drop isn't working in the Dojo version.
 - AMD conversion for MooTools needs to be done.
 - Right now, only the `home/dojo.html`, `home/yui.html`, and `home/jquery.html` demos
   have been converted to AMD.  Need to convert remaining demos.

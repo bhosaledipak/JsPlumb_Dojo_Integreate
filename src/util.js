@@ -315,7 +315,7 @@ define([], function() {
         wrap : function(wrappedFunction, newFunction, returnOnThisValue) {
 	    // When debugging errors, the try-catch can be a hinderance.
 	    // Probably should have a jsPlumb-wide debug flag for this.
-	    var catchErrors = false;
+	    var catchErrors = true;
             wrappedFunction = wrappedFunction || function() { };
             newFunction = newFunction || function() { };
             return function() {
