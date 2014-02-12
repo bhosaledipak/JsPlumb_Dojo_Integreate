@@ -1,7 +1,8 @@
-/* global define, jsPlumb, jsPlumbUtil, OverlayCapableJsPlumbUIComponent */
+/* global define, jsPlumb, OverlayCapableJsPlumbUIComponent */
 define([
+    "./util",  // provide update to bind()
     "./jsPlumb"
-],function() {
+],function(jsPlumbUtil) {
 
     var makeConnector = function(_jsPlumb, renderMode, connectorName, connectorArgs) {
             if (!_jsPlumb.Defaults.DoNotThrowErrors && jsPlumb.Connectors[renderMode][connectorName] == null)

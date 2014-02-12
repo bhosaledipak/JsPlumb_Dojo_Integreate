@@ -1,4 +1,4 @@
-/* global define, jsPlumb, jsPlumbUtil, SVGAnimatedString */
+/* global define, jsPlumb, SVGAnimatedString */
 /*
  * jsPlumb
  * 
@@ -55,10 +55,11 @@
  */
 // pre-AMD version had "jQuery" as argument of wrapper function
 define([
+    "./util", // provide update to bind()
     "jquery",
     "jquery-ui",
     "jquery-ui-touch-punch"
-],function(jQuery) {
+],function(jsPlumbUtil, jQuery) {
          console.log("start loading jquery-adapter");	
 	 var $ = jQuery;
 	

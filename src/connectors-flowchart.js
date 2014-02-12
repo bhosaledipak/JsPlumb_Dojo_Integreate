@@ -1,4 +1,4 @@
-/* global define, jsPlumb, jsPlumbUtil */
+/* global define, jsPlumb */
 /* 
  * jsPlumb
  * 
@@ -18,10 +18,10 @@
  * Dual licensed under the MIT and GPL2 licenses.
  */
 define([
-	 "./jsPlumb",
 	 "./util",
+	 "./jsPlumb",
          "./defaults" // for jsPlumb.Connectors.AbstractConnector
-], function() {
+], function(jsPlumbUtil) {
    
     /**
      * Function: Constructor

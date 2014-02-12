@@ -1,4 +1,4 @@
-/* global define, jsPlumbUtil,  */
+/* global define */
 /*
  * jsPlumb
  * 
@@ -37,7 +37,7 @@ define([], function() {
             return fn(p1, p2);
         };
     
-    jsPlumbUtil = {        
+    var jsPlumbUtil = {        
         isArray : _isa,        
         isString : _iss,        
         isBoolean: _isb,        
@@ -145,6 +145,7 @@ define([], function() {
                             return d;
                         }
                     }
+		    return null;
                 };
             
             return _one(model);	
@@ -448,5 +449,7 @@ define([], function() {
         return fBound;
       };
     }
+
+    return jsPlumbUtil;
 
 });

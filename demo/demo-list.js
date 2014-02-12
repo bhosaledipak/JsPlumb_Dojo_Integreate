@@ -1,11 +1,12 @@
-/* global define, jsPlumb, jsPlumbUtil, jQuery, $ */
+/* global define, jsPlumb jQuery, $ */
 //
 // this file is just used to automate the process of adding links to the individual demos to their previous/next
 // demo.  you don't need to concern yourself with what's going on in here.
 //
 define([
+    "jsPlumb/util",
     "bootstrap"
-], function() {
+], function(jsPlumbUtil) {
 	var list = [ 
 		[ "home", "Kitchen Sink" ],
 		[ "flowchart", "Flowchart" ],

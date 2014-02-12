@@ -1,4 +1,4 @@
-/* global define, jsPlumb, jsPlumbUtil */
+/* global define, jsPlumb */
 /*
  * jsPlumb
  * 
@@ -19,9 +19,9 @@
  */
 
 define([
-	 "./jsPlumb",
-	 "./util"
-], function() {	
+	 "./util",  // provide update to bind()
+	 "./jsPlumb"
+], function(jsPlumbUtil) {	
 				
 	/**
 	 * 

@@ -45,8 +45,9 @@
  * setOffset			sets the offset of some element.
  */
 define([
+    "./util",
     "./jsPlumb"
-], function() {
+], function(jsPlumbUtil) {
 	
 	if (!Array.prototype.indexOf) {
 		Array.prototype.indexOf = function( v, b, s ) {

@@ -19,6 +19,7 @@
  * Dual licensed under the MIT and GPL2 licenses.
  */
 define([
+    "./util",  // Provide update to bind()
     "./jsPlumb",
     "./defaults" // for jsPlumb.Connectors.AbstractConnector
 ],function() {

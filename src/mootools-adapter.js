@@ -1,4 +1,4 @@
-/* global define, jsPlumb, window */
+/* global define, jsPlumb, window, Class, Fx, SVGAnimatedString, $, $$, Drag, $extend */
 /*
  * jsPlumb
  * 
@@ -19,8 +19,9 @@
  */
 
 define([
+    "./util",
     "./jsPlumb"
-], function() {
+], function(jsPlumbUtil) {
 	
 	/*
 	 * overrides the FX class to inject 'step' functionality, which MooTools does not

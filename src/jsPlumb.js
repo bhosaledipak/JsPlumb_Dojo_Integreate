@@ -1,4 +1,4 @@
-/* global define, exports, jsPlumb, jsPlumbUtil, jsPlumbAdapter, window */
+/* global define, exports, jsPlumb, jsPlumbAdapter, window */
 /**
  * @module jsPlumb
  * @description Provides a way to visually connect elements on an HTML page, using either SVG, Canvas
@@ -12,8 +12,8 @@
  * Copyright (c) 2010 - 2013 Simon Porritt (simon.porritt@gmail.com)
  */
 define([
-       "./util"
-], function() {
+       "./util" // provide update to bind()
+], function(jsPlumbUtil) {
 			
     var _ju = jsPlumbUtil,
     	_addClass = function(el, clazz) { jsPlumb.CurrentLibrary.addClass(_gel(el), clazz); },
@@ -1974,6 +1974,7 @@ define([
 				if (jsPlumb.Anchors[t]) return new jsPlumb.Anchors[t](p);
 				if (!_currentInstance.Defaults.DoNotThrowErrors)
 					throw { msg:"jsPlumb: unknown anchor type '" + t + "'" };
+			    return null;
 			};
 			if (arguments.length === 0) return null;
 			var specimen = arguments[0], elementId = arguments[1], jsPlumbInstance = arguments[2], newAnchor = null;			
@@ -2263,7 +2264,7 @@ define([
 									source.detach(jpc, false, true, true, originalEvent);  // otherwise, detach the connection and tell everyone about it.
 							}
 							
-						}														
+						}													return null;
 					};
 					
 					// wrap drop events as needed and initialise droppable
@@ -2482,6 +2483,7 @@ define([
 						// a new connection from this endpoint.
 						jpcl.trigger(ep.canvas, "mousedown", e);
 						
+					    return null;
 					};
 	               
 	                // register this on jsPlumb so that it can be cleared by a reset.

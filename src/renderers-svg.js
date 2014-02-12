@@ -1,4 +1,4 @@
-/* global define, jsPlumb, jsPlumbUtil, window */
+/* global define, jsPlumb, window */
 /*
  * jsPlumb
  * 
@@ -32,9 +32,9 @@
  *
  */
 define([
-	 "./jsPlumb",
-	 "./util"
-],function() {
+	 "./util",  // provide update to bind()
+	 "./jsPlumb"
+],function(jsPlumbUtil) {
 	
 // ************************** SVG utility methods ********************************************	
 	

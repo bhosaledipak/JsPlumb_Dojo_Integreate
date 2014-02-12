@@ -1,7 +1,8 @@
-/* global define, jsPlumb, OverlayCapableJsPlumbUIComponent */
+/* global define, jsPlumb, OverlayCapableJsPlumbUIComponent, dragOptions, jsPlumbAdapter */
 define([
+    './util',  // provide update to bind()
     "./jsPlumb"
-], function() {
+], function(jsPlumbUtil) {
         
     // create the drag handler for a connection
     var _makeConnectionDragHandler = function(placeholder, _jsPlumb) {
@@ -18,6 +19,8 @@ define([
                     jsPlumb.CurrentLibrary.setOffset(placeholder.element, _ui);                    
                     _jsPlumb.repaint(placeholder.element, _ui);
                 }
+		
+		return null;
             },
             stopDrag : function() {
                 stopped = true;
@@ -174,6 +177,7 @@ define([
                 if (jsPlumb.Endpoints[rm][t]) return new jsPlumb.Endpoints[rm][t](p);
                 if (!_jsPlumb.Defaults.DoNotThrowErrors)
                     throw { msg:"jsPlumb: unknown endpoint type '" + t + "'" };
+                return null;
             };            
 
             var endpointArgs = {
@@ -208,6 +212,8 @@ define([
                     endpointArgs = _ju.merge(ep[1], endpointArgs);
                     return _e(ep[0], endpointArgs);
                 }
+               
+               return null;
             }.bind(this);
 
             this.type = this.endpoint.type;
@@ -576,6 +582,8 @@ define([
                     _ju.addToList(params.endpointsByElement, placeholderInfo.id, this._jsPlumb.floatingEndpoint);
                     // tell jsplumb about it
                     _jsPlumb.currentlyDragging = true;
+
+		    return null;
                 }.bind(this);
 
                 var dragOptions = params.dragOptions || {},

@@ -1,4 +1,4 @@
-/* global define, jsPlumb, jsPlumbUtil, jsPlumbInstance */
+/* global define, jsPlumb, jsPlumbInstance */
 /*
  * jsPlumb
  * 
@@ -18,9 +18,9 @@
  * Dual licensed under the MIT and GPL2 licenses.
  */
 define([
-	 "./jsPlumb",
-	 "./util"
-],function(){	
+	 "./util",
+	 "./jsPlumb"
+],function(jsPlumbUtil){	
     
     //
 	// manages anchors for all elements.

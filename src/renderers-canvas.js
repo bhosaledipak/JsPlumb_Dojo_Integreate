@@ -1,4 +1,4 @@
-/* global define, window, jsPlumb, jsPlumbUtil */
+/* global define, window, jsPlumb */
 /*
  * jsPlumb
  * 
@@ -21,9 +21,9 @@
  */
 
 define([
-	 "./jsPlumb",
-	 "./util"
-],function() {
+	 "./util", // provide update to bind()
+	 "./jsPlumb"
+],function(jsPlumbUtil) {
 
 	
 // ********************************* CANVAS RENDERERS FOR CONNECTORS AND ENDPOINTS *******************************************************************

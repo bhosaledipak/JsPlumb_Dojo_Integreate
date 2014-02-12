@@ -1,4 +1,4 @@
-/* global define, jsPlumb, jsPlumbUtil, SVGAnimatedString */
+/* global define, jsPlumb, SVGAnimatedString */
 /*
  * jsPlumb
  * 
@@ -59,9 +59,10 @@ define([
     'dojo/dom', 'dojo/_base/window', 'dojo/_base/fx', 'dojo/_base/lang',
     'dojo/dom-geometry', 'dojo/dom-class', 'dojo/query',
     'dojo/dom-construct', 'dojo/dnd/Source', 'dojo/dnd/Target', 'dojo/dnd/Moveable', 'dojo/aspect', 'dojo/on',
-    'dojo/NodeList-traverse', './jsPlumb', "./util"
+    './util', 'dojo/NodeList-traverse', './jsPlumb'
 ],function(dom, win, fx, lang, geometry, domClass, query,
-	   domConstruct, Source, Target, Moveable, aspect, on){	
+	   domConstruct, Source, Target, Moveable, aspect, on,
+           jsPlumbUtil){	
 
     var _eventHandlers = new Object(); // for storing dojo event handler returned by on method
 	var _draggables = new Object(); // for storing drag handles
@@ -141,15 +142,13 @@ define([
 		
 		destroyDraggable : function(el) {
                         // jQuery version also had a test for draggable
-		        console.log("dojo-adapter:  destroyDraggable ", _draggables[el]);
-			//destroy draggable in dojo
+		        console.assert(_draggables[el].destroy, "dojo-adapter:  destroyDraggable failed for ", el);
 			_draggables[el].destroy();
 		},
 	
 		destroyDroppable : function(el) {
                     // jQuery version also had a test for droppable
-		    console.log("dojo-adapter:  destroyDroppable ", _draggables[el]);
-		    //destroy droppable in Dojo
+		    console.assert(_draggables[el].destroy, "dojo-adapter:  destroyDroppable failed for ", el);
 		    _droppables[el].destroy();
 		},	
 
@@ -328,7 +327,6 @@ define([
 			       query("body").addClass(_jsPlumb.dragSelectClass);
 			   }, false);
 			
-
          		 options.onMoveStop = jsPlumbUtil.wrap(options.onMoveStop, function() {
 				query("body").removeClass(_jsPlumb.dragSelectClass);
 			    });
