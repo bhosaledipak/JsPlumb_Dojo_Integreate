@@ -148,7 +148,7 @@ define([
 	
 		destroyDroppable : function(el) {
                     // jQuery version also had a test for droppable
-		    console.assert(_draggables[el].destroy, "dojo-adapter:  destroyDroppable failed for ", el);
+		    console.assert(_droppables[el].destroy, "dojo-adapter:  destroyDroppable failed for ", el);
 		    _droppables[el].destroy();
 		},	
 
@@ -335,6 +335,7 @@ define([
 			var moveableObject = new Moveable(el, {
 			    handle:options.helper
 			});
+                    console.log("============= Create moveableObject ", moveableObject);
 
                     // BvdS:  I tried using dojo/on to connect handlers, but the event was never signalled.
 		    aspect.after(moveableObject,"onMoveStart",function(){

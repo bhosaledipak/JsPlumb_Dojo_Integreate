@@ -1,4 +1,4 @@
-/* global define, jsPlumb jQuery, $ */
+/* global define, jsPlumb, jQuery, $ */
 //
 // this file is just used to automate the process of adding links to the individual demos to their previous/next
 // demo.  you don't need to concern yourself with what's going on in here.
