@@ -182,8 +182,19 @@ define([
 		  return [eventObject.layerX, eventObject.layerY];
 		},
 		
-		removeElement : function(element) {			
-			_getElementObject(element).remove();
+	       
+		removeElement: function (element) {
+		    if(_getElementObject(element).remove) {
+			// This is for Chrome.  This is for both elements and paths.
+		        _getElementObject(element).remove();
+		    }else if(_getElementObject(element).removeNode){
+			// This is for the HTML <div> element, for
+			// FireFox and IE.  This is for nodes.
+		        _getElementObject(element).removeNode();
+		    }else{
+			// In IE and FireFox, SVGPathElement is deleted elsewhere (?).
+			// SVGPathElement is used for paths
+		    }
 		},		
 
 	        // Arguments are the arguments supplied to onMove
