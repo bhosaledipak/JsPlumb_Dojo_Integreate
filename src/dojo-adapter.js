@@ -368,7 +368,6 @@ define([
 		    },true);
 
 			if (isPlumbedComponent){
-			    console.warn("dojo-adapter.js: setting scope in initDroppable not tested");
 			    // Setting movableObject.scope is just a wild guess ...
 			    moveableObject.scope = options.scope || jsPlumb.Defaults.Scope;
                            }
@@ -380,7 +379,6 @@ define([
 		 */
 		initDroppable : function(elIn, options) {
 
-                   console.warn("initDroppable:  Dojo conversion not tested.");
 		        var el = dom.byId(elIn);
                         console.assert(el, "dojo-adapter:  initDrappable bad element");
 
@@ -413,7 +411,6 @@ define([
 		 * returns whether or not drag is supported (by the library, not whether or not it is disabled) for the given element.
 		 */
 		isDragSupported : function(el, options) {
-                        console.warn("dojo-adapter: isDragSupporte not tested, ", el);
 			//return $(el).draggable;
 			//change this when solution is found out
 			return true;
@@ -432,7 +429,6 @@ define([
 		 * returns whether or not drop is supported (by the library, not whether or not it is disabled) for the given element.
 		 */
 		isDropSupported : function(el, options) {
-                        console.warn("dojo-adapter: isDropSupported not tested, ", el);
 			//return $(el).droppable;
 			//change this when solution is found out
 			return true;
