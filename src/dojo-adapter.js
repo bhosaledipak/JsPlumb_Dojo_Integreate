@@ -341,11 +341,15 @@ define([
          		 options.onMoveStop = jsPlumbUtil.wrap(options.onMoveStop, function() {
 				query("body").removeClass(_jsPlumb.dragSelectClass);
 			    });
+			
 
 		        // Create new dnd/Moveable and then attach handlers to its methods.
+		
+		setTimeout(lang.hitch(this,function(){	
 			var moveableObject = new Moveable(el, {
 			    handle:options.helper
 			});
+			
                     console.log("============= Create moveableObject ", moveableObject);
 
                     // BvdS:  I tried using dojo/on to connect handlers, but the event was never signalled.
@@ -373,6 +377,7 @@ define([
                            }
 		    
 			_draggables[el]=moveableObject;
+		}),1000);
 		},
 		/**
 		 * initializes the given element to be droppable.
