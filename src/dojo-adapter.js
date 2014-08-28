@@ -58,10 +58,10 @@
 define([
     'dojo/dom', 'dojo/_base/window', 'dojo/_base/fx', 'dojo/_base/lang',
     'dojo/dom-geometry', 'dojo/dom-class', 'dojo/query',
-    'dojo/dom-construct', 'dojo/dnd/Source', 'dojo/dnd/Target', 'dojo/dnd/Moveable', 'dojo/aspect', 'dojo/on',
+    'dojo/dom-construct', 'dojo/dnd/Source', 'dojo/dnd/Target', 'dojo/dnd/Moveable', 'dojo/aspect', 'dojo/on', 'dojo/dom-attr',
     './util', 'dojo/NodeList-traverse', './jsPlumb'
 ],function(dom, win, fx, lang, geometry, domClass, query,
-	   domConstruct, Source, Target, Moveable, aspect, on,
+	   domConstruct, Source, Target, Moveable, aspect, on, domAttr, 
            jsPlumbUtil){	
 
     var _eventHandlers = new Object(); // for storing dojo event handler returned by on method
@@ -344,10 +344,10 @@ define([
 			
 
 		        // Create new dnd/Moveable and then attach handlers to its methods.
-		
-		setTimeout(lang.hitch(this,function(){	
+			var elId = domAttr.get(el, 'id');
+			el = elId ? elId : el;
 			var moveableObject = new Moveable(el, {
-			    handle:options.helper
+				handle:options.helper
 			});
 			
                     console.log("============= Create moveableObject ", moveableObject);
