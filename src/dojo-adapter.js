@@ -377,7 +377,7 @@ define([
                            }
 		    
 			_draggables[el]=moveableObject;
-		}),1000);
+		//}),1000);
 		},
 		/**
 		 * initializes the given element to be droppable.
@@ -429,7 +429,7 @@ define([
 			//if(!draggable)
 			  // _draggables[el]=new Source(el);
 		}
-		,
+		,		
 		/**
 		 * returns whether or not drop is supported (by the library, not whether or not it is disabled) for the given element.
 		 */
