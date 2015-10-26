@@ -1,0 +1,7 @@
+{
+  "name": "jsplumb-js",
+  "description": "jsPlumb Package",
+  "version": "0.1",
+  "main": "jsPlumb",
+  "dojoBuild": "jsPlumb.profile.js"
+}
